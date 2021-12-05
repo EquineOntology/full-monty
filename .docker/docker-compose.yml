@@ -9,14 +9,14 @@ services:
     container_name: webserver
     depends_on:
       - mongo
+    environment:
+      MONGO_SERVER: mongo
+      MONGO_PORT: 27017
+      MONGO_USER: chris
+      MONGO_PASSWORD: secretpassword
+      MONGO_DATABASE: tasks
     expose:
       - "9090:9090"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9090"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     networks:
       - "full_monty_nw"
     ports:
