@@ -1,5 +1,6 @@
 import compression from "compression";
 import express, { Application, Request, Response } from "express";
+import Scheduler from "./services/Scheduler";
 
 const app: Application = express();
 const port = 9090;
@@ -22,3 +23,8 @@ try {
 } catch (error: any) {
   console.error(`Error occured: ${error.message}`);
 }
+
+const scheduler = new Scheduler();
+scheduler.createJob("log", () => {
+  console.log("Task is running every minute " + new Date());
+});
