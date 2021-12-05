@@ -9,6 +9,8 @@ services:
     container_name: webserver
     depends_on:
       - mongo
+    expose:
+      - "9090:9090"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9090"]
       interval: 1m30s
