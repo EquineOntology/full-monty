@@ -9,7 +9,7 @@ export default class Scheduler {
       throw new Error(`[job:${job.id}] Invalid schedule`);
     }
 
-    this.jobs[job.id] = cron.schedule(schedule, job.execute.bind(job));
+    this.jobs[job.id] = cron.schedule(schedule, job.run.bind(job));
     console.info(`[job:${job.id}] Scheduled`);
   }
 

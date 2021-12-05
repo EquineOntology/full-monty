@@ -10,27 +10,30 @@ export default class Job {
     this.data = data;
   }
 
-  execute(): void {
-    this.#start();
-    this.handle();
-    this.#end();
-  }
-
   handle(): void {
     throw new Error(`[job:${this.id}] Handling logic has not been defined`);
   }
 
-  #end() {
-    this.ended_at = new Date();
-    this.#log(`Ended at ${this.ended_at}`);
+  onEnd() {
+    this.#end();
   }
 
-  #log(message: string, level: ConsoleLevel = "info"): void {
+  report(message: string, level: ConsoleLevel = "info"): void {
     console[level](`[job:${this.id}] ${message}`);
+  }
+
+  run(): void {
+    this.#start();
+    this.handle();
+  }
+
+  #end() {
+    this.ended_at = new Date();
+    this.report(`Ended at ${this.ended_at}`);
   }
 
   #start(): void {
     this.started_at = new Date();
-    this.#log(`Starting at ${this.started_at}`);
+    this.report(`Starting at ${this.started_at}`);
   }
 }
