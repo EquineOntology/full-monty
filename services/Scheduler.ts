@@ -1,18 +1,19 @@
 import cron, { ScheduledTask } from "node-cron";
+import Job from "../jobs/Job";
 
 export default class Scheduler {
   jobs: { [id: string]: ScheduledTask } = {};
 
-  createJob(id: string, job: any, schedule: string = "* * * * *") {
+  dispatch(job: Job, schedule: string = "* * * * *") {
     if (!cron.validate(schedule)) {
-      throw new Error(`[job:${id}] Invalid schedule`);
+      throw new Error(`[job:${job.id}] Invalid schedule`);
     }
 
-    this.jobs[id] = cron.schedule(schedule, job);
-    console.info(`[job:${id}] Scheduled`);
+    this.jobs[job.id] = cron.schedule(schedule, job.execute.bind(job));
+    console.info(`[job:${job.id}] Scheduled`);
   }
 
-  stopJob(id: string): boolean {
+  stop(id: string): boolean {
     if (!this.jobs[id]) {
       throw new Error(`[job:${id}] Not found, cannot stop`);
     }

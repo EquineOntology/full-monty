@@ -1,5 +1,6 @@
 import compression from "compression";
 import express, { Application, Request, Response } from "express";
+import TestJob from "./jobs/TestJob";
 import Scheduler from "./services/Scheduler";
 
 const app: Application = express();
@@ -25,6 +26,6 @@ try {
 }
 
 const scheduler = new Scheduler();
-scheduler.createJob("log", () => {
-  console.log("Task is running every minute " + new Date());
-});
+const test = new TestJob();
+
+scheduler.dispatch(test);
