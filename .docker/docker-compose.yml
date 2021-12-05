@@ -20,6 +20,10 @@ services:
     ports:
       - "9090:9090"
     restart: always
+    volumes:
+      - type: bind
+        source: ../
+        target: /var/www/html
 
   mongo:
     container_name: mongo
