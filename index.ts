@@ -6,10 +6,9 @@ import Scheduler from "./services/Scheduler";
 const app: Application = express();
 const port = 9090;
 
-// Body parsing Middleware
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(compression());
 
 app.get("/", async (req: Request, res: Response): Promise<Response> => {
   return res.status(200).send({
