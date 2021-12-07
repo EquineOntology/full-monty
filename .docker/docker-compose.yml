@@ -14,7 +14,6 @@ services:
       MONGO_PORT: 27017
       MONGO_USER: chris
       MONGO_PASSWORD: secretpassword
-      MONGO_DATABASE: tasks
     expose:
       - "9090:9090"
     networks:
