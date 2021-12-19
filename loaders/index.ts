@@ -5,7 +5,7 @@ import schedulerLoader from "./scheduler";
 import queueLoader from "./queues";
 
 export default async ({ expressApp }: { expressApp: Application }) => {
-  const mongo = await mongoLoader();
+  await mongoLoader();
   console.info("MongoDB Initialized");
 
   const queues = queueLoader();
@@ -19,7 +19,6 @@ export default async ({ expressApp }: { expressApp: Application }) => {
 
   return {
     express,
-    mongo,
     queues,
   };
 };

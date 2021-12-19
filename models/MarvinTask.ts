@@ -1,3 +1,4 @@
+import Datastore from "../types/Datastore";
 import Model from "./Model";
 
 type MarvinTaskAttributes = {
@@ -5,6 +6,7 @@ type MarvinTaskAttributes = {
   title: string;
   done: boolean;
   category: string;
+  project: string;
   duration: number | null;
   estimate: number | null;
 };
@@ -12,6 +14,7 @@ export default class MarvinTask extends Model {
   attributes: MarvinTaskAttributes;
 
   constructor(
+    datastore: Datastore,
     id: string,
     title: string,
     done: "Y" | "N",
@@ -19,15 +22,17 @@ export default class MarvinTask extends Model {
     duration: number,
     time_estimate: number
   ) {
-    super();
-    this.database = "productivity";
+    super(datastore);
     this.collection = "marvin_tasks";
+
+    const categoryStructure = category.split("/");
 
     this.attributes = {
       id: id,
       title: title,
       done: done === "Y",
-      category: category,
+      project: categoryStructure[categoryStructure.length - 1],
+      category: categoryStructure[0],
       duration: duration > 0 ? duration : null,
       estimate: time_estimate > 0 ? time_estimate : null,
     };
