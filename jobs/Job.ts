@@ -2,6 +2,7 @@ import ConsoleLevel from "../types/ConsoleLevel";
 
 export default class Job {
   id = "job";
+  priority: number = 1;
   data: unknown;
   started_at: Date | null = null;
   ended_at: Date | null = null;
