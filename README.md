@@ -6,6 +6,7 @@ The code is thus organized:
 
 - `.docker`: anything related to Docker except the `.dockerignore` file
 - `config`: configuration of the app
+- `factories`: utility functions that create instances of objects
 - `jobs`: job classes, including the base `Job.ts`
 - `listeners`: event listener classes
 - `loaders`: single-concern files for the loading process
