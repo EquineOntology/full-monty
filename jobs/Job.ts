@@ -3,13 +3,8 @@ import ConsoleLevel from "../types/ConsoleLevel";
 export default class Job {
   id = "job";
   priority: number = 1;
-  data: unknown;
   started_at: Date | null = null;
   ended_at: Date | null = null;
-
-  constructor(data?: unknown) {
-    this.data = data;
-  }
 
   handle(): void {
     throw new Error(`[job:${this.id}] Handling logic has not been defined`);
