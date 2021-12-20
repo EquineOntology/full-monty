@@ -2,7 +2,7 @@ import Job from "../jobs/Job";
 
 export default class Queue {
   priority: number;
-  #jobs: Array<Job> = [];
+  #jobs: Job[] = [];
 
   constructor(priority: number) {
     this.priority = priority;
