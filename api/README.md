@@ -1,17 +1,1 @@
-# full-monty-backend
-
-Backend code for Full Monty
-
-The code is thus organized:
-
-- `.docker`: anything related to Docker except the `.dockerignore` file
-- `config`: configuration of the app
-- `factories`: utility functions that create instances of objects
-- `jobs`: job classes, including the base `Job.ts`
-- `listeners`: event listener classes
-- `loaders`: single-concern files for the loading process
-- `models`: classes related to handling datastore models, including the base `Model.ts`
-- `routes`: API route definitions
-- `services`: business logic
-- `tests`: testing suites
-- `types`: typescript definitions and interfaces
+NodeJS + Express + MongoDB API backend for full-monty

@@ -1,7 +1,6 @@
 {
-  "name": "full-monty-backend",
+  "name": "full-monty-api",
   "version": "0.1.0",
-  "description": "Backend code to manage Full Monty data",
   "private": true,
   "main": "index.ts",
   "scripts": {
@@ -10,16 +9,8 @@
     "dev": "nodemon src/index.ts",
     "test": "npm run test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EquineOntology/full-monty-backend.git"
-  },
   "author": "Christian Fratta <christian@fratta.dev>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/EquineOntology/full-monty-backend/issues"
-  },
-  "homepage": "https://github.com/EquineOntology/full-monty-backend#readme",
   "devDependencies": {
     "@types/compression": "^1.7.2",
     "@types/express": "^4.17.13",

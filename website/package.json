@@ -1,5 +1,5 @@
 {
-  "name": "full-monty-frontend",
+  "name": "full-monty-website",
   "private": true,
   "scripts": {
     "dev": "next dev",
