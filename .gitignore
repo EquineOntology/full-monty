@@ -1,12 +1,12 @@
-# Host OS
+# General
 .DS_Store
-
-# Dependencies
-/node_modules/ 
-
-# env files
+/**/.vscode/
+/**/node_modules/ 
 .env*
 !.env.dist
 
-# Misc files
-/data/
+# API
+/api/build/
+
+# Website
+/website/.next/

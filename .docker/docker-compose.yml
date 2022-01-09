@@ -1,41 +1,58 @@
 version: "3.9"
 
 services:
-  webserver:
+  full-monty-website:
     build:
+      args:
+        NEXTJS_PORT: ${NEXTJS_PORT}
       context: ../
-      dockerfile: .docker/webserver/Dockerfile
-    command: npm run dev
-    container_name: webserver
-    depends_on:
-      - mongo
-    env_file:
-      - ../.env.development
+      dockerfile: .docker/website/Dockerfile
+    container_name: full-monty-website
     expose:
-      - "9090:9090"
+      - ${NEXTJS_PORT}:${NEXTJS_PORT}
     networks:
       - full_monty_nw
     ports:
-      - "9090:9090"
+      - ${NEXTJS_PORT}:${NEXTJS_PORT}
     restart: always
     volumes:
       - type: bind
-        source: ../
+        source: ../website/
         target: /var/www/html
 
-  mongo:
-    container_name: mongo
-    env_file:
-      - ../.env.development
+  full-monty-api:
+    build:
+      args:
+        NODE_PORT: ${NODE_PORT}
+      context: ../
+      dockerfile: .docker/api/Dockerfile
+    container_name: full-monty-api
+    env_file: ../.env
+    depends_on:
+      - mongo
+    expose:
+      - ${NODE_PORT}:${NODE_PORT}
+    networks:
+      - full_monty_nw
+    ports:
+      - ${NODE_PORT}:${NODE_PORT}
+    restart: always
+    volumes:
+      - type: bind
+        source: ../api/
+        target: /var/www/html
+
+  full-monty-mongo:
+    container_name: full-monty-mongo
+    env_file: ../.env
     image: mongo:5.0-focal
     networks:
       - full_monty_nw
     restart: always
 
-  mongo-express:
-    container_name: mongo-express
-    env_file:
-      - ../.env.development
+  full-monty-mongo-express:
+    container_name: full-monty-mongo-express
+    env_file: ../.env
     image: mongo-express:0.54
     networks:
       - full_monty_nw

@@ -1,20 +1,14 @@
-build:
-	@echo "Building docker image"
-	@docker build . -f .docker/webserver/Dockerfile -t full-monty-backend:dev
-
-build-prod:
-	@echo "Building production docker image"
-	@docker build . -f .docker/webserver/Dockerfile -t full-monthy-backend:latest
-
 clear:
 	@echo "Deleting existing containers"
-	@docker container rm webserver mongo-express mongo
+	@docker container rm full-monty-website full-monty-api full-monty-mongo-express full-monty-mongo
+
+dev:
+	@echo "Starting full-monty dev mode"
+	@npm --prefix website run dev&
+	@npm --prefix api run dev&
 
 start:
-	@docker compose -f .docker/docker-compose.yml up -d
-
-start-prod:
-	@docker compose -f .docker/docker-compose.production.yml up -d
+	@NODE_PORT=9090 NEXTJS_PORT=3000 docker compose -f .docker/docker-compose.yml up -d
 
 stop:
-	@docker stop mongo-express mongo webserver
+	@docker stop full-monty-website full-monty-api full-monty-mongo-express full-monty-mongo

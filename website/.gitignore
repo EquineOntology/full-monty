@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+
+# IDEs and editors
+.vscode
+
+# Dependencies
+/node_modules/
+
+# Project
+/.next/
+/build/
+/out/
+
+# env files
+.env.*
+!.env.example
