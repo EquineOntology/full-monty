@@ -5,8 +5,8 @@ services:
     build:
       args:
         NEXTJS_PORT: ${NEXTJS_PORT}
-      context: ../
-      dockerfile: .docker/website/Dockerfile
+      context: ./website
+      dockerfile: Dockerfile
     container_name: full-monty-website
     expose:
       - ${NEXTJS_PORT}:${NEXTJS_PORT}
@@ -15,19 +15,19 @@ services:
     ports:
       - ${NEXTJS_PORT}:${NEXTJS_PORT}
     restart: always
-    volumes:
-      - type: bind
-        source: ../website/
-        target: /var/www/html
+    # volumes:
+    #   - type: bind
+    #     source: website/
+    #     target: /var/www/html
 
   full-monty-api:
     build:
       args:
         NODE_PORT: ${NODE_PORT}
-      context: ../
-      dockerfile: .docker/api/Dockerfile
+      context: ./api
+      dockerfile: Dockerfile
     container_name: full-monty-api
-    env_file: ../.env
+    env_file: .env
     depends_on:
       - mongo
     expose:
@@ -37,14 +37,14 @@ services:
     ports:
       - ${NODE_PORT}:${NODE_PORT}
     restart: always
-    volumes:
-      - type: bind
-        source: ../api/
-        target: /var/www/html
+    # volumes:
+    #   - type: bind
+    #     source: api/
+    #     target: /var/www/html
 
   full-monty-mongo:
     container_name: full-monty-mongo
-    env_file: ../.env
+    env_file: .env
     image: mongo:5.0-focal
     networks:
       - full_monty_nw
@@ -52,7 +52,7 @@ services:
 
   full-monty-mongo-express:
     container_name: full-monty-mongo-express
-    env_file: ../.env
+    env_file: .env
     image: mongo-express:0.54
     networks:
       - full_monty_nw

@@ -4,7 +4,7 @@
 FROM node:16-alpine as dependencies
 
 WORKDIR /app
-COPY api/package*.json .
+COPY package*.json .
 RUN npm install
 
 #####################
@@ -12,7 +12,7 @@ RUN npm install
 #####################
 FROM node:16-alpine AS builder
 WORKDIR /app
-COPY ./api ./
+COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN npm run build
 
