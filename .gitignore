@@ -2,11 +2,11 @@
 .DS_Store
 
 # Dependencies
-node_modules 
+/node_modules/ 
 
 # env files
 .env*
 !.env.dist
 
 # Misc files
-data
+/data/

@@ -10,7 +10,7 @@ services:
     depends_on:
       - mongo
     env_file:
-      - ../.env.development
+      - ../.env.production
     expose:
       - "9090:9090"
     networks:
@@ -26,21 +26,10 @@ services:
   mongo:
     container_name: mongo
     env_file:
-      - ../.env.development
+      - ../.env.production
     image: mongo:5.0-focal
     networks:
       - full_monty_nw
-    restart: always
-
-  mongo-express:
-    container_name: mongo-express
-    env_file:
-      - ../.env.development
-    image: mongo-express:0.54
-    networks:
-      - full_monty_nw
-    ports:
-      - 8081:8081
     restart: always
 
 networks:

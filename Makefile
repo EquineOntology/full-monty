@@ -8,13 +8,13 @@ build-prod:
 
 clear:
 	@echo "Deleting existing containers"
-	@docker container rm webserver mongo-ui mongo
+	@docker container rm webserver mongo-express mongo
 
 start:
 	@docker compose -f .docker/docker-compose.yml up -d
 
-start-attach:
-	@docker compose -f .docker/docker-compose.yml up --build
+start-prod:
+	@docker compose -f .docker/docker-compose.production.yml up -d
 
 stop:
-	@docker stop mongo-ui mongo webserver
+	@docker stop mongo-express mongo webserver
