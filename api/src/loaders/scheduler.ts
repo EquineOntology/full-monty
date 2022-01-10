@@ -37,8 +37,6 @@ export default (queues: Record<number, Queue>) => {
       }
     );
   });
-
-  queues[1].push(new MigrateMarvinCsvToMongo(_jobs[0].params));
 };
 
 export function stop(jobName: string) {
