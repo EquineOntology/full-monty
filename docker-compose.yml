@@ -39,11 +39,11 @@ services:
       - full_monty_nw
     ports:
       - ${NODE_PORT}:${NODE_PORT}
-    restart: always
+    restart: on-failure
     volumes:
       - type: bind
-        source: api/
-        target: /var/www/html
+        source: api/src
+        target: /var/www/html/src
 
   full-monty-mongo:
     container_name: full-monty-mongo
