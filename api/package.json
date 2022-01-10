@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_PATH=./build node build/index.js",
     "build": "tsc --project . --outDir build",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon -r dotenv/config src/index.ts dotenv_config_path=../.env",
     "test": "npm run test"
   },
   "author": "Christian Fratta <christian@fratta.dev>",
