@@ -2,8 +2,8 @@
 .DS_Store
 /**/.vscode/
 /**/node_modules/ 
-.env*
-!.env.dist
+/**/.env*
+!/**/.env*.dist
 
 # API
 /api/build/
