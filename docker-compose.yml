@@ -28,9 +28,10 @@ services:
       context: ./api
       dockerfile: Dockerfile
     container_name: full-monty-api
+    entrypoint: ["npm", "run", "${START_SCRIPT}"]
     env_file: api/.env
     depends_on:
-      - mongo
+      - full-monty-mongo
     expose:
       - ${NODE_PORT}:${NODE_PORT}
     networks:
@@ -38,10 +39,10 @@ services:
     ports:
       - ${NODE_PORT}:${NODE_PORT}
     restart: always
-    # volumes:
-    #   - type: bind
-    #     source: api/
-    #     target: /var/www/html
+    volumes:
+      - type: bind
+        source: api/
+        target: /var/www/html
 
   full-monty-mongo:
     container_name: full-monty-mongo
