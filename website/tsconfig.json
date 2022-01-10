@@ -12,9 +12,10 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@/components/*": ["components/*"],
+      "@/common/*": ["src/common/*"],
+      "@/modules/*": ["src/modules/*"],
       "@/pages/*": ["src/pages/*"],
-      "@/styles/*": ["styles/*"]
+      "@/styles/*": ["src/styles/*"]
     },
     "resolveJsonModule": true,
     "rootDir": "./src",
