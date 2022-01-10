@@ -8,6 +8,7 @@ services:
       context: ./website
       dockerfile: Dockerfile
     container_name: full-monty-website
+    entrypoint: ["npm", "run", "${START_SCRIPT}"]
     env_file: website/.env.local
     expose:
       - ${NEXTJS_PORT}:${NEXTJS_PORT}
@@ -15,11 +16,11 @@ services:
       - full_monty_nw
     ports:
       - ${NEXTJS_PORT}:${NEXTJS_PORT}
-    restart: always
-    # volumes:
-    #   - type: bind
-    #     source: website/
-    #     target: /var/www/html
+    restart: on-failure
+    volumes:
+      - type: bind
+        source: website/src
+        target: /var/www/html/src
 
   full-monty-api:
     build:
