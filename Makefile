@@ -2,6 +2,8 @@ include api/.env
 include website/.env.local
 export
 
+START_SCRIPT ?= "start"
+
 ## This help screen
 help: 
 	$(info Available targets)
@@ -36,7 +38,7 @@ dev:
 ## Start all full-monty containers
 deploy:
 	@echo "Starting full-monty"
-	@START_SCRIPT=start docker compose up -d
+	@docker compose up -d
 
 ## Tail logs of all full-monty containers
 logs:
