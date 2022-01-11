@@ -38,6 +38,10 @@ deploy:
 	@echo "Starting full-monty"
 	@START_SCRIPT=start docker compose up -d
 
+## Tail logs of all full-monty containers
+logs:
+	@docker compose logs -f
+
 ## Start all full-monty containers in dev mode, but attached to the shell
 start-attached:
 	@echo "Starting full-monty in dev mode, attached"
