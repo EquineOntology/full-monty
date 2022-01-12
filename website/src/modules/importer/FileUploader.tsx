@@ -36,9 +36,25 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
 function FileUploader() {
   const theme = useMantineTheme();
 
+  function handleUpload(files: File[]) {
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/import/marvin`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.info(result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
   return (
     <Dropzone
-      onDrop={console.log}
+      onDrop={handleUpload}
       maxSize={3 * 1024 ** 2}
       accept={[MIME_TYPES.csv]}
     >
