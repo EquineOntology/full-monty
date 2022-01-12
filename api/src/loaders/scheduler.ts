@@ -7,8 +7,7 @@ const _jobs = [
   // { name: "TestJob", schedule: "* * * * *" },
   {
     name: "MigrateMarvinCsvToMongo",
-    schedule: "0 0 * * *",
-    // TODO: Allow setting params from external config.
+    schedule: "* * * * *",
     params: {
       useEstimateWhenDurationMissing: false,
       exclusionList: ["LB support"],
