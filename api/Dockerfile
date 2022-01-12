@@ -17,4 +17,5 @@ COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 ARG NODE_PORT=9090
 EXPOSE ${NODE_PORT}
+RUN mkdir /var/www/html/temp
 ENTRYPOINT ["npm", "run", "start"]
