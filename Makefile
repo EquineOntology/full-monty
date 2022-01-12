@@ -1,8 +1,16 @@
+SHELL=/bin/bash
+
 include api/.env
 include website/.env.local
 export
 
 START_SCRIPT ?= "start"
+
+
+ifeq ($(cache), false)
+	args="--no-cache"
+endif
+
 
 ## This help screen
 help: 
@@ -20,10 +28,10 @@ help:
 	$(MAKEFILE_LIST) | column -ts $$'\t' |          \
 	grep --color '^[^ ]*'
 
-## Build all full-monty containers, without cache
+## Build all full-monty containers. Add "cache=false" to build without cache.
 build:
 	@echo "Building full-monty containers"
-	@docker compose build --no-cache
+	@docker compose build $(args)
 
 ## Delete all (stopped) full-monty containers 
 clear:
@@ -33,7 +41,7 @@ clear:
 ## Start all full-monty containers in dev mode (i.e. with file watchers)
 dev:
 	@echo "Starting full-monty in dev mode"
-	@START_SCRIPT=dev docker compose up -d
+	@START_SCRIPT=dev docker compose up -d --build
 
 ## Start all full-monty containers
 deploy:
