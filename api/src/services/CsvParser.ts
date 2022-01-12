@@ -5,13 +5,13 @@ export default class CsvParser {
   static parseFile(
     path: string,
     callback: (row: object) => void,
-    onEnd: () => void
+    onStreamClosed: () => void
   ) {
     fs.createReadStream(path)
       .pipe(parse({ columns: true }))
       .on("data", (row) => {
         callback(row);
       })
-      .on("end", onEnd);
+      .on("close", onStreamClosed);
   }
 }
