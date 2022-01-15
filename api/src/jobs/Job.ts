@@ -53,7 +53,7 @@ export default abstract class Job implements JobInterface {
     this.completedAt = new Date();
     this.status = "completed";
     this.store();
-    this.report(`Completed at ${this.completed_at}`);
+    this.report(`Completed at ${this.completedAt}`);
   }
 
   #fail(error: Error) {
@@ -71,6 +71,6 @@ export default abstract class Job implements JobInterface {
   #start(): void {
     this.startedAt = new Date();
     this.status = "started";
-    this.report(`Starting at ${this.started_at}`);
+    this.report(`Starting at ${this.startedAt}`);
   }
 }
