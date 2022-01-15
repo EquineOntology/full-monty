@@ -5,6 +5,7 @@ import { JobStatus } from "../types/JobInterface";
 import { update as storeInDb } from "../services/MongoConnector";
 
 export default abstract class Job implements JobInterface {
+  abstract priority: number;
   id: string;
   name = "job";
   collection = "jobs";
@@ -12,8 +13,6 @@ export default abstract class Job implements JobInterface {
   abstract added_at: Date;
   started_at: Date | null = null;
   completed_at: Date | null = null;
-
-  priority?: number;
 
   constructor() {
     this.id = uuid.v4().toString();

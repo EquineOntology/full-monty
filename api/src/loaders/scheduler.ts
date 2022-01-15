@@ -2,8 +2,8 @@ import cron, { ScheduledTask } from "node-cron";
 import factory from "../factories/JobFactory";
 import Queue from "../services/Queue";
 
-const _jobs: JobConfiguration[] = [
-  // { name: "TestJob", priority: 1, schedule: "* * * * *" },
+const _jobs: JobSpecification[] = [
+  // { name: "TestJob", schedule: "* * * * *" },
 ];
 
 const _scheduledJobs: Record<string, ScheduledTask> = {};
@@ -17,11 +17,11 @@ export default (queues: Record<number, Queue>) => {
     const job = factory(jobConfig.name, jobConfig.params);
 
     _scheduledJobs[jobConfig.name] = cron.schedule(jobConfig.schedule, () => {
-      if (!queues[jobConfig.priority]) {
-        throw new Error(`Queue with priority ${jobConfig.priority} not found.`);
+      if (!queues[job.priority]) {
+        throw new Error(`Queue with priority ${job.priority} not found.`);
       }
 
-      queues[jobConfig.priority].push(job);
+      queues[job.priority].push(job);
     });
   });
 };
@@ -36,9 +36,8 @@ export function stop(jobName: string) {
   delete _scheduledJobs[jobName];
 }
 
-type JobConfiguration = {
+type JobSpecification = {
   name: string;
   schedule: string;
-  priority: number;
   params: object;
 };

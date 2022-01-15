@@ -12,7 +12,7 @@ type JobConfiguration = {
 };
 
 export default class MigrateMarvinCsvToMongo extends Job {
-  name = "marvin-import";
+  priority = 1;
   added_at: Date;
   #exclusionList: string[];
   #filePath: string;
