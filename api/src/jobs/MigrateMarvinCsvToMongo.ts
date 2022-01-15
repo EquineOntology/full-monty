@@ -57,29 +57,6 @@ export default class MigrateMarvinCsvToMongo extends Job {
     });
   }
 
-  #getFiles(directory: string): string[] | null {
-    var files = fs.readdirSync(directory);
-
-    if (files.length === 0) {
-      return null;
-    }
-
-    const extension = ".csv";
-
-    const csvFiles = files.filter((file) => {
-      return path.extname(file).toLowerCase() === extension;
-    });
-
-    csvFiles.sort(function (a, b) {
-      return (
-        fs.statSync(directory + a).mtime.getTime() -
-        fs.statSync(directory + b).mtime.getTime()
-      );
-    });
-
-    return csvFiles;
-  }
-
   #deleteFile() {
     if (!this.#filePath) return;
 
