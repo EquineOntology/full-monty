@@ -22,7 +22,6 @@ export default abstract class Job implements JobInterface {
   abstract dump(): {
     id: string;
     attributes: object;
-    details?: object;
     options?: object;
   };
 

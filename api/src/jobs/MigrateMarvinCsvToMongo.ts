@@ -7,8 +7,9 @@ import CsvParser from "../services/CsvParser";
 import { updateOrInsertModel } from "../services/MongoConnector";
 
 type Options = {
-  useEstimateWhenDurationMissing: boolean;
+  file: string;
   exclusionList: string[];
+  useEstimateWhenDurationMissing: boolean;
 };
 
 export default class MigrateMarvinCsvToMongo extends Job {
@@ -16,14 +17,15 @@ export default class MigrateMarvinCsvToMongo extends Job {
   priority = 1;
   addedAt: Date;
   #exclusionList: string[];
-  #filePath: string;
+  #file: string;
   #useEstimateWhenDurationMissing: boolean;
 
-  constructor(filePath: string, options: Options) {
+  constructor(options: Options) {
     super();
 
     this.addedAt = new Date();
-    this.#filePath = filePath;
+
+    this.#file = options.file;
     this.#exclusionList = options.exclusionList;
     this.#useEstimateWhenDurationMissing =
       options.useEstimateWhenDurationMissing;
@@ -40,10 +42,8 @@ export default class MigrateMarvinCsvToMongo extends Job {
         startedAt: this.startedAt,
         completedAt: this.completedAt,
       },
-      details: {
-        file: this.#filePath,
-      },
       options: {
+        file: this.#file,
         exclusionList: this.#exclusionList,
         useEstimateWhenDurationMissing: this.#useEstimateWhenDurationMissing,
       },
@@ -51,14 +51,14 @@ export default class MigrateMarvinCsvToMongo extends Job {
   }
 
   handle() {
-    fs.access(this.#filePath, (err) => {
+    fs.access(this.#file, (err) => {
       if (err) {
         this.onFail(err);
         return;
       }
 
       CsvParser.parseFile(
-        this.#filePath,
+        this.#file,
         this.#processTask.bind(this),
         this.onEnd.bind(this)
       );
@@ -66,9 +66,9 @@ export default class MigrateMarvinCsvToMongo extends Job {
   }
 
   #deleteFile() {
-    if (!this.#filePath) return;
+    if (!this.#file) return;
 
-    fs.unlink(this.#filePath, () => {
+    fs.unlink(this.#file, () => {
       console.info(`File "${path}" deleted`);
     });
   }

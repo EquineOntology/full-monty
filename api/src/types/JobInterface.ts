@@ -20,7 +20,6 @@ export default interface JobInterface {
   dump: () => {
     id: string;
     attributes: object;
-    details?: object;
     options?: object;
   };
 }
