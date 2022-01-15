@@ -19,7 +19,12 @@ export default abstract class Job implements JobInterface {
     this.id = uuid.v4().toString();
   }
 
-  abstract dump(): object;
+  abstract dump(): {
+    id: string;
+    attributes: object;
+    details?: object;
+    options?: object;
+  };
 
   abstract handle(): void;
 

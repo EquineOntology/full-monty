@@ -1,6 +1,7 @@
 import ConsoleLevel from "./ConsoleLevel";
 
 export default interface JobInterface {
+  id: string;
   name: string;
   collection: string;
   status: JobStatus;
@@ -16,7 +17,12 @@ export default interface JobInterface {
 
   run: () => void;
 
-  dump: () => object;
+  dump: () => {
+    id: string;
+    attributes: object;
+    details?: object;
+    options?: object;
+  };
 }
 
 export type JobStatus = "pending" | "started" | "completed" | "failed";

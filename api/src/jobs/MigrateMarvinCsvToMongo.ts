@@ -32,13 +32,21 @@ export default class MigrateMarvinCsvToMongo extends Job {
   dump() {
     return {
       id: this.id,
+      attributes: {
       name: this.name,
       status: this.status,
       priority: this.priority,
         addedAt: this.addedAt,
         startedAt: this.startedAt,
         completedAt: this.completedAt,
+      },
+      details: {
       file: this.#filePath,
+      },
+      options: {
+        exclusionList: this.#exclusionList,
+        useEstimateWhenDurationMissing: this.#useEstimateWhenDurationMissing,
+      },
     };
   }
 

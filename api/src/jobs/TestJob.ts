@@ -10,15 +10,17 @@ export default class TestJob extends Job {
     this.addedAt = new Date();
   }
 
-  dump(): object {
+  dump() {
     return {
       id: this.id,
-      name: this.name,
-      status: this.status,
-      priority: this.priority,
+      attributes: {
+        name: this.name,
+        status: this.status,
+        priority: this.priority,
         addedAt: this.addedAt,
         startedAt: this.startedAt,
         completedAt: this.completedAt,
+      },
     };
   }
 
