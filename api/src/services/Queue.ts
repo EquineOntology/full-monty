@@ -18,7 +18,7 @@ export default class Queue {
     return this.#jobs.length;
   }
 
-  push(job: Job) {
+  add(job: Job) {
     job.priority = this.priority;
     job.store();
   }

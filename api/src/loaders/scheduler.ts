@@ -21,7 +21,7 @@ export default (queues: Record<number, Queue>) => {
         throw new Error(`Queue with priority ${job.priority} not found.`);
       }
 
-      queues[job.priority].push(job);
+      queues[job.priority].add(job);
     });
   });
 };
