@@ -1,5 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
+import MigrateMarvinCsvToMongo from "../jobs/MigrateMarvinCsvToMongo";
 
 export default (app: Router) => {
   const router = Router();
@@ -13,6 +14,14 @@ export default (app: Router) => {
         .json({ status: "fail", message: "No file provided" })
         .status(400);
     }
+
+    const job = new MigrateMarvinCsvToMongo(req.file.path, {
+      exclusionList: ["LB support"],
+      useEstimateWhenDurationMissing: false,
+    });
+
+    job.priority = 1;
+    job.store();
 
     return res
       .json({ status: "success", message: "File received" })
