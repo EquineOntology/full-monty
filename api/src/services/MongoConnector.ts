@@ -1,5 +1,7 @@
-import { Db as MongoDb, MongoClient } from "mongodb";
+import { Db as MongoDb, Document, MongoClient } from "mongodb";
+import uuid from "uuid-mongodb";
 import Model from "../models/Model";
+import Job from "../jobs/Job";
 
 export let Db: MongoDb;
 export let Client: MongoClient;
@@ -16,16 +18,32 @@ export default async () => {
   return Db;
 };
 
-export async function save(input: Model) {
-  const collection = await getCollection(input.collection);
+export async function storeJob(input: Job) {
+  await store(input.collection, input.dump());
+}
 
+export async function storeModel(input: Model) {
   const modelAttributes = { ...input.attributes };
-
-  const query = { _id: modelAttributes.id };
   delete modelAttributes.id;
-  const update = { $set: modelAttributes };
 
-  await collection.updateOne(query, update, { upsert: true });
+  await update(input.collection, modelAttributes, true);
+}
+
+export async function store(collectionName: string, input: object) {
+  const collection = await getCollection(collectionName);
+
+  await collection.insertOne(input);
+}
+
+export async function update(
+  collectionName: string,
+  input: Document,
+  upsert: boolean = true
+) {
+  const collection = await getCollection(collectionName);
+  const query = { _id: uuid.from(input.id) };
+  const update = { $set: input };
+  return await collection.updateOne(query, update, { upsert });
 }
 
 async function getCollection(name: string) {
