@@ -37,10 +37,7 @@ export async function insertJob(input: Job) {
 }
 
 export async function updateOrInsertModel(input: Model) {
-  const modelAttributes = { ...input.attributes };
-  delete modelAttributes.id;
-
-  await update(input.collection, modelAttributes, true);
+  await update(input.collection, input.attributes, true);
 }
 
 export async function insert(collectionName: string, input: object) {
@@ -55,7 +52,7 @@ export async function update(
   upsert: boolean = true
 ) {
   const collection = await getCollection(collectionName);
-  const query = { _id: uuid.from(input.id) };
+  const query = { taskId: input.taskId };
   const update = { $set: input };
   return await collection.updateOne(query, update, { upsert });
 }

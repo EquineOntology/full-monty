@@ -1,8 +1,8 @@
-import Datastore from "../types/Datastore";
 import Model from "./Model";
+import Datastore from "../types/Datastore";
 
 type MarvinTaskAttributes = {
-  id: string;
+  taskId: string;
   title: string;
   done: boolean;
   category: string;
@@ -28,7 +28,7 @@ export default class MarvinTask extends Model {
     const categoryStructure = category.split("/");
 
     this.attributes = {
-      id: id,
+      taskId: id,
       title: title,
       done: done === "Y",
       project: categoryStructure[categoryStructure.length - 1],
