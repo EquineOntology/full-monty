@@ -1,6 +1,7 @@
 import Job from "./Job";
 
 export default class TestJob extends Job {
+  name = "TestJob";
   priority = 1;
   added_at: Date;
 

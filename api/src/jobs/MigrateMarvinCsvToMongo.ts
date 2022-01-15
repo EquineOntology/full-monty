@@ -12,6 +12,7 @@ type JobConfiguration = {
 };
 
 export default class MigrateMarvinCsvToMongo extends Job {
+  name = "MigrateMarvinCsvToMongo";
   priority = 1;
   added_at: Date;
   #exclusionList: string[];

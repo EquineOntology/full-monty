@@ -5,12 +5,13 @@ import { JobStatus } from "../types/JobInterface";
 import { update as storeInDb } from "../services/MongoConnector";
 
 export default abstract class Job implements JobInterface {
+  abstract name: string;
   abstract priority: number;
+  abstract added_at: Date;
+
   id: string;
-  name = "job";
   collection = "jobs";
   status: JobStatus = "pending";
-  abstract added_at: Date;
   started_at: Date | null = null;
   completed_at: Date | null = null;
 
