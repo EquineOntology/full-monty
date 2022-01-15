@@ -19,7 +19,8 @@ export default class Queue {
   }
 
   push(job: Job) {
-    this.#jobs.push(job);
+    job.priority = this.priority;
+    job.store();
   }
 
   work() {
