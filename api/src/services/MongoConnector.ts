@@ -1,6 +1,6 @@
 import { Db as MongoDb, Document, MongoClient, Sort } from "mongodb";
-import Job from "../jobs/Job";
-import Model from "../models/Model";
+import Job from "../modules/queues/jobs/Job";
+import Model from "../common/Model";
 
 export let Db: MongoDb;
 export let Client: MongoClient;

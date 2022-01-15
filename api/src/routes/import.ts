@@ -1,11 +1,15 @@
 import { Router } from "express";
 import multer from "multer";
-import MigrateMarvinCsvToMongo from "../jobs/MigrateMarvinCsvToMongo";
+import MigrateMarvinCsvToMongo from "../modules/queues/jobs/MigrateMarvinCsvToMongo";
 
 export default (app: Router) => {
   const router = Router();
 
   app.use("/import/marvin", router);
+
+  router.get("", (req, res) => {
+    
+  });
 
   const upload = multer({ storage: configureMulterStorage() });
   router.post("", upload.single("file"), (req, res) => {

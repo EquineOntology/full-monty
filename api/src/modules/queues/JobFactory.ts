@@ -1,6 +1,6 @@
-import Job from "../jobs/Job";
-import MigrateMarvinCsvToMongo from "../jobs/MigrateMarvinCsvToMongo";
-import TestJob from "../jobs/TestJob";
+import Job from "./jobs/Job";
+import MigrateMarvinCsvToMongo from "./jobs/MigrateMarvinCsvToMongo";
+import TestJob from "./jobs/TestJob";
 
 const classes = { TestJob, MigrateMarvinCsvToMongo };
 

@@ -1,8 +1,8 @@
 import uuid from "uuid-mongodb";
-import ConsoleLevel from "../types/ConsoleLevel";
-import JobInterface from "../types/JobInterface";
-import { JobStatus } from "../types/JobInterface";
-import { update as storeInDb } from "../services/MongoConnector";
+import ConsoleLevel from "../../../types/ConsoleLevel";
+import JobInterface from "../../../types/JobInterface";
+import { JobStatus } from "../../../types/JobInterface";
+import { update as storeInDb } from "../../../services/MongoConnector";
 
 export default abstract class Job implements JobInterface {
   abstract name: string;

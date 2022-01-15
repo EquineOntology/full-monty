@@ -2,9 +2,9 @@ import fs from "fs";
 import path from "path";
 import { MongoServerError } from "mongodb";
 import Job from "./Job";
-import MarvinTask from "../models/MarvinTask";
-import CsvParser from "../services/CsvParser";
-import { updateOrInsertModel } from "../services/MongoConnector";
+import MarvinTask from "../../task_manager/MarvinTask";
+import CsvParser from "../../../services/CsvParser";
+import { updateOrInsertModel } from "../../../services/MongoConnector";
 
 type Options = {
   file: string;
