@@ -1,8 +1,6 @@
-import { Db as MongoDb, Document, MongoClient } from "mongodb";
-import uuid from "uuid-mongodb";
+import { Db as MongoDb, Document, MongoClient, Sort } from "mongodb";
 import Job from "../jobs/Job";
 import Model from "../models/Model";
-import Job from "../jobs/Job";
 
 export let Db: MongoDb;
 export let Client: MongoClient;
@@ -19,6 +17,20 @@ export default async () => {
   return Db;
 };
 
+export async function get(
+  collectionName: string,
+  filter: object,
+  sort: Sort
+): Promise<Document[]> {
+  let collection = null;
+  try {
+    collection = await getCollection(collectionName);
+  } catch (error) {
+    return [];
+  }
+
+  return await collection.find(filter, { sort: sort }).toArray();
+}
 
 export async function insertJob(input: Job) {
   await insert(input.collection, input.dump());

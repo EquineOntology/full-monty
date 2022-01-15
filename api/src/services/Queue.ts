@@ -1,4 +1,7 @@
 import Job from "../jobs/Job";
+import createJob from "../factories/JobFactory";
+import { JobStatus } from "../types/JobInterface";
+import { get as getFromDb } from "../services/MongoConnector";
 
 export default class Queue {
   priority: number;
@@ -36,8 +39,26 @@ export default class Queue {
     }
   }
 
-  #load() {
-    // TODO: Implement queue load mechanism.
-    console.error("Queue.#load not implemented");
+  async #load() {
+    const filter: {
+      "attributes.status": JobStatus;
+      "attributes.priority": number;
+    } = {
+      "attributes.status": "pending",
+      "attributes.priority": this.priority,
+    };
+
+    const sort = ["addedAt", "asc"];
+    const results = await getFromDb("jobs", filter, sort);
+
+    const jobs = [];
+    results.forEach((jobData) => {
+      const { id, options, attributes } = jobData;
+      const job = createJob(attributes.name, options, attributes);
+      job.id = id;
+      this.#jobs.push(job);
+    });
+
+    console.info(`Queue #${this.priority} loaded ${this.size()} jobs from DB`);
   }
 }
