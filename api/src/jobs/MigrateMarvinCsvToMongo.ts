@@ -4,7 +4,7 @@ import { MongoServerError } from "mongodb";
 import Job from "./Job";
 import MarvinTask from "../models/MarvinTask";
 import CsvParser from "../services/CsvParser";
-import { storeModel } from "../services/MongoConnector";
+import { updateOrInsertModel } from "../services/MongoConnector";
 
 type Options = {
   useEstimateWhenDurationMissing: boolean;
@@ -33,15 +33,15 @@ export default class MigrateMarvinCsvToMongo extends Job {
     return {
       id: this.id,
       attributes: {
-      name: this.name,
-      status: this.status,
-      priority: this.priority,
+        name: this.name,
+        status: this.status,
+        priority: this.priority,
         addedAt: this.addedAt,
         startedAt: this.startedAt,
         completedAt: this.completedAt,
       },
       details: {
-      file: this.#filePath,
+        file: this.#filePath,
       },
       options: {
         exclusionList: this.#exclusionList,
@@ -91,7 +91,7 @@ export default class MigrateMarvinCsvToMongo extends Job {
     const duration = hasDuration ? input.DURATION : input.TIME_ESTIMATE;
 
     const store = {
-      save: storeModel,
+      save: updateOrInsertModel,
     };
     const task = new MarvinTask(
       store,

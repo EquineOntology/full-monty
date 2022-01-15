@@ -1,5 +1,6 @@
 import { Db as MongoDb, Document, MongoClient } from "mongodb";
 import uuid from "uuid-mongodb";
+import Job from "../jobs/Job";
 import Model from "../models/Model";
 import Job from "../jobs/Job";
 
@@ -18,18 +19,19 @@ export default async () => {
   return Db;
 };
 
-export async function storeJob(input: Job) {
-  await store(input.collection, input.dump());
+
+export async function insertJob(input: Job) {
+  await insert(input.collection, input.dump());
 }
 
-export async function storeModel(input: Model) {
+export async function updateOrInsertModel(input: Model) {
   const modelAttributes = { ...input.attributes };
   delete modelAttributes.id;
 
   await update(input.collection, modelAttributes, true);
 }
 
-export async function store(collectionName: string, input: object) {
+export async function insert(collectionName: string, input: object) {
   const collection = await getCollection(collectionName);
 
   await collection.insertOne(input);
