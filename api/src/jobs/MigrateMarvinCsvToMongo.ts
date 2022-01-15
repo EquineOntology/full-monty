@@ -1,42 +1,60 @@
 import fs from "fs";
 import path from "path";
 import { MongoServerError } from "mongodb";
+import Job from "./Job";
 import MarvinTask from "../models/MarvinTask";
 import CsvParser from "../services/CsvParser";
-import Job from "./Job";
-import { save as saveInMongo } from "../services/MongoConnector";
+import { storeModel } from "../services/MongoConnector";
 
 type JobConfiguration = {
   useEstimateWhenDurationMissing: boolean;
   exclusionList: string[];
 };
-export default class MigrateMarvinCsvToMongo extends Job {
-  id = "marvin-mongo";
-  priority = 2;
 
-  #dataDir = "temp/";
+export default class MigrateMarvinCsvToMongo extends Job {
+  name = "marvin-import";
+  added_at: Date;
   #exclusionList: string[];
-  #selectedFile: string | null = null;
+  #filePath: string;
   #useEstimateWhenDurationMissing: boolean;
 
-  constructor(config: JobConfiguration) {
+  constructor(filePath: string, config: JobConfiguration) {
     super();
 
+    this.added_at = new Date();
+    this.#filePath = filePath;
     this.#useEstimateWhenDurationMissing =
       config.useEstimateWhenDurationMissing;
     this.#exclusionList = config.exclusionList;
   }
 
-  handle() {
-    var files = this.#getFiles(this.#dataDir);
-    if (!files) {
-      this.report("No new files to migrate");
-      return;
-    }
+  dump() {
+    return {
+      id: this.id,
+      name: this.name,
+      status: this.status,
+      priority: this.priority,
+      added_at: this.added_at,
+      started_at: this.started_at,
+      completed_at: this.completed_at,
 
-    this.#selectedFile = files[0];
-    this.report(`Found file to migrate: ${this.#selectedFile}`);
-    this.#readFile(this.#processTask.bind(this));
+      file: this.#filePath,
+    };
+  }
+
+  handle() {
+    fs.access(this.#filePath, (err) => {
+      if (err) {
+        this.onFail(err);
+        return;
+      }
+
+      CsvParser.parseFile(
+        this.#filePath,
+        this.#processTask.bind(this),
+        this.onEnd.bind(this)
+      );
+    });
   }
 
   #getFiles(directory: string): string[] | null {
@@ -63,19 +81,11 @@ export default class MigrateMarvinCsvToMongo extends Job {
   }
 
   #deleteFile() {
-    if (!this.#selectedFile) return;
+    if (!this.#filePath) return;
 
-    const filePath = path.join(this.#dataDir, this.#selectedFile);
-    fs.unlink(filePath, () => {
+    fs.unlink(this.#filePath, () => {
       console.info(`File "${path}" deleted`);
     });
-  }
-
-  #readFile(callback: (row: object) => void) {
-    if (!this.#selectedFile) return;
-
-    const filePath = path.join(this.#dataDir, this.#selectedFile);
-    CsvParser.parseFile(filePath, callback, this.onEnd.bind(this));
   }
 
   onEnd() {
@@ -96,7 +106,7 @@ export default class MigrateMarvinCsvToMongo extends Job {
     const duration = hasDuration ? input.DURATION : input.TIME_ESTIMATE;
 
     const store = {
-      save: saveInMongo,
+      save: storeModel,
     };
     const task = new MarvinTask(
       store,

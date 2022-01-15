@@ -1,21 +1,38 @@
+import uuid from "uuid-mongodb";
 import ConsoleLevel from "../types/ConsoleLevel";
+import JobInterface from "../types/JobInterface";
+import { JobStatus } from "../types/JobInterface";
+import { update as storeInDb } from "../services/MongoConnector";
 
-export default class Job {
-  id = "job";
-  priority: number = 1;
+export default abstract class Job implements JobInterface {
+  id: string;
+  name = "job";
+  collection = "jobs";
+  status: JobStatus = "pending";
+  abstract added_at: Date;
   started_at: Date | null = null;
-  ended_at: Date | null = null;
+  completed_at: Date | null = null;
 
-  handle(): void {
-    throw new Error(`[job:${this.id}] Handling logic has not been defined`);
+  priority?: number;
+
+  constructor() {
+    this.id = uuid.v4().toString();
   }
+
+  abstract dump(): object;
+
+  abstract handle(): void;
 
   onEnd() {
     this.#end();
   }
 
+  onFail(error: Error) {
+    this.#fail(error);
+  }
+
   report(message: string, level: ConsoleLevel = "info"): void {
-    console[level](`[job:${this.id}] ${message}`);
+    console[level](`[job:${this.name}] ${message}`);
   }
 
   run(): void {
@@ -23,13 +40,32 @@ export default class Job {
     this.handle();
   }
 
+  async store() {
+    await storeInDb(this.collection, this.dump());
+  }
+
   #end() {
-    this.ended_at = new Date();
-    this.report(`Ended at ${this.ended_at}`);
+    this.completed_at = new Date();
+    this.status = "completed";
+    this.store();
+    this.report(`Completed at ${this.completed_at}`);
+  }
+
+  #fail(error: Error) {
+    this.status = "failed";
+    this.store();
+
+    console.group(`[job:${this.name}] failed`);
+    this.report(error.message, "error");
+    if (error.stack) {
+      console.log(error.stack);
+    }
+    console.groupEnd();
   }
 
   #start(): void {
     this.started_at = new Date();
+    this.status = "started";
     this.report(`Starting at ${this.started_at}`);
   }
 }
