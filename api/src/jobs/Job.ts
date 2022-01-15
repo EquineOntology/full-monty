@@ -7,13 +7,13 @@ import { update as storeInDb } from "../services/MongoConnector";
 export default abstract class Job implements JobInterface {
   abstract name: string;
   abstract priority: number;
-  abstract added_at: Date;
+  abstract addedAt: Date;
 
   id: string;
   collection = "jobs";
   status: JobStatus = "pending";
-  started_at: Date | null = null;
-  completed_at: Date | null = null;
+  startedAt: Date | null = null;
+  completedAt: Date | null = null;
 
   constructor() {
     this.id = uuid.v4().toString();
@@ -45,7 +45,7 @@ export default abstract class Job implements JobInterface {
   }
 
   #end() {
-    this.completed_at = new Date();
+    this.completedAt = new Date();
     this.status = "completed";
     this.store();
     this.report(`Completed at ${this.completed_at}`);
@@ -64,7 +64,7 @@ export default abstract class Job implements JobInterface {
   }
 
   #start(): void {
-    this.started_at = new Date();
+    this.startedAt = new Date();
     this.status = "started";
     this.report(`Starting at ${this.started_at}`);
   }

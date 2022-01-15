@@ -3,11 +3,11 @@ import Job from "./Job";
 export default class TestJob extends Job {
   name = "TestJob";
   priority = 1;
-  added_at: Date;
+  addedAt: Date;
 
   constructor() {
     super();
-    this.added_at = new Date();
+    this.addedAt = new Date();
   }
 
   dump(): object {
@@ -16,9 +16,9 @@ export default class TestJob extends Job {
       name: this.name,
       status: this.status,
       priority: this.priority,
-      added_at: this.added_at,
-      started_at: this.started_at,
-      completed_at: this.completed_at,
+        addedAt: this.addedAt,
+        startedAt: this.startedAt,
+        completedAt: this.completedAt,
     };
   }
 

@@ -4,9 +4,9 @@ export default interface JobInterface {
   name: string;
   collection: string;
   status: JobStatus;
-  added_at: Date;
-  started_at: Date | null;
-  completed_at: Date | null;
+  addedAt: Date;
+  startedAt: Date | null;
+  completedAt: Date | null;
 
   handle: () => void;
 

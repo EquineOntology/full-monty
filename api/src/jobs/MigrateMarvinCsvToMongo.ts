@@ -14,7 +14,7 @@ type JobConfiguration = {
 export default class MigrateMarvinCsvToMongo extends Job {
   name = "MigrateMarvinCsvToMongo";
   priority = 1;
-  added_at: Date;
+  addedAt: Date;
   #exclusionList: string[];
   #filePath: string;
   #useEstimateWhenDurationMissing: boolean;
@@ -22,7 +22,7 @@ export default class MigrateMarvinCsvToMongo extends Job {
   constructor(filePath: string, config: JobConfiguration) {
     super();
 
-    this.added_at = new Date();
+    this.addedAt = new Date();
     this.#filePath = filePath;
     this.#useEstimateWhenDurationMissing =
       config.useEstimateWhenDurationMissing;
@@ -35,10 +35,9 @@ export default class MigrateMarvinCsvToMongo extends Job {
       name: this.name,
       status: this.status,
       priority: this.priority,
-      added_at: this.added_at,
-      started_at: this.started_at,
-      completed_at: this.completed_at,
-
+        addedAt: this.addedAt,
+        startedAt: this.startedAt,
+        completedAt: this.completedAt,
       file: this.#filePath,
     };
   }
