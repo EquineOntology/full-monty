@@ -9,7 +9,7 @@ export default class Queue {
 
   constructor(priority: number) {
     this.priority = priority;
-    this.#load();
+    this.load();
   }
 
   dump() {
@@ -39,7 +39,7 @@ export default class Queue {
     }
   }
 
-  async #load() {
+  async load() {
     const filter: {
       "attributes.status": JobStatus;
       "attributes.priority": number;
