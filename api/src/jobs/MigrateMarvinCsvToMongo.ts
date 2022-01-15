@@ -6,7 +6,7 @@ import MarvinTask from "../models/MarvinTask";
 import CsvParser from "../services/CsvParser";
 import { storeModel } from "../services/MongoConnector";
 
-type JobConfiguration = {
+type Options = {
   useEstimateWhenDurationMissing: boolean;
   exclusionList: string[];
 };
@@ -19,14 +19,14 @@ export default class MigrateMarvinCsvToMongo extends Job {
   #filePath: string;
   #useEstimateWhenDurationMissing: boolean;
 
-  constructor(filePath: string, config: JobConfiguration) {
+  constructor(filePath: string, options: Options) {
     super();
 
     this.addedAt = new Date();
     this.#filePath = filePath;
+    this.#exclusionList = options.exclusionList;
     this.#useEstimateWhenDurationMissing =
-      config.useEstimateWhenDurationMissing;
-    this.#exclusionList = config.exclusionList;
+      options.useEstimateWhenDurationMissing;
   }
 
   dump() {
