@@ -1,40 +1,28 @@
 import cron, { ScheduledTask } from "node-cron";
 import factory from "../factories/JobFactory";
-import MigrateMarvinCsvToMongo from "../jobs/MigrateMarvinCsvToMongo";
 import Queue from "../services/Queue";
 
-const _jobs = [
-  // { name: "TestJob", schedule: "* * * * *" },
-  {
-    name: "MigrateMarvinCsvToMongo",
-    schedule: "* * * * *",
-    params: {
-      useEstimateWhenDurationMissing: false,
-      exclusionList: ["LB support"],
-    },
-  },
+const _jobs: JobConfiguration[] = [
+  // { name: "TestJob", priority: 1, schedule: "* * * * *" },
 ];
 
 const _scheduledJobs: Record<string, ScheduledTask> = {};
 
 export default (queues: Record<number, Queue>) => {
-  _jobs.forEach((jobDescription) => {
-    if (!cron.validate(jobDescription.schedule)) {
-      throw new Error(`[job:${jobDescription.name}] Invalid schedule`);
+  _jobs.forEach((jobConfig) => {
+    if (!cron.validate(jobConfig.schedule)) {
+      throw new Error(`[job:${jobConfig.name}] Invalid schedule`);
     }
 
-    const job = factory(jobDescription.name, jobDescription.params);
+    const job = factory(jobConfig.name, jobConfig.params);
 
-    _scheduledJobs[jobDescription.name] = cron.schedule(
-      jobDescription.schedule,
-      () => {
-        if (!queues[job.priority]) {
-          throw new Error(`Queue with priority ${job.priority} not found.`);
-        }
-
-        queues[job.priority].push(job);
+    _scheduledJobs[jobConfig.name] = cron.schedule(jobConfig.schedule, () => {
+      if (!queues[jobConfig.priority]) {
+        throw new Error(`Queue with priority ${jobConfig.priority} not found.`);
       }
-    );
+
+      queues[jobConfig.priority].push(job);
+    });
   });
 };
 
@@ -47,3 +35,10 @@ export function stop(jobName: string) {
   _scheduledJobs[jobName].stop();
   delete _scheduledJobs[jobName];
 }
+
+type JobConfiguration = {
+  name: string;
+  schedule: string;
+  priority: number;
+  params: object;
+};
