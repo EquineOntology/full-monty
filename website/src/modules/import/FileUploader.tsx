@@ -5,11 +5,12 @@ import {
   useMantineTheme,
   MantineTheme,
 } from "@mantine/core";
+import { useNotifications } from "@mantine/notifications";
 import { Dropzone, MIME_TYPES, DropzoneStatus } from "@mantine/dropzone";
 import {
-  FilePlusIcon,
-  UploadIcon,
+  CheckCircledIcon,
   CrossCircledIcon,
+  FilePlusIcon,
 } from "@modulz/radix-icons";
 import { IconProps } from "@modulz/radix-icons/dist/types";
 
@@ -19,7 +20,7 @@ type FileUploadIconProps = {
 
 function FileUploadIcon(props: FileUploadIconProps) {
   if (props.status.accepted) {
-    return <UploadIcon {...props} />;
+    return <CheckCircledIcon {...props} />;
   }
 
   if (props.status.rejected) {
@@ -41,20 +42,49 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
 
 function FileUploader() {
   const theme = useMantineTheme();
+  const notifications = useNotifications();
 
   function handleUpload(files: File[]) {
     const formData = new FormData();
     formData.append("file", files[0]);
+
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/import/marvin`, {
       method: "POST",
       body: formData,
     })
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
       .then((response) => response.json())
       .then((result) => {
-        console.info(result);
+        notifications.showNotification({
+          title: "Oh no!",
+          icon: <CrossCircledIcon />,
+          color: "red",
+          message:
+            "There was an error uploading your file for processing - please try again in a few minutes",
+        });
+        notifications.showNotification({
+          title: "Processing in progress",
+          icon: <CheckCircledIcon />,
+          color: "green",
+          message: "Your file was  uploaded and it will be processed shortly",
+          autoClose: 10000,
+        });
       })
       .catch((error) => {
-        console.error("Error:", error);
+        notifications.showNotification({
+          title: "Oh no!",
+          icon: <CrossCircledIcon />,
+          color: "red",
+          message:
+            "There was an error uploading your file for processing - please try again in a few minutes",
+          autoClose: 10000,
+        });
+        console.error(error);
       });
   }
 

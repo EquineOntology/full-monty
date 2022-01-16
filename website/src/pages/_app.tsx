@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 import type { AppProps } from "next/app";
 
 function FullMonty({ Component, pageProps }: AppProps) {
@@ -11,7 +12,9 @@ function FullMonty({ Component, pageProps }: AppProps) {
         colorScheme: "light",
       }}
     >
+      <NotificationsProvider>
         <Component {...pageProps} />
+      </NotificationsProvider>
     </MantineProvider>
   );
 }
