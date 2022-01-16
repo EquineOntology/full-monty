@@ -1,18 +1,26 @@
 import { Router } from "express";
 import multer from "multer";
+import { index } from "../modules/queues/JobController";
 import MigrateMarvinCsvToMongo from "../modules/queues/jobs/MigrateMarvinCsvToMongo";
 
 export default (app: Router) => {
   const router = Router();
 
-  app.use("/import/marvin", router);
+  app.use("/import", router);
 
-  router.get("", (req, res) => {
-    
+  router.get("", async (req, res) => {
+    let jobs;
+    try {
+      jobs = await index();
+    } catch (error: any) {
+      return res.json({ status: "error", message: error.message }).status(500);
+    }
+
+    return res.json({ status: "success", data: jobs }).status(200);
   });
 
   const upload = multer({ storage: configureMulterStorage() });
-  router.post("", upload.single("file"), (req, res) => {
+  router.post("/marvin", upload.single("file"), async (req, res) => {
     if (!req.file) {
       return res
         .json({ status: "fail", message: "No file provided" })
@@ -26,7 +34,14 @@ export default (app: Router) => {
     });
 
     job.priority = 1;
-    job.store();
+
+    try {
+      await job.store();
+    } catch (error: any) {
+      return res
+        .json({ status: "error", message: error.message })
+        .status(500);
+    }
 
     return res
       .json({ status: "success", message: "File received" })
