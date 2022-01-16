@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
-import Footer from "src/common/components/elements/layout/Footer";
+import Footer from "@/common/components/layout/Footer";
 import Link from "next/link";
 import Head from "next/head";
 
