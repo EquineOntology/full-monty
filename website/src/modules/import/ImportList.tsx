@@ -1,0 +1,132 @@
+import useSWR from "swr";
+import { Alert, Text, Timeline, Title } from "@mantine/core";
+import {
+  CircleIcon,
+  CheckIcon,
+  Cross2Icon,
+  ReloadIcon,
+} from "@modulz/radix-icons";
+import TimelineSkeleton from "@/common/components/TimelineSkeleton";
+
+const fetcher = (url: string) =>
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => res.data);
+
+function getBulletColor(status: JobStatus): StatusColor {
+  switch (status) {
+    case "pending":
+      return "yellow";
+    case "started":
+      return "blue";
+    case "failed":
+      return "red";
+    case "completed":
+      return "green";
+  }
+}
+
+function getBulletIcon(status: JobStatus) {
+  switch (status) {
+    case "pending":
+      return <CircleIcon />;
+    case "started":
+      return <ReloadIcon />;
+    case "failed":
+      return <Cross2Icon />;
+    case "completed":
+      return <CheckIcon />;
+  }
+}
+
+function getHumanReadableDate(input: string) {
+  const date = new Date(input);
+  return date.toLocaleString();
+}
+
+function ImportList() {
+  const { data, error } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/import`,
+    fetcher
+  );
+  const title = <Title order={3}>Recent tasks</Title>;
+
+  if (error) {
+    return (
+      <div>
+        {title}
+        <Alert title="Boo :(" color="red" mt={10}>
+          There was an error loading your data. Please try again in a couple of
+          minutes
+        </Alert>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div>
+        {title}
+        <TimelineSkeleton style={{ marginTop: "1rem" }} />
+      </div>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div>
+        {title}
+        <Alert title="Nothing here!" color="yellow" mt={10}>
+          Bummer, no files have been imported yet - you can do so below!
+        </Alert>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {title}
+      <Timeline
+        active={20}
+        bulletSize={24}
+        lineWidth={2}
+        style={{ marginTop: "1rem" }}
+      >
+        {data.map((job: JobDescription, index: number) => (
+          <Timeline.Item
+            key={index}
+            active={true}
+            bullet={getBulletIcon(job.status)}
+            title={job.name}
+            color={getBulletColor(job.status)}
+          >
+            <Text color="dimmed" size="sm">
+              Imported task data
+            </Text>
+            <Text size="xs" style={{ marginTop: 4 }}>
+              {job.status === "completed" && job.completedAt !== null && (
+                <div>Completed on {getHumanReadableDate(job.completedAt)}</div>
+              )}
+              {job.status === "pending" && (
+                <div>Added on {getHumanReadableDate(job.addedAt)}</div>
+              )}
+            </Text>
+          </Timeline.Item>
+        ))}
+      </Timeline>
+    </>
+  );
+}
+
+export default ImportList;
+
+type JobDescription = {
+  name: string;
+  status: JobStatus;
+  addedAt: string;
+  completedAt: string | null;
+};
+
+type JobStatus = "pending" | "started" | "failed" | "completed";
+
+type StatusColor = "yellow" | "blue" | "red" | "green";
