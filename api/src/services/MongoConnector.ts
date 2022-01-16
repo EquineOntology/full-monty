@@ -19,8 +19,10 @@ export default async () => {
 
 export async function get(
   collectionName: string,
-  filter: object,
-  sort: Sort
+  filter: object = {},
+  sort?: Sort,
+  limit?: number,
+  fieldFilter?: { [key: string]: boolean }
 ): Promise<Document[]> {
   let collection = null;
   try {
@@ -29,7 +31,13 @@ export async function get(
     return [];
   }
 
-  return await collection.find(filter, { sort: sort }).toArray();
+  const options = {
+    sort: sort,
+    limit: limit,
+    projection: fieldFilter,
+  };
+
+  return await collection.find(filter, options).toArray();
 }
 
 export async function insertJob(input: Job) {
