@@ -1,4 +1,10 @@
-import { Group, Text, useMantineTheme, MantineTheme } from "@mantine/core";
+import {
+  Group,
+  Text,
+  Title,
+  useMantineTheme,
+  MantineTheme,
+} from "@mantine/core";
 import { Dropzone, MIME_TYPES, DropzoneStatus } from "@mantine/dropzone";
 import {
   FilePlusIcon,
@@ -53,33 +59,37 @@ function FileUploader() {
   }
 
   return (
-    <Dropzone
-      onDrop={handleUpload}
-      maxSize={3 * 1024 ** 2}
-      accept={[MIME_TYPES.csv]}
-    >
-      {(status) => (
-        <Group
-          position="center"
-          spacing="xl"
-          style={{ minHeight: 220, pointerEvents: "none" }}
-        >
-          <FileUploadIcon
-            status={status}
-            style={{
-              width: 80,
-              height: 80,
-              color: getIconColor(status, theme),
-            }}
-          />
-          <div>
-            <Text size="xl" inline>
-              Drag a CSV exported from Amazing Marvin here
-            </Text>
-          </div>
-        </Group>
-      )}
-    </Dropzone>
+    <div style={{ marginTop: "2rem" }}>
+      <Title order={3}>Upload a new file</Title>
+      <Dropzone
+        onDrop={handleUpload}
+        maxSize={3 * 1024 ** 2}
+        accept={[MIME_TYPES.csv]}
+        style={{ marginTop: "1rem" }}
+      >
+        {(status) => (
+          <Group
+            position="center"
+            spacing="xl"
+            style={{ minHeight: 220, pointerEvents: "none" }}
+          >
+            <FileUploadIcon
+              status={status}
+              style={{
+                width: 80,
+                height: 80,
+                color: getIconColor(status, theme),
+              }}
+            />
+            <div>
+              <Text size="xl" inline>
+                Drag a CSV exported from Amazing Marvin here
+              </Text>
+            </div>
+          </Group>
+        )}
+      </Dropzone>
+    </div>
   );
 }
 
