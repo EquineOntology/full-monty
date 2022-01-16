@@ -1,5 +1,6 @@
-import { Db as MongoDb, MongoClient } from "mongodb";
-import Model from "../models/Model";
+import { Db as MongoDb, Document, MongoClient, Sort } from "mongodb";
+import Job from "../modules/queues/jobs/Job";
+import Model from "../common/Model";
 
 export let Db: MongoDb;
 export let Client: MongoClient;
@@ -16,16 +17,52 @@ export default async () => {
   return Db;
 };
 
-export async function save(input: Model) {
-  const collection = await getCollection(input.collection);
+export async function get(
+  collectionName: string,
+  filter: object = {},
+  sort?: Sort,
+  limit?: number,
+  fieldFilter?: { [key: string]: boolean }
+): Promise<Document[]> {
+  let collection = null;
+  try {
+    collection = await getCollection(collectionName);
+  } catch (error) {
+    return [];
+  }
 
-  const modelAttributes = { ...input.attributes };
+  const options = {
+    sort: sort,
+    limit: limit,
+    projection: fieldFilter,
+  };
 
-  const query = { _id: modelAttributes.id };
-  delete modelAttributes.id;
-  const update = { $set: modelAttributes };
+  return await collection.find(filter, options).toArray();
+}
 
-  await collection.updateOne(query, update, { upsert: true });
+export async function insertJob(input: Job) {
+  await insert(input.collection, input.dump());
+}
+
+export async function updateOrInsertModel(input: Model) {
+  await update(input.collection, input.attributes, true);
+}
+
+export async function insert(collectionName: string, input: object) {
+  const collection = await getCollection(collectionName);
+
+  await collection.insertOne(input);
+}
+
+export async function update(
+  collectionName: string,
+  input: Document,
+  upsert: boolean = true
+) {
+  const collection = await getCollection(collectionName);
+  const query = { taskId: input.taskId };
+  const update = { $set: input };
+  return await collection.updateOne(query, update, { upsert });
 }
 
 async function getCollection(name: string) {

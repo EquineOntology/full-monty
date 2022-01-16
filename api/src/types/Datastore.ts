@@ -1,4 +1,4 @@
-import Model from "../models/Model";
+import Model from "../common/Model";
 
 type Datastore = {
   save: (input: Model) => Promise<void>;
