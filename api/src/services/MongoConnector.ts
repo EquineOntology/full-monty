@@ -17,12 +17,15 @@ export default async () => {
   return Db;
 };
 
+type MongoGetOptions = {
+  sort?: Sort;
+  limit?: number;
+  fieldFilter?: Record<string, boolean>;
+};
 export async function get(
   collectionName: string,
   filter: object = {},
-  sort?: Sort,
-  limit?: number,
-  fieldFilter?: { [key: string]: boolean }
+  options?: MongoGetOptions
 ): Promise<Document[]> {
   let collection = null;
   try {
@@ -31,13 +34,13 @@ export async function get(
     return [];
   }
 
-  const options = {
-    sort: sort,
-    limit: limit,
-    projection: fieldFilter,
+  const findOptions = {
+    sort: options?.sort,
+    limit: options?.limit,
+    projection: options?.fieldFilter,
   };
 
-  return await collection.find(filter, options).toArray();
+  return await collection.find(filter, findOptions).toArray();
 }
 
 export async function insertJob(input: Job) {

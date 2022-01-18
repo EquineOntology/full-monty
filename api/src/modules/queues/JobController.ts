@@ -1,4 +1,4 @@
-import { get } from "../../services/MongoConnector";
+import { get as getFromDb } from "../../services/MongoConnector";
 import { JobStatus } from "../../types/JobInterface";
 
 export async function index() {
@@ -10,7 +10,11 @@ export async function index() {
     "attributes.addedAt": true,
     "attributes.completedAt": true,
   };
-  const list = await get("jobs", {}, sort, resultLimit, desiredFields);
+  const list = await getFromDb("jobs", undefined, {
+    sort: sort,
+    limit: resultLimit,
+    fieldFilter: desiredFields,
+  });
 
   const jobs: JobDataForClient[] = [];
   list.forEach((job) => {
