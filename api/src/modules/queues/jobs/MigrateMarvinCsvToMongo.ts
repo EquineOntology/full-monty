@@ -78,7 +78,7 @@ export default class MigrateMarvinCsvToMongo extends Job {
     super.onEnd();
   }
 
-  async #processTask(input: any) {
+  async #processTask(input: Record<string, any>) {
     const isNotDone = input.DONE !== "Y";
     const hasNoEstimate = !input.TIME_ESTIMATE || input.TIME_ESTIMATE === "0";
     if (isNotDone || hasNoEstimate) return;
@@ -99,8 +99,8 @@ export default class MigrateMarvinCsvToMongo extends Job {
       input.TITLE,
       input.DONE,
       input.PATH,
-      duration,
-      input.TIME_ESTIMATE
+      Math.round(parseInt(duration) / 1000),
+      Math.round(parseInt(input.TIME_ESTIMATE) / 1000)
     );
 
     try {
