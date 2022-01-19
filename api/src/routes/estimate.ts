@@ -20,14 +20,14 @@ export default (app: Router) => {
     let result;
     try {
       result = await estimator.analyze(
-        req.body.estimate,
+        parseInt(req.body.estimate),
         req.body.project ?? null,
         req.body.category ?? null
       );
     } catch (error: any) {
       if (error.name === "InsufficientDataError") {
         const responseData = ApiResponseFactory.fail({
-          estimate: null,
+          analysis: null,
           message: "An estimate could not be calculated due to lack of data",
         });
         return res.json(responseData).status(200);
@@ -36,8 +36,6 @@ export default (app: Router) => {
       return res.json(ApiResponseFactory.fail(error.message)).status(500);
     }
 
-    return res
-      .json(ApiResponseFactory.success({ estimate: result }))
-      .status(200);
+    return res.json(ApiResponseFactory.success(result)).status(200);
   });
 };

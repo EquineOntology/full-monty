@@ -14,11 +14,9 @@ export default class MonteCarloEstimateAnalyzer {
 
     const { successes, deltas } = this.#simulate(estimateInSeconds, durations);
 
-    // Probability estimate is equal or higher than what is "normally" necessary (CF 19.01.22).
-    const successRate = successes / this.#TOTAL_RUNS;
-
     return {
-      successRate,
+      originalEstimate: initialEstimate,
+      successRate: this.#computeSuccessRate(successes),
       meanDelta: this.#computeMeanDelta(deltas),
       medianDelta: this.#computeMedianDelta(deltas),
     };
@@ -44,6 +42,12 @@ export default class MonteCarloEstimateAnalyzer {
     const medianInMinutes = medianDelta / 60;
 
     return Math.round(medianInMinutes);
+  }
+
+  #computeSuccessRate(successes: number) {
+    // Probability estimate is equal or higher than what is "normally" necessary (CF 19.01.22).
+    const successRate = (successes / this.#TOTAL_RUNS).toFixed(2);
+    return parseFloat(successRate);
   }
 
   async #retrieveTaskDurations(
