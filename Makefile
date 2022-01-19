@@ -50,7 +50,7 @@ deploy:
 
 ## Tail logs of all full-monty containers
 logs:
-	@docker compose logs -f
+	@docker compose logs --tail=100 -f
 
 ## Start all full-monty containers in dev mode, but attached to the shell
 start-attached:
