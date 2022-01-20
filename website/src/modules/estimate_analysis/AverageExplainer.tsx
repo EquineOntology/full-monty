@@ -10,8 +10,8 @@ export default function AverageExplainer({ estimate, averageDelta }: Props) {
   const absoluteAverage = Math.abs(averageDelta);
   return (
     <Text mt="lg">
-      When you estimate tasks taking {estimate} {pluralize("minute", estimate)},
-      the actual time they take is on average{" "}
+      When you estimate a task will take {estimate}{" "}
+      {pluralize("minute", estimate)}, its actual duration is on average{" "}
       <b>
         {absoluteAverage} {pluralize("minute", absoluteAverage)}{" "}
         {averageDelta > 0 ? "more" : "less"}
