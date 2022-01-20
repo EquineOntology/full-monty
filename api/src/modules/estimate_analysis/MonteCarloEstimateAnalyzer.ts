@@ -18,7 +18,9 @@ export default class MonteCarloEstimateAnalyzer {
     const successRate = parseFloat((successes / this.#TOTAL_RUNS).toFixed(2));
     const averageDeltaInMinutes = Math.round(average(deltas) / 60);
     const medianDeltaInMinutes = Math.round(median(deltas) / 60);
-    const standardDeviation = Math.sqrt(variance(durations));
+    const standardDeviationInMinutes = Math.round(
+      Math.sqrt(variance(durations)) / 60
+    );
 
     return {
       estimate: estimate,
@@ -26,7 +28,7 @@ export default class MonteCarloEstimateAnalyzer {
       successRate: successRate,
       averageDelta: averageDeltaInMinutes,
       medianDelta: medianDeltaInMinutes,
-      standardDeviation: standardDeviation,
+      standardDeviation: standardDeviationInMinutes,
     };
   }
 
