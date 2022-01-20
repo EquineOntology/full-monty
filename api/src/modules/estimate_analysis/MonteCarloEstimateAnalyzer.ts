@@ -22,10 +22,11 @@ export default class MonteCarloEstimateAnalyzer {
 
     return {
       estimate: estimate,
+      sampleSize: durations.length,
+      successRate: successRate,
       averageDelta: averageDeltaInMinutes,
       medianDelta: medianDeltaInMinutes,
       standardDeviation: standardDeviation,
-      successRate: successRate,
     };
   }
 
