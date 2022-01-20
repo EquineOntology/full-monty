@@ -32,7 +32,7 @@ export default (app: Router) => {
         return res.json(responseData).status(200);
       }
 
-      return res.json(ApiResponseFactory.fail(error.message)).status(500);
+      return res.json(ApiResponseFactory.error(error.message)).status(500);
     }
 
     return res.json(ApiResponseFactory.success(result)).status(200);
