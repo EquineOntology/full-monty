@@ -1,11 +1,12 @@
 import { get as getFromDb } from "../../services/MongoConnector";
 import InsufficientDataError from "../arch/api/InsufficientDataError";
+import { average, median, variance } from "./Statistics";
 
 export default class MonteCarloEstimateAnalyzer {
   #TOTAL_RUNS: number = 1_000_000;
 
-  async analyze(initialEstimate: number, project?: string, category?: string) {
-    const estimateInSeconds = initialEstimate * 60;
+  async analyze(estimate: number, project?: string, category?: string) {
+    const estimateInSeconds = estimate * 60;
     const durations = await this.#retrieveTaskDurations(
       estimateInSeconds,
       project,
@@ -14,40 +15,18 @@ export default class MonteCarloEstimateAnalyzer {
 
     const { successes, deltas } = this.#simulate(estimateInSeconds, durations);
 
+    const successRate = parseFloat((successes / this.#TOTAL_RUNS).toFixed(2));
+    const averageDeltaInMinutes = Math.round(average(deltas) / 60);
+    const medianDeltaInMinutes = Math.round(median(deltas) / 60);
+    const standardDeviation = Math.sqrt(variance(durations));
+
     return {
-      originalEstimate: initialEstimate,
-      successRate: this.#computeSuccessRate(successes),
-      meanDelta: this.#computeMeanDelta(deltas),
-      medianDelta: this.#computeMedianDelta(deltas),
+      estimate: estimate,
+      averageDelta: averageDeltaInMinutes,
+      medianDelta: medianDeltaInMinutes,
+      standardDeviation: standardDeviation,
+      successRate: successRate,
     };
-  }
-
-  #computeMeanDelta(deltas: number[]) {
-    const sum = (total: number, current: number) => total + current;
-    const meanDelta = deltas.reduce(sum, 0) / deltas.length;
-
-    const meanInMinutes = meanDelta / 60;
-    return Math.round(meanInMinutes);
-  }
-
-  #computeMedianDelta(unsortedDeltas: number[]) {
-    const deltas = [...unsortedDeltas].sort();
-    var halfwayDelta = Math.floor(deltas.length / 2);
-
-    const evenAmountOfDeltas = deltas.length % 2 === 0;
-    const medianDelta = evenAmountOfDeltas
-      ? (deltas[halfwayDelta - 1] + deltas[halfwayDelta]) / 2
-      : deltas[halfwayDelta];
-
-    const medianInMinutes = medianDelta / 60;
-
-    return Math.round(medianInMinutes);
-  }
-
-  #computeSuccessRate(successes: number) {
-    // Probability estimate is equal or higher than what is "normally" necessary (CF 19.01.22).
-    const successRate = (successes / this.#TOTAL_RUNS).toFixed(2);
-    return parseFloat(successRate);
   }
 
   async #retrieveTaskDurations(
