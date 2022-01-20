@@ -1,9 +1,8 @@
 import { Box, Text } from "@mantine/core";
 import SampleSize from "./SampleSize";
 import SuccessRate from "./SuccessRate";
-import AverageExplainer from "./AverageExplainer";
+import AverageAndMedianExplainer from "./AverageAndMedianExplainer";
 import StandardDeviationExplainer from "./StandardDeviationExplainer";
-import MedianExplainer from "./MedianExplainer";
 
 type Props =
   | {
@@ -53,8 +52,11 @@ function AnalysisResult({ data }: Props) {
     <Box mt="3rem">
       <hr />
       <SuccessRate rate={successRate} />
-      <AverageExplainer estimate={estimate} averageDelta={averageDelta} />
-      <MedianExplainer medianDelta={medianDelta} />
+      <AverageAndMedianExplainer
+        estimate={estimate}
+        averageDelta={averageDelta}
+        medianDelta={medianDelta}
+      />
       <StandardDeviationExplainer
         estimate={estimate}
         averageDelta={averageDelta}
