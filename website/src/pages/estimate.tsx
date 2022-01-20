@@ -1,13 +1,21 @@
+import React from "react";
 import type { NextPage } from "next";
 import { Container } from "@mantine/core";
 import AppPage from "@/common/components/layout/AppPage";
-import EstimateRequestForm from "@/modules/estimate/EstimateRequestForm";
+import AnalysisRequestForm from "@/modules/estimate_analysis/AnalysisRequestForm";
+import AnalysisResult from "@/modules/estimate_analysis/AnalysisResult";
+import { AnalysisApiResponse } from "@/modules/estimate_analysis/types";
 
+type AnalysisHook = [AnalysisApiResponse | undefined, Function];
 const Estimate: NextPage = () => {
+  const [analysisResult, setAnalysisResult]: AnalysisHook =
+    React.useState(undefined);
+
   return (
     <AppPage pageTitle="Estimate">
       <Container>
-        <EstimateRequestForm />
+        <AnalysisRequestForm setAnalysisResult={setAnalysisResult} />
+        <AnalysisResult data={analysisResult} />
       </Container>
     </AppPage>
   );

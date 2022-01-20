@@ -1,9 +1,12 @@
 import { Button, NumberInput, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { useNotifications } from "@mantine/notifications";
-import { CheckCircledIcon, CrossCircledIcon } from "@modulz/radix-icons";
+import { CrossCircledIcon } from "@modulz/radix-icons";
 
-function EstimateRequestForm() {
+type Props = {
+  setAnalysisResult: Function;
+};
+function AnalysisRequestForm({ setAnalysisResult }: Props) {
   const notifications = useNotifications();
   const form = useForm({
     initialValues: {
@@ -38,14 +41,7 @@ function EstimateRequestForm() {
       })
       .then((response) => response.json())
       .then((result) => {
-        const estimate = result.data.estimate;
-        notifications.showNotification({
-          title: "Processing in progress",
-          icon: <CheckCircledIcon />,
-          color: "green",
-          message: `The time estimated time for the task is ${estimate} minutes`,
-          autoClose: 10000,
-        });
+        setAnalysisResult(result.data);
       })
       .catch((error) => {
         notifications.showNotification({
@@ -91,4 +87,4 @@ function EstimateRequestForm() {
   );
 }
 
-export default EstimateRequestForm;
+export default AnalysisRequestForm;
