@@ -27,7 +27,6 @@ export default (app: Router) => {
     } catch (error: any) {
       if (error.name === "InsufficientDataError") {
         const responseData = ApiResponseFactory.fail({
-          analysis: null,
           message: "An estimate could not be calculated due to lack of data",
         });
         return res.json(responseData).status(200);
