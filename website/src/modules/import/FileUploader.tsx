@@ -61,13 +61,6 @@ function FileUploader() {
       .then((response) => response.json())
       .then((result) => {
         notifications.showNotification({
-          title: "Oh no!",
-          icon: <CrossCircledIcon />,
-          color: "red",
-          message:
-            "There was an error uploading your file for processing - please try again in a few minutes",
-        });
-        notifications.showNotification({
           title: "Processing in progress",
           icon: <CheckCircledIcon />,
           color: "green",

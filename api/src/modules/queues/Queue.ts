@@ -49,7 +49,7 @@ export default class Queue {
     };
 
     const sort = ["addedAt", "asc"];
-    const results = await getFromDb("jobs", filter, sort);
+    const results = await getFromDb("jobs", filter, { sort: sort });
 
     const jobs = [];
     results.forEach((jobData) => {
