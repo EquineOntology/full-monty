@@ -3,26 +3,48 @@ import pluralize from "../utils/NaivePluralizer";
 
 type Props = {
   estimate: number;
-  averageDelta: number;
+  meanDuration: number;
   standardDeviation: number;
 };
 
+function shouldWorryAboutStandardDeviation(standardDeviation: number) {
+  return standardDeviation > 0.7;
+}
+
 export default function StandardDeviationExplainer({
   estimate,
-  averageDelta,
+  meanDuration,
   standardDeviation,
 }: Props) {
-  const averageDuration = estimate + averageDelta;
-  const lowerBound = Math.max(averageDuration - standardDeviation, 1);
-  const upperBound = averageDuration + standardDeviation;
+  // Technically speaking, the SD should be applied to the average; when
+  // using the _entire_ population, however, the mean and average will
+  // be the same; so we just use the mean our API already returns
+  // instead of adding more work for the average (CF 22.01.22).
+  const lowerBound = Math.round(Math.max(meanDuration - standardDeviation, 1));
+  const upperBound = Math.round(meanDuration + standardDeviation);
+
+  const deviationInPercentage = Math.round(
+    (standardDeviation / estimate) * 100
+  );
+  const worryAboutDeviation =
+    shouldWorryAboutStandardDeviation(standardDeviation);
+  const renderedDeviation = worryAboutDeviation ? (
+    <u>{deviationInPercentage}%</u>
+  ) : (
+    `${deviationInPercentage}%`
+  );
+
   return (
     <Text mt="lg">
       The standard deviation is ±{standardDeviation}{" "}
-      {pluralize("minute", standardDeviation)}, meaning that ~70% of tasks
-      estimated to take {estimate} {pluralize("minute", estimate)} take{" "}
+      {pluralize("minute", standardDeviation)} ({renderedDeviation} of the
+      estimate), meaning that ~70% of tasks estimated to take {estimate}{" "}
+      {pluralize("minute", estimate)} can take{" "}
       <b>
-        between {lowerBound} and {upperBound} {pluralize("minute", upperBound)}
+        anywhere between {lowerBound} and {upperBound}{" "}
+        {pluralize("minute", upperBound)}
       </b>
+      .
     </Text>
   );
 }

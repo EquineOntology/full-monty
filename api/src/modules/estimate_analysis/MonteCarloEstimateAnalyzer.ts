@@ -1,6 +1,6 @@
 import { get as getFromDb } from "../../services/MongoConnector";
 import InsufficientDataError from "../arch/api/InsufficientDataError";
-import { average, median, variance } from "./Statistics";
+import { median, variance, mean } from "./Statistics";
 
 export default class MonteCarloEstimateAnalyzer {
   #TOTAL_RUNS: number = 1_000_000;
@@ -13,23 +13,39 @@ export default class MonteCarloEstimateAnalyzer {
       category
     );
 
-    const { successes, deltas } = this.#simulate(estimateInSeconds, durations);
+    const deltas = this.#computeDeltas(estimateInSeconds, durations);
 
-    const successRate = parseFloat((successes / this.#TOTAL_RUNS).toFixed(2));
-    const averageDeltaInMinutes = Math.round(average(deltas) / 60);
+    const successes = this.#simulate(estimateInSeconds, durations);
+    const successRate = successes / this.#TOTAL_RUNS;
+    const meanDurationInMinutes = mean(durations) / 60;
+    const meanDeltaInMinutes = Math.round(mean(deltas) / 60);
+    const medianDurationInMinutes = Math.round(median(durations) / 60);
     const medianDeltaInMinutes = Math.round(median(deltas) / 60);
-    const standardDeviationInMinutes = Math.round(
+    // Sigma = Standard Deviation (CF 22.01.22).
+    const sigmaDurationInMinutes = Math.round(
       Math.sqrt(variance(durations)) / 60
     );
 
     return {
       estimate: estimate,
       sampleSize: durations.length,
-      successRate: successRate,
-      averageDelta: averageDeltaInMinutes,
+      successRate: parseFloat(successRate.toFixed(2)),
+      meanDuration: parseFloat(meanDurationInMinutes.toFixed(2)),
+      meanDelta: parseFloat(meanDeltaInMinutes.toFixed(2)),
+      medianDuration: medianDurationInMinutes,
       medianDelta: medianDeltaInMinutes,
-      standardDeviation: standardDeviationInMinutes,
+      sigmaDuration: sigmaDurationInMinutes,
     };
+  }
+
+  #computeDeltas(estimate: number, durations: number[]) {
+    const deltas: number[] = [];
+    for (let i = 0; i < durations.length; i++) {
+      const pick = durations[i];
+      deltas.push(pick - estimate);
+    }
+
+    return deltas;
   }
 
   async #retrieveTaskDurations(
@@ -62,19 +78,14 @@ export default class MonteCarloEstimateAnalyzer {
 
   #simulate(estimate: number, durations: number[]) {
     let timesEstimateWasHigherThanDuration = 0;
-    const deltas: number[] = [];
     for (let i = 0; i < this.#TOTAL_RUNS; i++) {
       const pickIndex = Math.floor(Math.random() * durations.length);
       const actualTime = durations[pickIndex];
-      deltas[i] = actualTime - estimate;
       if (actualTime <= estimate) {
         timesEstimateWasHigherThanDuration += 1;
       }
     }
 
-    return {
-      successes: timesEstimateWasHigherThanDuration,
-      deltas: deltas,
-    };
+    return timesEstimateWasHigherThanDuration;
   }
 }

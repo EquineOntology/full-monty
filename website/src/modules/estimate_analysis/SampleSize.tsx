@@ -12,8 +12,8 @@ export default function SampleSize({ size }: { size: number }) {
 
   return (
     <Text size="sm" color="dimmed" mt="xl">
-      The amount of tasks that could be used for the analysis was {size}.
-      That&apos;s {judgementOnSize}
+      {size} tasks could were used for the analysis. That&apos;s{" "}
+      {judgementOnSize}.
     </Text>
   );
 }

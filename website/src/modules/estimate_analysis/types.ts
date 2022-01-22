@@ -2,8 +2,10 @@ export type AnalysisApiResponse = {
   estimate: number;
   sampleSize: number;
   successRate: number;
-  averageDelta: number;
+  meanDuration: number;
+  meanDelta: number;
+  medianDuration: number;
   medianDelta: number;
-  standardDeviation: number;
+  sigmaDuration: number;
   message?: string;
 };

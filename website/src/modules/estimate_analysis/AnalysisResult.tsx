@@ -18,9 +18,11 @@ type Props =
         estimate: number;
         sampleSize: number;
         successRate: number;
-        averageDelta: number;
+        meanDuration: number;
+        meanDelta: number;
+        medianDuration: number;
         medianDelta: number;
-        standardDeviation: number;
+        sigmaDuration: number;
         message: undefined;
       };
     };
@@ -43,9 +45,10 @@ function AnalysisResult({ data }: Props) {
     estimate,
     successRate,
     sampleSize,
-    averageDelta,
-    medianDelta,
-    standardDeviation,
+    meanDuration,
+    meanDelta,
+    medianDuration,
+    sigmaDuration,
   } = data;
 
   return (
@@ -54,13 +57,14 @@ function AnalysisResult({ data }: Props) {
       <SuccessRate rate={successRate} />
       <AverageAndMedianExplainer
         estimate={estimate}
-        averageDelta={averageDelta}
-        medianDelta={medianDelta}
+        meanDuration={meanDuration}
+        meanDelta={meanDelta}
+        medianDuration={medianDuration}
       />
       <StandardDeviationExplainer
         estimate={estimate}
-        averageDelta={averageDelta}
-        standardDeviation={standardDeviation}
+        meanDuration={meanDuration}
+        standardDeviation={sigmaDuration}
       />
       <SampleSize size={sampleSize} />
     </Box>

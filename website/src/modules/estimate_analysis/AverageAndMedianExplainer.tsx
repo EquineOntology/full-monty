@@ -3,25 +3,30 @@ import pluralize from "../utils/NaivePluralizer";
 
 type Props = {
   estimate: number;
-  averageDelta: number;
-  medianDelta: number;
+  meanDuration: number;
+  meanDelta: number;
+  medianDuration: number;
 };
 
 export default function AverageAndMedianExplainer({
   estimate,
-  averageDelta,
-  medianDelta,
+  meanDuration,
+  meanDelta,
+  medianDuration,
 }: Props) {
-  const absoluteAverage = Math.abs(averageDelta);
+  const absoluteAverage = Math.abs(meanDelta);
   return (
     <Text mt="lg">
-      When you estimate a task will take {estimate}{" "}
-      {pluralize("minute", estimate)}, its actual duration is on average{" "}
+      The mean duration (i.e. weighted average) of a task estimated at{" "}
+      {estimate} {pluralize("minute", estimate)} is{" "}
       <b>
-        {absoluteAverage} {pluralize("minute", absoluteAverage)}{" "}
-        {averageDelta > 0 ? "more" : "less"}
+        {Math.round(meanDuration)} {pluralize("minute", absoluteAverage)}
       </b>
-      . The median is {medianDelta} {pluralize("minute", medianDelta)}
+      .<br />
+      The median is {medianDuration} {pluralize("minute", medianDuration)},
+      meaning that exactly half of the tasks took {medianDuration}{" "}
+      {pluralize("minute", medianDuration)} or less, and the other half took
+      more.
     </Text>
   );
 }
