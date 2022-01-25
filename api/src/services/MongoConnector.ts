@@ -68,6 +68,15 @@ export async function update(
   return await collection.updateOne(query, update, { upsert });
 }
 
+export async function close() {
+  try {
+    await Client.close();
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 async function getCollection(name: string) {
   const collection = Db.collection(name);
 
