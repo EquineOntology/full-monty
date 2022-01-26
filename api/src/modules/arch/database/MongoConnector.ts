@@ -1,6 +1,6 @@
 import { Db as MongoDb, Document, MongoClient, Sort } from "mongodb";
-import Job from "../modules/queues/jobs/Job";
-import Model from "../common/Model";
+import Job from "../queues/Job";
+import Model from "./models/Model";
 
 export let Db: MongoDb;
 export let Client: MongoClient;
@@ -16,6 +16,17 @@ export default async () => {
   Db = Client.db("full-monty");
   return Db;
 };
+
+export async function clear(collectionName: string) {
+  let collection = null;
+  try {
+    collection = await getCollection(collectionName);
+  } catch (error) {
+    return;
+  }
+
+  collection.deleteMany({});
+}
 
 type MongoGetOptions = {
   sort?: Sort;

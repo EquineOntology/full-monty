@@ -1,5 +1,5 @@
-import { get as getFromDb } from "../../services/MongoConnector";
-import { JobStatus } from "../../types/JobInterface";
+import { get as getFromDb } from "../database/MongoConnector";
+import { JobStatus } from "./types";
 
 export async function index() {
   const sort = ["addedAt", "desc"];

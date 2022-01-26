@@ -1,4 +1,4 @@
-import { get as getFromDb } from "../../services/MongoConnector";
+import { get as getFromDb } from "../arch/database/MongoConnector";
 import InsufficientDataError from "../arch/api/InsufficientDataError";
 import { median, variance, mean } from "./Statistics";
 

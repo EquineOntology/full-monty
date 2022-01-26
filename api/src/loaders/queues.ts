@@ -1,4 +1,4 @@
-import Queue from "../modules/queues/Queue";
+import Queue from "../modules/arch/queues/Queue";
 
 export default (): Record<number, Queue> => {
   const queues: Record<number, Queue> = {};

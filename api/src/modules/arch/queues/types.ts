@@ -1,6 +1,6 @@
-import ConsoleLevel from "./ConsoleLevel";
+export type ConsoleLevel = "log" | "info" | "warn" | "error";
 
-export default interface JobInterface {
+export interface JobInterface {
   id: string;
   name: string;
   collection: string;

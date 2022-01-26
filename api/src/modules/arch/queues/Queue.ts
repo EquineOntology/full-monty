@@ -1,7 +1,7 @@
-import Job from "./jobs/Job";
+import Job from "./Job";
 import createJob from "./JobFactory";
-import { JobStatus } from "../../types/JobInterface";
-import { get as getFromDb } from "../../services/MongoConnector";
+import { JobStatus } from "./types";
+import { get as getFromDb } from "../database/MongoConnector";
 
 export default class Queue {
   priority: number;

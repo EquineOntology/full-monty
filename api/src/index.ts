@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import { Server } from "http";
 import loaders from "./loaders";
-import { close as closeDbConnection } from "./services/MongoConnector";
+import { close as closeDbConnection } from "./modules/arch/database/MongoConnector";
 
 async function startServer() {
   dotenv.config();

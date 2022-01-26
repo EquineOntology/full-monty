@@ -1,4 +1,4 @@
-import Datastore from "../types/Datastore";
+import { Datastore } from "../types";
 
 export default class Model {
   attributes: Record<string, any> = {};

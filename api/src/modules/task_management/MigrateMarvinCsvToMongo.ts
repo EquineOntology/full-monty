@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
 import { MongoServerError } from "mongodb";
-import Job from "./Job";
-import MarvinTask from "../../task_manager/MarvinTask";
-import CsvParser from "../../../services/CsvParser";
-import { updateOrInsertModel } from "../../../services/MongoConnector";
+import Job from "../arch/queues/Job";
+import MarvinTask from "../arch/database/models/MarvinTask";
+import CsvParser from "./CsvParser";
+import { updateOrInsertModel } from "../arch/database/MongoConnector";
 
 type Options = {
   file: string;
