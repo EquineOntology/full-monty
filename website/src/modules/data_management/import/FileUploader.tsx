@@ -48,7 +48,7 @@ function FileUploader() {
     const formData = new FormData();
     formData.append("file", files[0]);
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/import/marvin`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/import/marvin`, {
       method: "POST",
       body: formData,
     })
