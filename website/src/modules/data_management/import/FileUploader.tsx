@@ -82,7 +82,7 @@ function FileUploader() {
   }
 
   return (
-    <div style={{ marginTop: "2rem" }}>
+    <>
       <Title order={3}>Upload a new file</Title>
       <Dropzone
         onDrop={handleUpload}
@@ -112,7 +112,7 @@ function FileUploader() {
           </Group>
         )}
       </Dropzone>
-    </div>
+    </>
   );
 }
 

@@ -49,7 +49,11 @@ function ImportList() {
     `${process.env.NEXT_PUBLIC_API_URL}/tasks/import`,
     fetcher
   );
-  const title = <Title order={3}>Recent tasks</Title>;
+  const title = (
+    <Title order={4} mt="3rem">
+      In case you&apos;re curious, here is a list of recent imports:
+    </Title>
+  );
 
   if (error) {
     return (
