@@ -83,7 +83,7 @@ function FileUploader() {
 
   return (
     <>
-      <Title order={3}>Upload a new file</Title>
+      <Title order={3}>1. Upload a new file</Title>
       <Dropzone
         onDrop={handleUpload}
         maxSize={3 * 1024 ** 2}

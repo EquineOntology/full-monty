@@ -7,10 +7,17 @@ import TaskActions from "@/modules/data_management/actions";
 
 const Import: NextPage = () => {
   return (
-    <AppPage pageTitle="Import">
+    <AppPage pageTitle="Import Amazing Marvin data">
       <Container>
         <FileUploader />
         <TaskActions />
+        <hr
+          style={{
+            marginTop: "3rem",
+            marginBottom: "2rem",
+            border: "1px solid #f1f1f1",
+          }}
+        />
         <ImportList />
       </Container>
     </AppPage>
