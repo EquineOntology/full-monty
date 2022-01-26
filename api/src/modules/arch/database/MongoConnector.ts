@@ -17,7 +17,7 @@ export default async () => {
   return Db;
 };
 
-export async function clear(collectionName: string) {
+export async function clearCollection(collectionName: string) {
   let collection = null;
   try {
     collection = await getCollection(collectionName);
@@ -25,7 +25,8 @@ export async function clear(collectionName: string) {
     return;
   }
 
-  collection.deleteMany({});
+  const result = await collection.deleteMany({});
+  return result.acknowledged;
 }
 
 type MongoGetOptions = {

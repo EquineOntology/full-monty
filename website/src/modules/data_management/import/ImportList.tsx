@@ -46,7 +46,7 @@ function getHumanReadableDate(input: string) {
 
 function ImportList() {
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/import`,
+    `${process.env.NEXT_PUBLIC_API_URL}/tasks/import`,
     fetcher
   );
   const title = <Title order={3}>Recent tasks</Title>;
