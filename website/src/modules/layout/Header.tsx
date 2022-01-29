@@ -2,7 +2,6 @@ import Head from "next/head";
 import {
   Burger,
   Header as MantineHeader,
-  Text,
   MediaQuery,
   useMantineTheme,
   Title,
@@ -15,7 +14,7 @@ type HeaderProps = {
   setOpened: Dispatch<SetStateAction<boolean>>;
 };
 
-function Header(props: HeaderProps) {
+export default function Header(props: HeaderProps) {
   const theme = useMantineTheme();
 
   return (
@@ -40,5 +39,3 @@ function Header(props: HeaderProps) {
     </>
   );
 }
-
-export default Header;
