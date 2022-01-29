@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Title } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import {
   CheckIcon,

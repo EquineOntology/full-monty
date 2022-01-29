@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppShell, Navbar, Text } from "@mantine/core";
+import { AppShell, Navbar } from "@mantine/core";
 import Header from "./Header";
 
 type AppPageProps = {
@@ -20,6 +20,7 @@ function AppPage(props: AppPageProps) {
           hidden={!opened}
           width={{ sm: 200, lg: 300 }}
         >
+          <div></div>
         </Navbar>
       }
       header={

@@ -1,8 +1,8 @@
 import { Box, Text } from "@mantine/core";
-import SampleSize from "./SampleSize";
-import SuccessRate from "./SuccessRate";
-import AverageAndMedianExplainer from "./AverageAndMedianExplainer";
-import StandardDeviationExplainer from "./StandardDeviationExplainer";
+import SampleSize from "./explainer/SampleSize";
+import SuccessRate from "./explainer/SuccessRate";
+import AverageAndMedianExplainer from "./explainer/AverageAndMedianExplainer";
+import StandardDeviationExplainer from "./explainer/StandardDeviationExplainer";
 
 type Props =
   | {

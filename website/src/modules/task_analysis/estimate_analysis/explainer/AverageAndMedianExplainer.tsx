@@ -1,5 +1,5 @@
 import { Text } from "@mantine/core";
-import pluralize from "../utils/NaivePluralizer";
+import pluralize from "@/libs/NaivePluralizer";
 
 type Props = {
   estimate: number;

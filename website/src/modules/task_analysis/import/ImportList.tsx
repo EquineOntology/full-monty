@@ -6,7 +6,7 @@ import {
   Cross2Icon,
   ReloadIcon,
 } from "@modulz/radix-icons";
-import TimelineSkeleton from "@/common/components/TimelineSkeleton";
+import TimelineSkeleton from "@/modules/layout/components/TimelineSkeleton";
 
 const fetcher = (url: string) =>
   fetch(url)
