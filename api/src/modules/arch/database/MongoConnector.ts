@@ -66,7 +66,8 @@ export async function updateOrInsertModel(input: Model) {
 export async function insert(collectionName: string, input: object) {
   const collection = await getCollection(collectionName);
 
-  await collection.insertOne(input);
+  const result = await collection.insertOne(input);
+  return result.acknowledged;
 }
 
 export async function update(
