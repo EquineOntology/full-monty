@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import { index } from "../modules/arch/queues/JobController";
+import { index as getJobList } from "../modules/arch/queues/JobController";
 import { clear as clearTasks } from "../modules/task_management/TaskManager";
 import MigrateMarvinCsvToMongo from "../modules/task_management/MigrateMarvinCsvToMongo";
 import ApiResponseFactory from "../modules/arch/api/ApiResponseFactory";
@@ -29,7 +29,7 @@ export default (app: Router) => {
   router.get("/import", async (req, res) => {
     let jobs;
     try {
-      jobs = await index();
+      jobs = await getJobList();
     } catch (error: any) {
       const responseData = ApiResponseFactory.error(
         "Could not retrieve list of jobs"
