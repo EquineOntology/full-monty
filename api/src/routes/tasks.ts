@@ -1,8 +1,8 @@
 import { Router } from "express";
 import multer from "multer";
 import { index as getJobList } from "../modules/arch/queues/JobController";
-import { clear as clearTasks } from "../modules/task_management/TaskManager";
-import MigrateMarvinCsvToMongo from "../modules/task_management/MigrateMarvinCsvToMongo";
+import { clear as clearTasks } from "../modules/task_analysis/data_management/TaskController";
+import MigrateMarvinCsvToMongo from "../modules/task_analysis/import/MigrateMarvinCsvToMongo";
 import ApiResponseFactory from "../modules/arch/api/ApiResponseFactory";
 
 export default (app: Router) => {

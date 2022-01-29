@@ -1,5 +1,5 @@
-import Model from "./Model";
-import { Datastore } from "../types";
+import Model from "../../arch/database/models/Model";
+import { Datastore } from "../../arch/database/types";
 
 type MarvinTaskAttributes = {
   taskId: string;

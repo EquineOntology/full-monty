@@ -1,6 +1,6 @@
 import { get as getFromDb } from "../arch/database/MongoConnector";
 import InsufficientDataError from "../arch/api/InsufficientDataError";
-import { median, variance, mean } from "./Statistics";
+import { median, variance, mean } from "../../libs/Statistics";
 
 export default class MonteCarloEstimateAnalyzer {
   #TOTAL_RUNS: number = 1_000_000;

@@ -1,4 +1,4 @@
-import { clearCollection as clearFromDb } from "../arch/database/MongoConnector";
+import { clearCollection as clearFromDb } from "../../arch/database/MongoConnector";
 
 export async function clear() {
   const deletionSuccessful = await clearFromDb("marvin_tasks");
