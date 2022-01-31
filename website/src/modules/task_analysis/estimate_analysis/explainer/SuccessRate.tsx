@@ -1,6 +1,6 @@
 import { Badge, Title } from "@mantine/core";
 
-export default function SuccessRate({ rate }: { rate: number }) {
+function SuccessRate({ rate }: { rate: number }) {
   if (rate < 0.2) {
     return composeMessageWithBadge("red", "usually", "not enough");
   }
@@ -34,3 +34,5 @@ function composeMessageWithBadge(
     </Title>
   );
 }
+
+export default SuccessRate;

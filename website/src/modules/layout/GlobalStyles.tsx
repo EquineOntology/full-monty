@@ -1,6 +1,6 @@
 import { Global } from "@mantine/core";
 
-export default function GlobalStyles() {
+function GlobalStyles() {
   return (
     <Global
       styles={(theme) => ({
@@ -29,3 +29,5 @@ export default function GlobalStyles() {
     />
   );
 }
+
+export default GlobalStyles;

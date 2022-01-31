@@ -3,10 +3,10 @@ import { useForm } from "@mantine/hooks";
 import { useNotifications } from "@mantine/notifications";
 import { MdCheckCircleOutline } from "react-icons/md";
 
-
 type Props = {
   setAnalysisResult: Function;
 };
+
 function AnalysisRequestForm({ setAnalysisResult }: Props) {
   const notifications = useNotifications();
   const form = useForm({
@@ -28,6 +28,7 @@ function AnalysisRequestForm({ setAnalysisResult }: Props) {
     category: string;
     estimate: number;
   };
+
   function handleSubmit(values: FormValues) {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/estimate`, {
       method: "POST",

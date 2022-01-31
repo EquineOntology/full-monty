@@ -8,7 +8,7 @@ type Props = {
   medianDuration: number;
 };
 
-export default function AverageAndMedianExplainer({
+function AverageAndMedianExplainer({
   estimate,
   meanDuration,
   meanDelta,
@@ -30,3 +30,5 @@ export default function AverageAndMedianExplainer({
     </Text>
   );
 }
+
+export default AverageAndMedianExplainer;

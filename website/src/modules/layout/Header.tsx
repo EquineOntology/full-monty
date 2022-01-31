@@ -14,7 +14,7 @@ type Props = {
   setOpened: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Header(props: Props) {
+function Header(props: Props) {
   const theme = useMantineTheme();
 
   return (
@@ -39,3 +39,5 @@ export default function Header(props: Props) {
     </>
   );
 }
+
+export default Header;

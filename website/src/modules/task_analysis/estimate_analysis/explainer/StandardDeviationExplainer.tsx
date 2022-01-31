@@ -11,7 +11,7 @@ function shouldWorryAboutStandardDeviation(standardDeviation: number) {
   return standardDeviation > 0.7;
 }
 
-export default function StandardDeviationExplainer({
+function StandardDeviationExplainer({
   estimate,
   meanDuration,
   standardDeviation,
@@ -48,3 +48,5 @@ export default function StandardDeviationExplainer({
     </Text>
   );
 }
+
+export default StandardDeviationExplainer;

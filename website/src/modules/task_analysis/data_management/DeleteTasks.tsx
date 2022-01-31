@@ -7,7 +7,8 @@ import {
   MdOutlineWarningAmber,
 } from "react-icons/md";
 import { VscTrash } from "react-icons/vsc";
-export default function DeleteTasks() {
+
+function DeleteTasks() {
   const notifications = useNotifications();
   const [state, setState] = useState(ButtonState.Default);
 
@@ -101,3 +102,5 @@ enum ButtonState {
   Waiting,
   Success,
 }
+
+export default DeleteTasks;

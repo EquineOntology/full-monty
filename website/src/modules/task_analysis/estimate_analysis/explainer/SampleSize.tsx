@@ -1,6 +1,6 @@
 import { Text } from "@mantine/core";
 
-export default function SampleSize({ size }: { size: number }) {
+function SampleSize({ size }: { size: number }) {
   let judgementOnSize = "a great amount";
   if (size < 20) {
     judgementOnSize = "not a lot";
@@ -17,3 +17,5 @@ export default function SampleSize({ size }: { size: number }) {
     </Text>
   );
 }
+
+export default SampleSize;
