@@ -1,11 +1,11 @@
 import { Skeleton } from "@mantine/core";
 import { CSSProperties } from "react";
 
-type TimelineSkeletonProps = {
+type Props = {
   style?: CSSProperties;
 };
 
-function TimelineSkeleton(props: TimelineSkeletonProps) {
+function TimelineSkeleton(props: Props) {
   return (
     <div style={props.style}>
       <Skeleton height={30} circle />

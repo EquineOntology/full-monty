@@ -2,12 +2,12 @@ import { useState } from "react";
 import { AppShell, Navbar } from "@mantine/core";
 import Header from "./Header";
 
-type AppPageProps = {
+type Props = {
   children?: React.ReactNode;
   pageTitle: string;
 };
 
-function AppPage(props: AppPageProps) {
+function AppPage(props: Props) {
   const [opened, setOpened] = useState(false);
 
   return (

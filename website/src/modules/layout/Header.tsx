@@ -8,13 +8,13 @@ import {
 } from "@mantine/core";
 import { Dispatch, SetStateAction } from "react";
 
-type HeaderProps = {
+type Props = {
   opened: boolean;
   title: string;
   setOpened: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Header(props: HeaderProps) {
+export default function Header(props: Props) {
   const theme = useMantineTheme();
 
   return (

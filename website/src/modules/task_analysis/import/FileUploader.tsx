@@ -12,8 +12,13 @@ import {
   MdOutlineErrorOutline,
   MdOutlineCloudUpload,
 } from "react-icons/md";
+import { IconBaseProps } from "react-icons";
 
-function FileUploadIcon(props: any) {
+type FileUploadIconProps = {
+  status: DropzoneStatus;
+} & IconBaseProps;
+
+function FileUploadIcon(props: FileUploadIconProps) {
   if (props.status.accepted) {
     return <MdCheckCircleOutline {...props} />;
   }
