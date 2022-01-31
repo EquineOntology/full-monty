@@ -8,26 +8,21 @@ import {
 import { useNotifications } from "@mantine/notifications";
 import { Dropzone, MIME_TYPES, DropzoneStatus } from "@mantine/dropzone";
 import {
-  CheckCircledIcon,
-  CrossCircledIcon,
-  FilePlusIcon,
-} from "@modulz/radix-icons";
-import { IconProps } from "@modulz/radix-icons/dist/types";
+  MdCheckCircleOutline,
+  MdOutlineErrorOutline,
+  MdOutlineCloudUpload,
+} from "react-icons/md";
 
-type FileUploadIconProps = {
-  status: DropzoneStatus;
-} & IconProps;
-
-function FileUploadIcon(props: FileUploadIconProps) {
+function FileUploadIcon(props: any) {
   if (props.status.accepted) {
-    return <CheckCircledIcon {...props} />;
+    return <MdCheckCircleOutline {...props} />;
   }
 
   if (props.status.rejected) {
-    return <CrossCircledIcon {...props} />;
+    return <MdOutlineErrorOutline {...props} />;
   }
 
-  return <FilePlusIcon {...props} />;
+  return <MdOutlineCloudUpload {...props} />;
 }
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
@@ -62,7 +57,7 @@ function FileUploader() {
       .then((result) => {
         notifications.showNotification({
           title: "Processing in progress",
-          icon: <CheckCircledIcon />,
+          icon: <MdCheckCircleOutline />,
           color: "green",
           message: "Your file was  uploaded and it will be processed shortly",
           autoClose: 10000,
@@ -71,7 +66,7 @@ function FileUploader() {
       .catch((error) => {
         notifications.showNotification({
           title: "Oh no!",
-          icon: <CrossCircledIcon />,
+          icon: <MdOutlineErrorOutline />,
           color: "red",
           message:
             "There was an error uploading your file for processing - please try again in a few minutes",

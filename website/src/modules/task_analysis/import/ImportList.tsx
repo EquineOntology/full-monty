@@ -1,12 +1,12 @@
 import useSWR from "swr";
 import { Alert, Text, Timeline, Title } from "@mantine/core";
-import {
-  CircleIcon,
-  CheckIcon,
-  Cross2Icon,
-  ReloadIcon,
-} from "@modulz/radix-icons";
 import TimelineSkeleton from "@/modules/layout/components/TimelineSkeleton";
+import {
+  MdCheckCircleOutline,
+  MdOutlinePending,
+  MdOutlineRefresh,
+} from "react-icons/md";
+import { RiErrorWarningLine } from "react-icons/ri";
 
 const fetcher = (url: string) =>
   fetch(url)
@@ -29,13 +29,13 @@ function getBulletColor(status: JobStatus): StatusColor {
 function getBulletIcon(status: JobStatus) {
   switch (status) {
     case "pending":
-      return <CircleIcon />;
+      return <MdOutlinePending />;
     case "started":
-      return <ReloadIcon />;
+      return <MdOutlineRefresh />;
     case "failed":
-      return <Cross2Icon />;
+      return <RiErrorWarningLine />;
     case "completed":
-      return <CheckIcon />;
+      return <MdCheckCircleOutline />;
   }
 }
 

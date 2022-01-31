@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Button } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import {
-  CheckIcon,
-  CrossCircledIcon,
-  ExclamationTriangleIcon,
-  TrashIcon,
-} from "@modulz/radix-icons";
-
+  MdCheckCircleOutline,
+  MdOutlineErrorOutline,
+  MdOutlineWarningAmber,
+} from "react-icons/md";
+import { VscTrash } from "react-icons/vsc";
 export default function DeleteTasks() {
   const notifications = useNotifications();
   const [state, setState] = useState(ButtonState.Default);
@@ -43,7 +42,7 @@ export default function DeleteTasks() {
           setState(ButtonState.Default);
           notifications.showNotification({
             title: "Oh no!",
-            icon: <CrossCircledIcon />,
+            icon: <MdOutlineErrorOutline />,
             color: "red",
             message: "There was an error - please try again in a few minutes",
             autoClose: 10000,
@@ -68,11 +67,11 @@ export default function DeleteTasks() {
     switch (state) {
       case ButtonState.Default:
       case ButtonState.Waiting:
-        return <TrashIcon />;
+        return <VscTrash />;
       case ButtonState.Confirmation:
-        return <ExclamationTriangleIcon />;
+        return <MdOutlineWarningAmber />;
       case ButtonState.Success:
-        return <CheckIcon />;
+        return <MdCheckCircleOutline />;
     }
   }
 

@@ -1,7 +1,8 @@
 import { Button, NumberInput, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { useNotifications } from "@mantine/notifications";
-import { CrossCircledIcon } from "@modulz/radix-icons";
+import { MdCheckCircleOutline } from "react-icons/md";
+
 
 type Props = {
   setAnalysisResult: Function;
@@ -46,7 +47,7 @@ function AnalysisRequestForm({ setAnalysisResult }: Props) {
       .catch((error) => {
         notifications.showNotification({
           title: "Oh no!",
-          icon: <CrossCircledIcon />,
+          icon: <MdCheckCircleOutline />,
           color: "red",
           message: "There was an error - please try again in a few minutes",
           autoClose: 10000,
