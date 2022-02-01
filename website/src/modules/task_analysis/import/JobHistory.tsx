@@ -7,6 +7,7 @@ import {
   MdOutlineRefresh,
 } from "react-icons/md";
 import { RiErrorWarningLine } from "react-icons/ri";
+import { JobDescription, JobStatus, StatusColor } from "./types";
 
 const fetcher = (url: string) =>
   fetch(url)
@@ -44,7 +45,7 @@ function getHumanReadableDate(input: string) {
   return date.toLocaleString();
 }
 
-function ImportList() {
+function JobHistory() {
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/tasks/import`,
     fetcher
@@ -122,15 +123,4 @@ function ImportList() {
   );
 }
 
-export default ImportList;
-
-type JobDescription = {
-  name: string;
-  status: JobStatus;
-  addedAt: string;
-  completedAt: string | null;
-};
-
-type JobStatus = "pending" | "started" | "failed" | "completed";
-
-type StatusColor = "yellow" | "blue" | "red" | "green";
+export default JobHistory;

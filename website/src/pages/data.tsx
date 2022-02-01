@@ -1,15 +1,16 @@
 import type { NextPage } from "next";
 import { Container } from "@mantine/core";
 import AppPage from "@/modules/layout/AppPage";
-import FileUploader from "@/modules/task_analysis/import/FileUploader";
-import ImportList from "@/modules/task_analysis/import/ImportList";
+import MarvinCsvUploader from "@/modules/task_analysis/import/MarvinFileUploader";
+import JobHistory from "@/modules/task_analysis/import/JobHistory";
 import DeleteTasks from "@/modules/task_analysis/data_management/DeleteTasks";
 
-const Import: NextPage = () => {
+const Data: NextPage = () => {
   return (
     <AppPage pageTitle="Import Amazing Marvin data">
       <Container>
-        <FileUploader />
+        <MarvinCsvUploader />
+        
         <DeleteTasks />
         <hr
           style={{
@@ -18,10 +19,10 @@ const Import: NextPage = () => {
             border: "1px solid #f1f1f1",
           }}
         />
-        <ImportList />
+        <JobHistory />
       </Container>
     </AppPage>
   );
 };
 
-export default Import;
+export default Data;

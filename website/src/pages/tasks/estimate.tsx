@@ -7,12 +7,13 @@ import AnalysisResult from "@/modules/task_analysis/estimate_analysis/AnalysisRe
 import { AnalysisApiResponse } from "@/modules/task_analysis/estimate_analysis/types";
 
 type AnalysisHook = [AnalysisApiResponse | undefined, Function];
-const Estimate: NextPage = () => {
+
+const Tasks: NextPage = () => {
   const [analysisResult, setAnalysisResult]: AnalysisHook =
     React.useState(undefined);
 
   return (
-    <AppPage pageTitle="Estimate">
+    <AppPage pageTitle="Estimate analysis">
       <Container>
         <AnalysisRequestForm setAnalysisResult={setAnalysisResult} />
         <AnalysisResult data={analysisResult} />
@@ -21,4 +22,4 @@ const Estimate: NextPage = () => {
   );
 };
 
-export default Estimate;
+export default Tasks;

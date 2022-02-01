@@ -1,5 +1,5 @@
-import { Skeleton } from "@mantine/core";
 import { CSSProperties } from "react";
+import { Skeleton } from "@mantine/core";
 
 type Props = {
   style?: CSSProperties;

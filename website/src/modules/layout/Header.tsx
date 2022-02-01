@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import Head from "next/head";
 import {
   Burger,
@@ -6,7 +7,6 @@ import {
   useMantineTheme,
   Title,
 } from "@mantine/core";
-import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   opened: boolean;

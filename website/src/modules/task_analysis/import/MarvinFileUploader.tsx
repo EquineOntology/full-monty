@@ -40,7 +40,7 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
     : theme.black;
 }
 
-function FileUploader() {
+function MarvinCsvUploader() {
   const theme = useMantineTheme();
   const notifications = useNotifications();
 
@@ -83,12 +83,12 @@ function FileUploader() {
 
   return (
     <>
-      <Title order={3}>1. Upload a new file</Title>
+      <Title order={3}>Import data</Title>
       <Dropzone
         onDrop={handleUpload}
         maxSize={3 * 1024 ** 2}
         accept={[MIME_TYPES.csv]}
-        style={{ marginTop: "1rem" }}
+        sx={{ marginTop: "1rem" }}
       >
         {(status) => (
           <Group
@@ -116,4 +116,4 @@ function FileUploader() {
   );
 }
 
-export default FileUploader;
+export default MarvinCsvUploader;

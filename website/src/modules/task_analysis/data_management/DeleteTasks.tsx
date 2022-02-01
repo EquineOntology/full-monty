@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@mantine/core";
+import { Button, Title } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import {
   MdCheckCircleOutline,
@@ -90,9 +90,14 @@ function DeleteTasks() {
   }
 
   return (
-    <Button leftIcon={getIcon()} color={getColor()} onClick={handleClick}>
-      {getText()}
-    </Button>
+    <>
+      <Title mt="xl" order={3}>
+        Manage data
+      </Title>
+      <Button leftIcon={getIcon()} color={getColor()} onClick={handleClick}>
+        {getText()}
+      </Button>
+    </>
   );
 }
 

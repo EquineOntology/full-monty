@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { AppShell, Navbar } from "@mantine/core";
+import { AppShell } from "@mantine/core";
 import Header from "./Header";
+import Nav from "./Nav";
 
 type Props = {
   children?: React.ReactNode;
@@ -13,18 +14,13 @@ function AppPage(props: Props) {
   return (
     <AppShell
       navbarOffsetBreakpoint="sm"
-      navbar={
-        <Navbar
-          padding="md"
-          hiddenBreakpoint="sm"
-          hidden={!opened}
-          width={{ sm: 200, lg: 300 }}
-        >
-          <div></div>
-        </Navbar>
-      }
+      navbar={<Nav opened={opened} />}
       header={
-        <Header title={props.pageTitle} opened={opened} setOpened={setOpened} />
+        <Header
+          title={props.pageTitle}
+          opened={opened}
+          setOpened={setOpened}
+        />
       }
     >
       {props.children}
