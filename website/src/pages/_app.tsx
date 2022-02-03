@@ -1,6 +1,6 @@
+import type { AppProps } from "next/app";
 import { MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import type { AppProps } from "next/app";
 import GlobalStyles from "@/modules/layout/GlobalStyles";
 
 function FullMonty({ Component, pageProps }: AppProps) {

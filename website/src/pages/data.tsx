@@ -10,7 +10,6 @@ const Data: NextPage = () => {
     <AppPage pageTitle="Import data">
       <Container>
         <MarvinCsvUploader />
-
         <DeleteTasks />
         <hr
           style={{
