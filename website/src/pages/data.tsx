@@ -7,10 +7,10 @@ import DeleteTasks from "@/modules/task_analysis/data_management/DeleteTasks";
 
 const Data: NextPage = () => {
   return (
-    <AppPage pageTitle="Import Amazing Marvin data">
+    <AppPage pageTitle="Import data">
       <Container>
         <MarvinCsvUploader />
-        
+
         <DeleteTasks />
         <hr
           style={{

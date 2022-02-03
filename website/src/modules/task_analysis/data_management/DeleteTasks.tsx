@@ -91,8 +91,8 @@ function DeleteTasks() {
 
   return (
     <>
-      <Title mt="xl" order={3}>
-        Manage data
+      <Title mt="xl" mb="sm" order={3}>
+        Delete all existing data
       </Title>
       <Button leftIcon={getIcon()} color={getColor()} onClick={handleClick}>
         {getText()}

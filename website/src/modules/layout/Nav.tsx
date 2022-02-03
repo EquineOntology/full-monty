@@ -12,7 +12,9 @@ function Nav({ opened }: Props) {
       padding="md"
       hiddenBreakpoint="sm"
       hidden={!opened}
-      width={{ sm: 200, lg: 200 }}
+      width={{
+        base: 200,
+      }}
     >
       <Navbar.Section mt="lg">
         <Center>
