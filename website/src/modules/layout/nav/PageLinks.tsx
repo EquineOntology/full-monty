@@ -9,20 +9,20 @@ function PageLinks() {
     <Group spacing="md" noWrap>
       <NavLink
         to="/tasks/estimate"
-        text="Tasks"
+        text="Estimates."
         color="green"
         icon={<MdOutlineTimer />}
       />
-      <NavLink to="/sleep" text="Sleep" color="blue" icon={<MdBed />} />
+      <NavLink to="/sleep" text="Sleep." color="blue" icon={<MdBed />} />
       <NavLink
         to="/deliveries"
-        text="Deliveries"
+        text="Deliveries."
         color="indigo"
         icon={<FiPackage />}
       />
       <NavLink
         to="/data"
-        text="Manage data"
+        text="Manage data."
         color="violet"
         icon={<HiOutlineServer />}
       />
