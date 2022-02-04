@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Button, Title } from "@mantine/core";
+import { Box, Button, Group, Text } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import {
   MdCheckCircleOutline,
   MdOutlineErrorOutline,
   MdOutlineWarningAmber,
 } from "react-icons/md";
-import { VscTrash } from "react-icons/vsc";
+import { HiFire } from "react-icons/hi";
+import { useHover } from "@mantine/hooks";
 
 function DeleteTasks() {
   const notifications = useNotifications();
   const [state, setState] = useState(ButtonState.Default);
+  const { hovered, ref } = useHover();
 
   function handleClick() {
     if (state === ButtonState.Waiting) return;
@@ -68,7 +70,7 @@ function DeleteTasks() {
     switch (state) {
       case ButtonState.Default:
       case ButtonState.Waiting:
-        return <VscTrash />;
+        return <HiFire />;
       case ButtonState.Confirmation:
         return <MdOutlineWarningAmber />;
       case ButtonState.Success:
@@ -79,25 +81,37 @@ function DeleteTasks() {
   function getText() {
     switch (state) {
       case ButtonState.Default:
-        return "Burn everything to the ground";
+        return "burn everything to the ground";
       case ButtonState.Confirmation:
         return "Are you sure?";
       case ButtonState.Waiting:
         return "Deleting...";
       case ButtonState.Success:
-        return "Deleted";
+        return "Deleted.";
     }
   }
 
   return (
-    <>
-      <Title mt="xl" mb="sm" order={3}>
-        Delete all existing data
-      </Title>
-      <Button leftIcon={getIcon()} color={getColor()} onClick={handleClick}>
-        {getText()}
-      </Button>
-    </>
+    <Group mt="xl">
+      <Text>or</Text>
+      <Box ref={ref}>
+        <Button
+          variant={hovered ? "filled" : "outline"}
+          uppercase={hovered}
+          leftIcon={hovered ? getIcon() : null}
+          rightIcon={hovered ? getIcon() : null}
+          color={getColor()}
+          onClick={handleClick}
+          sx={{
+            borderRadius: 30,
+            transition:
+              "background-color 0.1s ease-out, border 0.1s ease-out, color 0.1s ease-out",
+          }}
+        >
+          {getText()}
+        </Button>
+      </Box>
+    </Group>
   );
 }
 

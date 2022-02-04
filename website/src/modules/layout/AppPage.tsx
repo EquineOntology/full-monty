@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { AppShell } from "@mantine/core";
 import Navigation from "./nav/Navigation";
+import Footer from "./Footer";
 
 type Props = {
   children?: React.ReactNode;
@@ -15,10 +16,11 @@ function AppPage({ pageTitle, children }: Props) {
       </Head>
       <AppShell
         header={<Navigation title={pageTitle} />}
-        sx={{ height: "200vh" }}
+        sx={{ minHeight: "calc(100vh - 50px)", paddingTop: 80 }}
       >
         {children}
       </AppShell>
+      <Footer />
     </>
   );
 }
