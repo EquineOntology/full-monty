@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Button, Group, Text } from "@mantine/core";
+import { useHover } from "@mantine/hooks";
 import { useNotifications } from "@mantine/notifications";
 import {
   MdCheckCircleOutline,
@@ -7,7 +8,6 @@ import {
   MdOutlineWarningAmber,
 } from "react-icons/md";
 import { HiFire } from "react-icons/hi";
-import { useHover } from "@mantine/hooks";
 
 function DeleteTasks() {
   const notifications = useNotifications();
