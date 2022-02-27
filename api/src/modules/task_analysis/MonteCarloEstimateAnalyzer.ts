@@ -18,7 +18,6 @@ export default class MonteCarloEstimateAnalyzer {
     const successes = this.#simulate(estimateInSeconds, durations);
     const successRate = successes / this.#TOTAL_RUNS;
     const meanDurationInMinutes = mean(durations) / 60;
-    const meanDeltaInMinutes = Math.round(mean(deltas) / 60);
     const medianDurationInMinutes = Math.round(median(durations) / 60);
     const medianDeltaInMinutes = Math.round(median(deltas) / 60);
     // Sigma = Standard Deviation (CF 22.01.22).
@@ -31,7 +30,6 @@ export default class MonteCarloEstimateAnalyzer {
       sampleSize: durations.length,
       successRate: parseFloat(successRate.toFixed(2)),
       meanDuration: parseFloat(meanDurationInMinutes.toFixed(2)),
-      meanDelta: parseFloat(meanDeltaInMinutes.toFixed(2)),
       medianDuration: medianDurationInMinutes,
       medianDelta: medianDeltaInMinutes,
       sigmaDuration: sigmaDurationInMinutes,
