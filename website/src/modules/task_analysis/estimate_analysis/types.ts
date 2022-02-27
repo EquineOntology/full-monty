@@ -3,7 +3,6 @@ export type AnalysisApiResponse = {
   sampleSize: number;
   successRate: number;
   meanDuration: number;
-  meanDelta: number;
   medianDuration: number;
   medianDelta: number;
   sigmaDuration: number;
