@@ -26,7 +26,7 @@ function composeMessageWithBadge(
   text: string
 ) {
   return (
-    <Title order={2} mt="2rem" mb="xl" align="center">
+    <Title order={2} mb="xl" align="center">
       The estimate is {frequency}{" "}
       <Badge variant="filled" color={color} size="xl">
         {text}

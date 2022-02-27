@@ -1,6 +1,13 @@
-import { Button, NumberInput, TextInput, Title } from "@mantine/core";
+import {
+  Button,
+  Center,
+  NumberInput,
+  Title,
+  UnstyledButton,
+} from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { useNotifications } from "@mantine/notifications";
+import { BsDashCircle, BsPlusCircle } from "react-icons/bs";
 import { MdCheckCircleOutline } from "react-icons/md";
 
 type Props = {
@@ -8,6 +15,9 @@ type Props = {
 };
 
 function AnalysisRequestForm({ setAnalysisResult }: Props) {
+  const maxEstimate = 6000;
+  const minEstimate = 1;
+
   const notifications = useNotifications();
   const form = useForm({
     initialValues: {
@@ -57,35 +67,81 @@ function AnalysisRequestForm({ setAnalysisResult }: Props) {
       });
   }
 
+  function changeValue(delta: number) {
+    const { estimate } = form.values;
+    let newValue = estimate + delta;
+    newValue = Math.min(Math.max(minEstimate, newValue), maxEstimate);
+    form.setFieldValue("estimate", newValue);
+  }
+
+  const textSize = 50;
   return (
-    <>
-      <Title order={3} mt="lg" mb="md">
-        Throw an estimate at the wall!
-      </Title>
+    <Center sx={{ marginRight: "auto", marginLeft: "auto" }}>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-        <TextInput
-          required
-          label="Project"
-          {...form.getInputProps("project")}
-        />
+        <Center my="md">
+          <Title
+            sx={{
+              marginBottom: 4,
+              whiteSpace: "nowrap",
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            Choose an estimate
+          </Title>
+        </Center>
+        <Center my="md">
+          <UnstyledButton
+            sx={{
+              fontSize: textSize * 0.7,
+              color: "black",
+              marginRight: "1rem",
+              marginTop: 20,
+            }}
+            type="button"
+            onClick={() => changeValue(-1)}
+          >
+            <BsDashCircle />
+          </UnstyledButton>
+          <NumberInput
+            required
+            min={minEstimate}
+            max={maxEstimate}
+            hideControls={true}
+            variant="unstyled"
+            value={30}
+            sx={{
+              input: {
+                textAlign: "center",
+                fontSize: textSize * 2,
+                height: textSize * 2,
+                transition: "width 0.2s ease-out",
+                width: (form.values.estimate || 1).toString().length * 65,
+              },
+            }}
+            {...form.getInputProps("estimate")}
+          />
+          <UnstyledButton
+            sx={{
+              fontSize: textSize * 0.7,
+              color: "black",
+              marginLeft: "1rem",
+              marginTop: 20,
+            }}
+            type="button"
+            onClick={() => changeValue(1)}
+          >
+            <BsPlusCircle />
+          </UnstyledButton>
+        </Center>
 
-        <TextInput
-          label="Category"
-          mt="md"
-          {...form.getInputProps("category")}
-        />
-
-        <NumberInput
-          label="Estimate (in minutes)"
-          mt="md"
-          {...form.getInputProps("estimate")}
-        />
-
-        <Button type="submit" mt="md">
-          Submit
-        </Button>
+        <Center mt="lg">
+          <Button type="submit" variant="light" sx={{ borderRadius: 30 }}>
+            throw an estimate at the wall!
+          </Button>
+        </Center>
       </form>
-    </>
+    </Center>
   );
 }
 

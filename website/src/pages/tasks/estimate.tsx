@@ -1,6 +1,6 @@
 import React from "react";
 import type { NextPage } from "next";
-import { Container } from "@mantine/core";
+import { Center, Group } from "@mantine/core";
 import AppPage from "@/modules/layout/AppPage";
 import AnalysisRequestForm from "@/modules/task_analysis/estimate_analysis/AnalysisRequestForm";
 import AnalysisResult from "@/modules/task_analysis/estimate_analysis/AnalysisResult";
@@ -13,11 +13,13 @@ const Tasks: NextPage = () => {
     React.useState(undefined);
 
   return (
-    <AppPage pageTitle="Estimate analysis">
-      <Container>
-        <AnalysisRequestForm setAnalysisResult={setAnalysisResult} />
-        <AnalysisResult data={analysisResult} />
-      </Container>
+    <AppPage pageTitle="Estimates.">
+      <Center>
+        <Group direction="column">
+          <AnalysisRequestForm setAnalysisResult={setAnalysisResult} />
+          <AnalysisResult data={analysisResult} />
+        </Group>
+      </Center>
     </AppPage>
   );
 };

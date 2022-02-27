@@ -11,7 +11,7 @@ function SampleSize({ size }: { size: number }) {
   }
 
   return (
-    <Text size="sm" color="dimmed" mt="xl">
+    <Text size="sm" color="dimmed" mt="xl" align="center">
       {size} tasks could were used for the analysis. That&apos;s{" "}
       {judgementOnSize}.
     </Text>
