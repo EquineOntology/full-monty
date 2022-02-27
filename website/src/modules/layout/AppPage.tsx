@@ -16,7 +16,7 @@ function AppPage({ pageTitle, children }: Props) {
       </Head>
       <AppShell
         header={<Navigation title={pageTitle} />}
-        sx={{ minHeight: "calc(100vh - 50px)", paddingTop: 80 }}
+        sx={{ minHeight: "calc(100vh - 50px)", paddingTop: 100 }}
       >
         {children}
       </AppShell>
