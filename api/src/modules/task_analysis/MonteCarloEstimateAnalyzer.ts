@@ -51,8 +51,13 @@ export default class MonteCarloEstimateAnalyzer {
     project?: string,
     category?: string
   ): Promise<number[]> {
-    const filters: { estimate: number; project?: string; category?: string } = {
-      estimate: estimatedSeconds,
+    const fiftyPercent = Math.round((estimatedSeconds / 100) * 50);
+
+    const lowerBound = estimatedSeconds - fiftyPercent;
+    const upperBound = estimatedSeconds + fiftyPercent;
+
+    const filters: { estimate: object; project?: string; category?: string } = {
+      estimate: { $gte: lowerBound, $lte: upperBound },
     };
 
     if (project) {
@@ -62,7 +67,7 @@ export default class MonteCarloEstimateAnalyzer {
       filters.category = category;
     }
 
-    const fieldFilter = { duration: true };
+    const fieldFilter = { duration: true, estimate: true, ratio: true };
     const tasks = await getFromDb("marvin_tasks", filters, { fieldFilter });
 
     if (tasks.length === 0) {
@@ -70,7 +75,8 @@ export default class MonteCarloEstimateAnalyzer {
     }
 
     return tasks.map((task) => {
-      return task.duration;
+      if (task.estimate === estimatedSeconds) return task.duration;
+      return Math.round(task.ratio * estimatedSeconds);
     });
   }
 
