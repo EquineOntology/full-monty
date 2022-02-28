@@ -40,13 +40,17 @@ export default class MonteCarloEstimateAnalyzer {
     let lowerBound;
     let upperBound;
     const onePercent = Math.round(estimate / 100);
-    if (estimate < 15 * 60) {
+    if (estimate <= 15 * 60) {
       lowerBound = 0;
-      upperBound = 30;
-    } else if (estimate < 30 * 60) {
-      lowerBound = 15;
-      upperBound = 45;
-    } else if (estimate < 120 * 60) {
+      upperBound = 30 * 60;
+    } else if (estimate <= 30 * 60) {
+      lowerBound = 15 * 60;
+      upperBound = 45 * 60;
+    } else if (estimate <= 60 * 60) {
+      const seventyFivePercent = 75 * onePercent;
+      lowerBound = estimate - seventyFivePercent;
+      upperBound = estimate + seventyFivePercent;
+    } else if (estimate <= 120 * 60) {
       const fiftyPercent = 50 * onePercent;
       lowerBound = estimate - fiftyPercent;
       upperBound = estimate + fiftyPercent;
