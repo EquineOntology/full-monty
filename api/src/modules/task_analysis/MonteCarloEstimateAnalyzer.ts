@@ -36,6 +36,29 @@ export default class MonteCarloEstimateAnalyzer {
     };
   }
 
+  #calculateBoundsOfEstimate(estimate: number): [number, number] {
+    let lowerBound;
+    let upperBound;
+    const onePercent = Math.round(estimate / 100);
+    if (estimate < 15 * 60) {
+      lowerBound = 0;
+      upperBound = 30;
+    } else if (estimate < 30 * 60) {
+      lowerBound = 15;
+      upperBound = 45;
+    } else if (estimate < 120 * 60) {
+      const fiftyPercent = 50 * onePercent;
+      lowerBound = estimate - fiftyPercent;
+      upperBound = estimate + fiftyPercent;
+    } else {
+      const twentyFivePercent = 25 * onePercent;
+      lowerBound = estimate - twentyFivePercent;
+      upperBound = estimate + twentyFivePercent;
+    }
+
+    return [lowerBound, upperBound];
+  }
+
   #computeDeltas(estimate: number, durations: number[]) {
     const deltas: number[] = [];
     for (let i = 0; i < durations.length; i++) {
@@ -51,10 +74,8 @@ export default class MonteCarloEstimateAnalyzer {
     project?: string,
     category?: string
   ): Promise<number[]> {
-    const fiftyPercent = Math.round((estimatedSeconds / 100) * 50);
-
-    const lowerBound = estimatedSeconds - fiftyPercent;
-    const upperBound = estimatedSeconds + fiftyPercent;
+    const [lowerBound, upperBound] =
+      this.#calculateBoundsOfEstimate(estimatedSeconds);
 
     const filters: { estimate: object; project?: string; category?: string } = {
       estimate: { $gte: lowerBound, $lte: upperBound },
