@@ -36,6 +36,29 @@ export default class MonteCarloEstimateAnalyzer {
     };
   }
 
+  #calculateBoundsOfEstimate(estimate: number): [number, number] {
+    let lowerBound;
+    let upperBound;
+    const onePercent = Math.round(estimate / 100);
+    if (estimate < 15 * 60) {
+      lowerBound = 0;
+      upperBound = 30;
+    } else if (estimate < 30 * 60) {
+      lowerBound = 15;
+      upperBound = 45;
+    } else if (estimate < 120 * 60) {
+      const fiftyPercent = 50 * onePercent;
+      lowerBound = estimate - fiftyPercent;
+      upperBound = estimate + fiftyPercent;
+    } else {
+      const twentyFivePercent = 25 * onePercent;
+      lowerBound = estimate - twentyFivePercent;
+      upperBound = estimate + twentyFivePercent;
+    }
+
+    return [lowerBound, upperBound];
+  }
+
   #computeDeltas(estimate: number, durations: number[]) {
     const deltas: number[] = [];
     for (let i = 0; i < durations.length; i++) {
@@ -51,8 +74,11 @@ export default class MonteCarloEstimateAnalyzer {
     project?: string,
     category?: string
   ): Promise<number[]> {
-    const filters: { estimate: number; project?: string; category?: string } = {
-      estimate: estimatedSeconds,
+    const [lowerBound, upperBound] =
+      this.#calculateBoundsOfEstimate(estimatedSeconds);
+
+    const filters: { estimate: object; project?: string; category?: string } = {
+      estimate: { $gte: lowerBound, $lte: upperBound },
     };
 
     if (project) {
@@ -62,7 +88,7 @@ export default class MonteCarloEstimateAnalyzer {
       filters.category = category;
     }
 
-    const fieldFilter = { duration: true };
+    const fieldFilter = { duration: true, estimate: true, ratio: true };
     const tasks = await getFromDb("marvin_tasks", filters, { fieldFilter });
 
     if (tasks.length === 0) {
@@ -70,7 +96,8 @@ export default class MonteCarloEstimateAnalyzer {
     }
 
     return tasks.map((task) => {
-      return task.duration;
+      if (task.estimate === estimatedSeconds) return task.duration;
+      return Math.round(task.ratio * estimatedSeconds);
     });
   }
 
