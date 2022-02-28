@@ -9,6 +9,7 @@ type MarvinTaskAttributes = {
   project: string;
   duration: number | null;
   estimate: number | null;
+  ratio: number | null;
 };
 export default class MarvinTask extends Model {
   attributes: MarvinTaskAttributes;
@@ -20,7 +21,8 @@ export default class MarvinTask extends Model {
     done: "Y" | "N",
     category: string,
     duration: number,
-    time_estimate: number
+    time_estimate: number,
+    ratio: number | null
   ) {
     super(datastore);
     this.collection = "marvin_tasks";
@@ -35,6 +37,7 @@ export default class MarvinTask extends Model {
       category: categoryStructure[0],
       duration: duration > 0 ? duration : null,
       estimate: time_estimate > 0 ? time_estimate : null,
+      ratio: ratio,
     };
   }
 }

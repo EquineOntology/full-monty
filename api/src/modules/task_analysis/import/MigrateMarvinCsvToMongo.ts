@@ -5,6 +5,7 @@ import Job from "../../arch/queues/Job";
 import MarvinTask from "../data_management/MarvinTask";
 import CsvParser from "../../../libs/CsvParser";
 import { updateOrInsertModel } from "../../arch/database/MongoConnector";
+import estimate from "../../../routes/estimate";
 
 type Options = {
   file: string;
@@ -93,14 +94,18 @@ export default class MigrateMarvinCsvToMongo extends Job {
     const store = {
       save: updateOrInsertModel,
     };
+
+    const durationInSeconds = Math.round(parseInt(duration) / 1000);
+    const estimateInSeconds = Math.round(parseInt(input.TIME_ESTIMATE) / 1000);
     const task = new MarvinTask(
       store,
       input.ID,
       input.TITLE,
       input.DONE,
       input.PATH,
-      Math.round(parseInt(duration) / 1000),
-      Math.round(parseInt(input.TIME_ESTIMATE) / 1000)
+      durationInSeconds,
+      estimateInSeconds,
+      durationInSeconds / estimateInSeconds
     );
 
     try {
