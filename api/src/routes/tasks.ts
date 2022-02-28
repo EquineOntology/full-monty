@@ -52,7 +52,7 @@ export default (app: Router) => {
     }
 
     const job = new MigrateMarvinCsvToMongo({
-      exclusionList: ["LB support"],
+      exclusionList: ["LB support", "RV support"],
       file: req.file.path,
       useEstimateWhenDurationMissing: false,
     });
