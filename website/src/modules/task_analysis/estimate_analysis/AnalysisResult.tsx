@@ -5,6 +5,8 @@ import SuccessRate from "./explainer/SuccessRate";
 import AverageAndMedianExplainer from "./explainer/AverageAndMedianExplainer";
 import StandardDeviationExplainer from "./explainer/StandardDeviationExplainer";
 import { BsExclamationLg, BsQuestionLg } from "react-icons/bs";
+import ScatterPlot from "@/modules/grapher/ScatterPlot";
+import Histogram from "@/modules/grapher/Histogram";
 
 type Props =
   | {
@@ -25,6 +27,10 @@ type Props =
         medianDelta: number;
         sigmaDuration: number;
         message: undefined;
+        graphs: {
+          histogram: { min: number; max: number; amount: number }[];
+          scatterplot: { x: number; y: number }[];
+        };
       };
     };
 
@@ -84,22 +90,36 @@ function AnalysisResult({ data }: Props) {
     meanDuration,
     medianDuration,
     sigmaDuration,
+    graphs,
   } = data;
 
   return (
-    <Container sx={{ maxWidth: 800, marginTop: 40 }}>
-      <SuccessRate rate={successRate} />
-      <AverageAndMedianExplainer
-        estimate={estimate}
-        meanDuration={meanDuration}
-        medianDuration={medianDuration}
-      />
-      <StandardDeviationExplainer
-        estimate={estimate}
-        meanDuration={meanDuration}
-        standardDeviation={sigmaDuration}
-      />
-      <SampleSize size={sampleSize} />
+    <Container>
+      <Container sx={{ maxWidth: 700, marginTop: 40 }}>
+        <SuccessRate rate={successRate} />
+        <AverageAndMedianExplainer
+          estimate={estimate}
+          meanDuration={meanDuration}
+          medianDuration={medianDuration}
+        />
+        <StandardDeviationExplainer
+          estimate={estimate}
+          meanDuration={meanDuration}
+          standardDeviation={sigmaDuration}
+        />
+        <SampleSize size={sampleSize} />
+      </Container>
+      <Group
+        sx={{ marginTop: 40, marginLeft: -40 }}
+        direction="row"
+        align="center"
+        spacing="xl"
+        grow
+        noWrap
+      >
+        <ScatterPlot data={graphs.scatterplot} estimate={estimate} />
+        <Histogram data={graphs.histogram} />
+      </Group>
     </Container>
   );
 }
