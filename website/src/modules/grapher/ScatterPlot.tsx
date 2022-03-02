@@ -6,16 +6,18 @@ import { ScatterPlotSeries, Point } from "./types";
 type Props = {
   data: Point[];
   estimate: number;
+  width: number;
+  height: number;
 };
 
-function ScatterPlot({ data, estimate }: Props) {
+function ScatterPlot({ data, estimate, width, height }: Props) {
   return (
     <Chart
       options={getChartOptions()}
       series={composeSeries(data, estimate)}
       type="scatter"
-      width="500"
-      height="400"
+      width={width}
+      height={height}
     />
   );
 }

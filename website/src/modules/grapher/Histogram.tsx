@@ -5,9 +5,11 @@ import { BarChartSeries, BarDescription } from "./types";
 
 type Props = {
   data: BarDescription[];
+  width: number;
+  height: number;
 };
 
-function Histogram({ data }: Props) {
+function Histogram({ data, width, height }: Props) {
   const categories = data.map((barDescription) => {
     const lowerBound = Math.round(barDescription.min / 60);
     const upperBound = Math.round(barDescription.max / 60);
@@ -19,8 +21,8 @@ function Histogram({ data }: Props) {
       options={getChartOptions(categories)}
       series={composeSeries(data)}
       type="bar"
-      width="500"
-      height="400"
+      width={width}
+      height={height}
     />
   );
 }
