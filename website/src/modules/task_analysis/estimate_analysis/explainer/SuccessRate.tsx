@@ -1,4 +1,4 @@
-import { Badge, Title } from "@mantine/core";
+import { Badge, Title, Text, Center } from "@mantine/core";
 
 function SuccessRate({ rate }: { rate: number }) {
   if (rate < 0.2) {
@@ -27,10 +27,12 @@ function composeMessageWithBadge(
 ) {
   return (
     <Title order={2} mb="xl" align="center">
-      The estimate is {frequency}{" "}
-      <Badge variant="filled" color={color} size="xl">
-        {text}
-      </Badge>
+      <Center inline>
+        <Text mr="xs">The estimate is {frequency}</Text>
+        <Badge variant="filled" color={color} size="xl">
+          {text}
+        </Badge>
+      </Center>
     </Title>
   );
 }
