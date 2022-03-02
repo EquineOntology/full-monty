@@ -1,12 +1,13 @@
-import { Box, Center, Container, Group, Text } from "@mantine/core";
+import { useState } from "react";
+import { Box, Button, Center, Container, Group, Text } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
+import Charts from "./Charts";
 import SampleSize from "./explainer/SampleSize";
 import SuccessRate from "./explainer/SuccessRate";
 import AverageAndMedianExplainer from "./explainer/AverageAndMedianExplainer";
 import StandardDeviationExplainer from "./explainer/StandardDeviationExplainer";
+import { GrBarChart } from "react-icons/gr";
 import { BsExclamationLg, BsQuestionLg } from "react-icons/bs";
-import ScatterPlot from "@/modules/grapher/ScatterPlot";
-import Histogram from "@/modules/grapher/Histogram";
 
 type Props =
   | {
@@ -38,6 +39,7 @@ const iconSize = 200;
 
 function AnalysisResult({ data }: Props) {
   const notifications = useNotifications();
+  const [opened, setOpened] = useState(false);
 
   if (!data) {
     return (
@@ -94,7 +96,7 @@ function AnalysisResult({ data }: Props) {
   } = data;
 
   return (
-    <Container>
+    <>
       <Container sx={{ maxWidth: 700, marginTop: 40 }}>
         <SuccessRate rate={successRate} />
         <AverageAndMedianExplainer
@@ -109,18 +111,21 @@ function AnalysisResult({ data }: Props) {
         />
         <SampleSize size={sampleSize} />
       </Container>
-      <Group
-        sx={{ marginTop: 40, marginLeft: -40 }}
-        direction="row"
-        align="center"
-        spacing="xl"
-        grow
-        noWrap
+      <Button
+        leftIcon={<GrBarChart />}
+        onClick={() => setOpened(true)}
+        variant="white"
+        ml="auto"
       >
-        <ScatterPlot data={graphs.scatterplot} estimate={estimate} />
-        <Histogram data={graphs.histogram} />
-      </Group>
-    </Container>
+        show charts
+      </Button>
+      <Charts
+        opened={opened}
+        setOpened={setOpened}
+        estimate={estimate}
+        graphs={graphs}
+      />
+    </>
   );
 }
 
