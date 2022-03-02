@@ -7,14 +7,14 @@ import {
   MdOutlineRefresh,
 } from "react-icons/md";
 import { RiErrorWarningLine } from "react-icons/ri";
-import { JobDescription, JobStatus, StatusColor } from "./types";
+import { JobDescription, JobStatus, JobStatusColor } from "./types";
 
 const fetcher = (url: string) =>
   fetch(url)
     .then((res) => res.json())
     .then((res) => res.data);
 
-function getBulletColor(status: JobStatus): StatusColor {
+function getBulletColor(status: JobStatus): JobStatusColor {
   switch (status) {
     case "pending":
       return "yellow";

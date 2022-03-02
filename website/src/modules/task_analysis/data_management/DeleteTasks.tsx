@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Group, Text } from "@mantine/core";
+import { Box, Button, Text } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { useNotifications } from "@mantine/notifications";
 import {
@@ -81,7 +81,7 @@ function DeleteTasks() {
   function getText() {
     switch (state) {
       case ButtonState.Default:
-        return "burn everything to the ground";
+        return "burn it all to the ground";
       case ButtonState.Confirmation:
         return "Are you sure?";
       case ButtonState.Waiting:
@@ -92,26 +92,24 @@ function DeleteTasks() {
   }
 
   return (
-    <Group mt="xl">
-      <Text>or</Text>
-      <Box ref={ref}>
-        <Button
-          variant={hovered ? "filled" : "outline"}
-          uppercase={hovered}
-          leftIcon={hovered ? getIcon() : null}
-          rightIcon={hovered ? getIcon() : null}
-          color={getColor()}
-          onClick={handleClick}
-          sx={{
-            borderRadius: 30,
-            transition:
-              "background-color 0.1s ease-out, border 0.1s ease-out, color 0.1s ease-out",
-          }}
-        >
-          {getText()}
-        </Button>
-      </Box>
-    </Group>
+    <Box ref={ref} mt="lg" ml="lg" sx={{ width: "100%" }}>
+      <Text mb="md">Want to delete all data?</Text>
+      <Button
+        variant={hovered ? "filled" : "light"}
+        uppercase={hovered}
+        leftIcon={hovered ? getIcon() : null}
+        rightIcon={hovered ? getIcon() : null}
+        color={getColor()}
+        onClick={handleClick}
+        radius={30}
+        sx={{
+          transition:
+            "background-color 0.1s ease-out, border 0.1s ease-out, color 0.1s ease-out",
+        }}
+      >
+        {getText()}
+      </Button>
+    </Box>
   );
 }
 
