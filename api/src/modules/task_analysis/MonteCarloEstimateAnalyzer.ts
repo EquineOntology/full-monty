@@ -1,18 +1,21 @@
 import { get as getFromDb } from "../arch/database/MongoConnector";
 import InsufficientDataError from "../arch/api/InsufficientDataError";
 import { median, variance, mean } from "../../libs/Statistics";
+import { Document } from "mongodb";
+import { computeHistogram, computerScatterPlot } from "../../libs/Plotter";
 
 export default class MonteCarloEstimateAnalyzer {
   #TOTAL_RUNS: number = 1_000_000;
 
   async analyze(estimate: number, project?: string, category?: string) {
     const estimateInSeconds = estimate * 60;
-    const durations = await this.#retrieveTaskDurations(
+    const tasks = await this.#retrieveTasks(
       estimateInSeconds,
       project,
       category
     );
 
+    const durations = this.#extractDurations(tasks, estimateInSeconds);
     const deltas = this.#computeDeltas(estimateInSeconds, durations);
 
     const successes = this.#simulate(estimateInSeconds, durations);
@@ -33,6 +36,10 @@ export default class MonteCarloEstimateAnalyzer {
       medianDuration: medianDurationInMinutes,
       medianDelta: medianDeltaInMinutes,
       sigmaDuration: sigmaDurationInMinutes,
+      graphs: {
+        scatterplot: computerScatterPlot(tasks, "estimate", "duration"),
+        histogram: computeHistogram(durations),
+      },
     };
   }
 
@@ -73,11 +80,18 @@ export default class MonteCarloEstimateAnalyzer {
     return deltas;
   }
 
-  async #retrieveTaskDurations(
+  #extractDurations(tasks: Document[], originalEstimate: number): number[] {
+    return tasks.map((task) => {
+      if (task.estimate === originalEstimate) return task.duration;
+      return Math.round(task.ratio * originalEstimate);
+    });
+  }
+
+  async #retrieveTasks(
     estimatedSeconds: number,
     project?: string,
     category?: string
-  ): Promise<number[]> {
+  ): Promise<Document[]> {
     const [lowerBound, upperBound] =
       this.#calculateBoundsOfEstimate(estimatedSeconds);
 
@@ -99,10 +113,7 @@ export default class MonteCarloEstimateAnalyzer {
       throw new InsufficientDataError();
     }
 
-    return tasks.map((task) => {
-      if (task.estimate === estimatedSeconds) return task.duration;
-      return Math.round(task.ratio * estimatedSeconds);
-    });
+    return tasks;
   }
 
   #simulate(estimate: number, durations: number[]) {

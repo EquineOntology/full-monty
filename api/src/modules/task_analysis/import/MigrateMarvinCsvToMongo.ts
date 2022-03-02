@@ -5,7 +5,6 @@ import Job from "../../arch/queues/Job";
 import MarvinTask from "../data_management/MarvinTask";
 import CsvParser from "../../../libs/CsvParser";
 import { updateOrInsertModel } from "../../arch/database/MongoConnector";
-import estimate from "../../../routes/estimate";
 
 type Options = {
   file: string;
