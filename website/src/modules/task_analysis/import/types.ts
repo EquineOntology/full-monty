@@ -7,7 +7,7 @@ export type JobDescription = {
 
 export type JobStatus = "pending" | "started" | "failed" | "completed";
 
-export type StatusColor = "yellow" | "blue" | "red" | "green";
+export type JobStatusColor = "yellow" | "blue" | "red" | "green";
 
 export type ImportSettings = {
   exclusionList: string[];
