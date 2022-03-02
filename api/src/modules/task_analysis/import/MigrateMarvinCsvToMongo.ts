@@ -5,30 +5,24 @@ import Job from "../../arch/queues/Job";
 import MarvinTask from "../data_management/MarvinTask";
 import CsvParser from "../../../libs/CsvParser";
 import { updateOrInsertModel } from "../../arch/database/MongoConnector";
+import { index as getSettings } from "../import/ImportSettingsController";
 
 type Options = {
   file: string;
-  exclusionList: string[];
-  useEstimateWhenDurationMissing: boolean;
 };
 
 export default class MigrateMarvinCsvToMongo extends Job {
   name = "MigrateMarvinCsvToMongo";
   priority = 1;
   addedAt: Date;
-  #exclusionList: string[];
+  #exclusionList: string[] = [];
   #file: string;
-  #useEstimateWhenDurationMissing: boolean;
+  #useEstimateWhenDurationMissing = false;
 
   constructor(options: Options) {
     super();
-
     this.addedAt = new Date();
-
     this.#file = options.file;
-    this.#exclusionList = options.exclusionList;
-    this.#useEstimateWhenDurationMissing =
-      options.useEstimateWhenDurationMissing;
   }
 
   dump() {
@@ -50,7 +44,13 @@ export default class MigrateMarvinCsvToMongo extends Job {
     };
   }
 
-  handle() {
+  async handle() {
+    const { exclusionList, useEstimateWhenDurationMissing } =
+      await getSettings();
+    this.#exclusionList = exclusionList ?? [];
+    this.#useEstimateWhenDurationMissing =
+      useEstimateWhenDurationMissing ?? false;
+
     fs.access(this.#file, (err) => {
       if (err) {
         this.onFail(err);

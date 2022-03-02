@@ -38,11 +38,7 @@ export default (app: Router) => {
       return res.json(responseData).status(400);
     }
 
-    const job = new MigrateMarvinCsvToMongo({
-      exclusionList: ["LB support", "RV support"],
-      file: req.file.path,
-      useEstimateWhenDurationMissing: false,
-    });
+    const job = new MigrateMarvinCsvToMongo({ file: req.file.path });
 
     job.priority = 1;
 
