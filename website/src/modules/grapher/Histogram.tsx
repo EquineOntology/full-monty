@@ -10,15 +10,9 @@ type Props = {
 };
 
 function Histogram({ data, width, height }: Props) {
-  const categories = data.map((barDescription) => {
-    const lowerBound = Math.round(barDescription.min / 60);
-    const upperBound = Math.round(barDescription.max / 60);
-    return `${lowerBound}-${upperBound}`;
-  });
-
   return (
     <Chart
-      options={getChartOptions(categories)}
+      options={getChartOptions(data)}
       series={composeSeries(data)}
       type="bar"
       width={width}
@@ -37,7 +31,13 @@ function composeSeries(data: BarDescription[]) {
   return series;
 }
 
-function getChartOptions(categories: string[]): ApexOptions {
+function getChartOptions(data: BarDescription[]): ApexOptions {
+  const categories = data.map((barDescription) => {
+    const lowerBound = humanizeTime(barDescription.min);
+    const upperBound = humanizeTime(barDescription.max);
+    return `${lowerBound}—${upperBound}`;
+  });
+
   return {
     plotOptions: {
       bar: {
@@ -55,16 +55,39 @@ function getChartOptions(categories: string[]): ApexOptions {
       position: "bottom",
       axisBorder: { show: false },
       axisTicks: { show: false },
-      title: { text: "Range (min)" },
+      title: {
+        text: "Range (minutes)",
+        offsetY: -10,
+      },
     },
     yaxis: {
       axisBorder: { show: false },
       axisTicks: { show: false },
       labels: { show: true },
-      title: { text: "Tasks" },
+      title: { text: "# of tasks" },
     },
     tooltip: { enabled: false },
   };
+}
+
+function humanizeTime(seconds: number) {
+  const minutes = Math.round(seconds / 60);
+
+  if (minutes < 60) {
+    return `${minutes}m`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const leftoverMinutes = minutes % 60;
+
+  if (hours < 24) {
+    return `${hours}h${leftoverMinutes}m`;
+  }
+
+  const days = Math.floor(hours / 24);
+  const leftoverHours = hours % 24;
+
+  return `${days}d${leftoverHours}h${leftoverMinutes}m`;
 }
 
 export default Histogram;

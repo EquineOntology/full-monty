@@ -25,7 +25,7 @@ function ScatterPlot({ data, estimate, width, height }: Props) {
 function composeSeries(data: Point[], estimateInMinutes: number) {
   const estimate = estimateInMinutes * 60;
   const series: ScatterPlotSeries = [
-    { name: "Exact match", data: [] },
+    { name: "Matching estimate", data: [] },
     { name: "Adjacent", data: [] },
   ];
 
@@ -47,9 +47,9 @@ function getChartOptions(): ApexOptions {
     },
     xaxis: {
       type: "numeric",
-      title: { text: "Estimate (min)" },
+      title: { text: "Estimate (minutes)" },
     },
-    yaxis: { title: { text: "Duration (min)" } },
+    yaxis: { title: { text: "Duration (minutes)" } },
     tooltip: {
       x: {
         show: false,

@@ -38,6 +38,7 @@ function Charts({ estimate, graphs, opened, setOpened }: Props) {
           width={450}
           height={350}
         />
+        <hr />
         <Histogram data={histogram} width={450} height={350} />
       </Group>
     </Drawer>
