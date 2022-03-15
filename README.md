@@ -1,2 +1,3 @@
-# full-monty-backend
-Backend code for Full Monty
+# full-monty
+
+Statistical self-improvement

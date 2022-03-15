@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  full-monty-website:
+    build:
+      args:
+        NEXTJS_PORT: ${NEXTJS_PORT}
+      context: ./website
+      dockerfile: Dockerfile
+    container_name: full-monty-website
+    entrypoint: ["npm", "run", "${START_SCRIPT}"]
+    env_file: website/.env.local
+    expose:
+      - ${NEXTJS_PORT}:${NEXTJS_PORT}
+    networks:
+      - full_monty_nw
+    ports:
+      - ${NEXTJS_PORT}:${NEXTJS_PORT}
+    restart: on-failure
+    volumes:
+      - type: bind
+        source: website/src
+        target: /var/www/html/src
+
+  full-monty-api:
+    build:
+      args:
+        NODE_PORT: ${NODE_PORT}
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: full-monty-api
+    entrypoint: ["npm", "run", "${START_SCRIPT}"]
+    env_file: api/.env
+    depends_on:
+      - full-monty-mongo
+    expose:
+      - ${NODE_PORT}:${NODE_PORT}
+    networks:
+      - full_monty_nw
+    ports:
+      - ${NODE_PORT}:${NODE_PORT}
+    restart: on-failure
+    volumes:
+      - type: bind
+        source: api/src
+        target: /var/www/html/src
+
+  full-monty-mongo:
+    container_name: full-monty-mongo
+    env_file: api/.env
+    image: mongo:5.0-focal
+    networks:
+      - full_monty_nw
+    restart: always
+
+  full-monty-mongo-express:
+    container_name: full-monty-mongo-express
+    env_file: api/.env
+    image: mongo-express:0.54
+    networks:
+      - full_monty_nw
+    ports:
+      - 8081:8081
+    restart: always
+
+networks:
+  full_monty_nw:
+    driver: bridge
