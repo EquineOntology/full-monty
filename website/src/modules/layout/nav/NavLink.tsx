@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { Center, Group, Text } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
+import { NextLink } from "@mantine/next";
 
 type Props = {
   text: string;
@@ -19,7 +19,7 @@ function NavLink({ text, to, icon, color = "primary" }: Props) {
   color = dimmed && !hovered ? "gray" : color;
 
   return (
-    <Link href={to} passHref>
+    <NextLink href={to}>
       <Center>
         <Group
           ref={ref}
@@ -52,7 +52,7 @@ function NavLink({ text, to, icon, color = "primary" }: Props) {
           </Text>
         </Group>
       </Center>
-    </Link>
+    </NextLink>
   );
 }
 

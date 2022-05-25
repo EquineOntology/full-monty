@@ -5,8 +5,8 @@ import {
   Title,
   UnstyledButton,
 } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
-import { useNotifications } from "@mantine/notifications";
+import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
 import { BsDashCircle, BsPlusCircle } from "react-icons/bs";
 import { MdCheckCircleOutline } from "react-icons/md";
 
@@ -18,18 +18,15 @@ function AnalysisRequestForm({ setAnalysisResult }: Props) {
   const maxEstimate = 6000;
   const minEstimate = 1;
 
-  const notifications = useNotifications();
   const form = useForm({
     initialValues: {
       project: "",
       category: "",
       estimate: 0,
     },
-    errorMessages: {
-      estimate: "The estimate must be higher than 0",
-    },
-    validationRules: {
-      estimate: (value) => value > 0,
+    validate: {
+      estimate: (value) =>
+        value > 0 ? null : "The estimate must be higher than 0",
     },
   });
 
@@ -56,7 +53,7 @@ function AnalysisRequestForm({ setAnalysisResult }: Props) {
         setAnalysisResult(result.data);
       })
       .catch((error) => {
-        notifications.showNotification({
+        showNotification({
           title: "Oh no!",
           icon: <MdCheckCircleOutline />,
           color: "red",
@@ -109,7 +106,6 @@ function AnalysisRequestForm({ setAnalysisResult }: Props) {
             max={maxEstimate}
             hideControls={true}
             variant="unstyled"
-            value={30}
             sx={{
               input: {
                 textAlign: "center",

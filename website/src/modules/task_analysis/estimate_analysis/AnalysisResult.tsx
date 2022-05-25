@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Button, Center, Container, Group, Text } from "@mantine/core";
-import { useNotifications } from "@mantine/notifications";
 import Charts from "./Charts";
 import SampleSize from "./explainer/SampleSize";
 import SuccessRate from "./explainer/SuccessRate";
@@ -38,7 +37,6 @@ type Props =
 const iconSize = 200;
 
 function AnalysisResult({ data }: Props) {
-  const notifications = useNotifications();
   const [opened, setOpened] = useState(false);
 
   if (!data) {

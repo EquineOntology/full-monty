@@ -5,7 +5,7 @@ import {
   useMantineTheme,
   MantineTheme,
 } from "@mantine/core";
-import { useNotifications } from "@mantine/notifications";
+import { showNotification, updateNotification } from "@mantine/notifications";
 import { Dropzone, MIME_TYPES, DropzoneStatus } from "@mantine/dropzone";
 import {
   MdCheckCircleOutline,
@@ -42,7 +42,6 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
 
 function MarvinCsvUploader() {
   const theme = useMantineTheme();
-  const notifications = useNotifications();
 
   function handleUpload(files: File[]) {
     const formData = new FormData();
@@ -60,16 +59,18 @@ function MarvinCsvUploader() {
       })
       .then((response) => response.json())
       .then((result) => {
-        notifications.showNotification({
+        showNotification({
+          id: "processing-upload",
           title: "Processing in progress",
           icon: <MdCheckCircleOutline />,
           color: "green",
-          message: "Your file was  uploaded and it will be processed shortly",
-          autoClose: 10000,
+          message: "Your file was uploaded and it will be processed shortly",
+          autoClose: 5000,
         });
       })
       .catch((error) => {
-        notifications.showNotification({
+        updateNotification({
+          id: "processing-upload",
           title: "Oh no!",
           icon: <MdOutlineErrorOutline />,
           color: "red",

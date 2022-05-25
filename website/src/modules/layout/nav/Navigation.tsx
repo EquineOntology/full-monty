@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Box, Center, Header, Image, Navbar, Title } from "@mantine/core";
+import { NextLink } from "@mantine/next";
 import { useHover } from "@mantine/hooks";
 import PageLinks from "./PageLinks";
 
@@ -20,7 +20,7 @@ function Navigation({ title }: Props) {
     >
       <Header
         height={80}
-        padding="md"
+        p="md"
         fixed
         sx={{
           display: "flex",
@@ -30,7 +30,7 @@ function Navigation({ title }: Props) {
         }}
       >
         <Center>
-          <Link href="/" passHref>
+          <NextLink href="/">
             <Box
               ref={ref}
               sx={{ display: "flex", cursor: hovered ? "pointer" : "auto" }}
@@ -46,7 +46,7 @@ function Navigation({ title }: Props) {
                 {title}
               </Title>
             </Box>
-          </Link>
+          </NextLink>
           <PageLinks />
         </Center>
       </Header>

@@ -1,14 +1,13 @@
-import { Anchor, Box, Center, Text } from "@mantine/core";
+import { Anchor, Center, Footer as MantineFooter, Text } from "@mantine/core";
 
 function Footer() {
   return (
-    <Box
-      component="footer"
+    <MantineFooter
+      height="50px"
       sx={{
         alignItems: "center",
         borderTop: "1px solid #eaeaea",
         display: "flex",
-        height: "50px",
         justifyContent: "center",
       }}
     >
@@ -18,7 +17,7 @@ function Footer() {
         </Text>
         <Anchor href="https://fratta.dev">Christian Fratta.</Anchor>
       </Center>
-    </Box>
+    </MantineFooter>
   );
 }
 

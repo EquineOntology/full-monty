@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Drawer, Group } from "@mantine/core";
+import { Drawer, Stack } from "@mantine/core";
 import Histogram from "@/modules/grapher/Histogram";
 import ScatterPlot from "@/modules/grapher/ScatterPlot";
 
@@ -24,23 +24,16 @@ function Charts({ estimate, graphs, opened, setOpened }: Props) {
       position="right"
       size={600}
     >
-      <Group
-        sx={{ marginTop: 40 }}
-        direction="column"
-        align="center"
-        spacing="sm"
-        grow
-        noWrap
-      >
+      <Stack sx={{ marginTop: 40 }} align="center" spacing="sm">
         <ScatterPlot
           data={scatterplot}
           estimate={estimate}
           width={450}
           height={350}
         />
-        <hr />
+        <hr style={{ border: "none" }} />
         <Histogram data={histogram} width={450} height={350} />
-      </Group>
+      </Stack>
     </Drawer>
   );
 }

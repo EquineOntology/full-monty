@@ -1,6 +1,6 @@
 import { Box, Button, Switch, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
-import { useNotifications } from "@mantine/notifications";
+import { useForm } from "@mantine/form";
+import { showNotification, updateNotification } from "@mantine/notifications";
 import { MdAddCircleOutline, MdCheckCircleOutline } from "react-icons/md";
 import { ImportSettings } from "./types";
 
@@ -21,7 +21,6 @@ function SettingsForm({ settings }: Props) {
       useEstimateWhenDurationMissing: useEstimateWhenDurationMissing ?? false,
     },
   });
-  const notifications = useNotifications();
 
   function handleSubmit(values: FormValues) {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/import/settings`, {
@@ -36,7 +35,8 @@ function SettingsForm({ settings }: Props) {
         return response;
       })
       .then(() => {
-        notifications.showNotification({
+        showNotification({
+          id: "updating-settings",
           title: "successful",
           icon: <MdCheckCircleOutline />,
           color: "green",
@@ -45,7 +45,8 @@ function SettingsForm({ settings }: Props) {
         });
       })
       .catch((error) => {
-        notifications.showNotification({
+        updateNotification({
+          id: "update-settings",
           title: "Oh no!",
           icon: <MdAddCircleOutline rotate={45} />,
           color: "red",

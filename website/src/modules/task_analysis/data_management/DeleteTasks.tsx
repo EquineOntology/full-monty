@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Button, Text } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
-import { useNotifications } from "@mantine/notifications";
+import { showNotification } from "@mantine/notifications";
 import {
   MdCheckCircleOutline,
   MdOutlineErrorOutline,
@@ -10,7 +10,6 @@ import {
 import { HiFire } from "react-icons/hi";
 
 function DeleteTasks() {
-  const notifications = useNotifications();
   const [state, setState] = useState(ButtonState.Default);
   const { hovered, ref } = useHover();
 
@@ -43,7 +42,7 @@ function DeleteTasks() {
         })
         .catch((error) => {
           setState(ButtonState.Default);
-          notifications.showNotification({
+          showNotification({
             title: "Oh no!",
             icon: <MdOutlineErrorOutline />,
             color: "red",
