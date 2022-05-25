@@ -3,8 +3,6 @@ import { createGetInitialProps } from "@mantine/next";
 
 const getInitialProps = createGetInitialProps();
 
-class _Document extends Document {
+export default class _Document extends Document {
   static getInitialProps = getInitialProps;
 }
-
-export default _Document;

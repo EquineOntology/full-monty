@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import { Container } from "@mantine/core";
-import AppPage from "@/modules/layout/AppPage";
+import PageLayout from "@/components/PageLayout";
 
 const Home: NextPage = () => {
   return (
-    <AppPage pageTitle="Full Monty.">
+    <PageLayout pageTitle="Full Monty.">
       <Container></Container>
-    </AppPage>
+    </PageLayout>
   );
 };
 
