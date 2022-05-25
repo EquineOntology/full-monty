@@ -1,9 +1,9 @@
 import type { AppProps } from "next/app";
 import { MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import GlobalStyles from "@/modules/layout/GlobalStyles";
+import GlobalStyles from "@/components/GlobalStyles";
 
-function FullMonty({ Component, pageProps }: AppProps) {
+export default function FullMonty({ Component, pageProps }: AppProps) {
   return (
     <MantineProvider
       withGlobalStyles
@@ -19,5 +19,3 @@ function FullMonty({ Component, pageProps }: AppProps) {
     </MantineProvider>
   );
 }
-
-export default FullMonty;

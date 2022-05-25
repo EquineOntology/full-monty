@@ -12,11 +12,10 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@/libs/*": ["src/libs/*"],
-      "@/common/*": ["src/common/*"],
-      "@/modules/*": ["src/modules/*"],
+      "@/components/*": ["src/components/*"],
       "@/pages/*": ["src/pages/*"],
-      "@/styles/*": ["src/styles/*"]
+      "@/styles/*": ["src/styles/*"],
+      "@/utils/*": ["src/utils/*"]
     },
     "resolveJsonModule": true,
     "rootDir": "./src",
