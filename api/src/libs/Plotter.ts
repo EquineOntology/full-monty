@@ -1,6 +1,6 @@
 import { isNumeric } from "./TypeChecker";
 
-export function computerScatterPlot(
+export function computeScatterPlot(
   dataset: Datum[],
   xAttribute: string,
   yAttribute: string

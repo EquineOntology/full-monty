@@ -2,7 +2,7 @@ import { get as getFromDb } from "../arch/database/MongoConnector";
 import InsufficientDataError from "../arch/api/InsufficientDataError";
 import { median, variance, mean } from "../../libs/Statistics";
 import { Document } from "mongodb";
-import { computeHistogram, computerScatterPlot } from "../../libs/Plotter";
+import { computeHistogram, computeScatterPlot } from "../../libs/Plotter";
 
 export default class MonteCarloEstimateAnalyzer {
   #TOTAL_RUNS: number = 1_000_000;
@@ -37,7 +37,7 @@ export default class MonteCarloEstimateAnalyzer {
       medianDelta: medianDeltaInMinutes,
       sigmaDuration: sigmaDurationInMinutes,
       graphs: {
-        scatterplot: computerScatterPlot(tasks, "estimate", "duration"),
+        scatterplot: computeScatterPlot(tasks, "estimate", "duration"),
         histogram: computeHistogram(durations),
       },
     };
