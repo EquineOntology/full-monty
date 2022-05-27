@@ -3,11 +3,19 @@
   "display": "Node 16",
 
   "compilerOptions": {
+    "baseUrl": "./",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2021"],
     "module": "commonjs",
-    "rootDir": "./src",
+    "paths": {
+      "@/datastore": ["src/modules/arch/database/Datastore"],
+      "@/helpers/*": ["src/helpers/*"],
+      "@/models/*": ["src/models/*"],
+      "@/root/*": ["*"],
+      "@/utils/*": ["src/utils/*"]
+    },
+    "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     "target": "es2021"
