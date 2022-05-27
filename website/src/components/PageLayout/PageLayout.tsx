@@ -17,7 +17,11 @@ export default function PageLayout({ pageTitle, children }: Props) {
       <AppShell
         header={<Header title={pageTitle} />}
         footer={<Footer />}
-        sx={{ minHeight: "calc(100vh - 50px)", paddingTop: 100 }}
+        sx={{
+          minHeight: "calc(100vh - 50px)",
+          paddingTop: 100,
+          paddingBottom: 60,
+        }}
       >
         {children}
       </AppShell>
