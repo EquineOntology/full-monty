@@ -46,12 +46,18 @@ export default function ImportJobHistory() {
       <div>
         {title}
         <Alert title="Nothing here!" color="yellow" mt={10}>
-          Bummer, no files have been imported yet - you can do so below!
+          No jobs have been run yet. Try importing some tasks from Amazing
+          Marvin!
         </Alert>
       </div>
     );
   }
 
+  data.sort((a: ApiResponseItem, b: ApiResponseItem) => {
+    return b.addedAt - a.addedAt;
+  });
+
+  const jobs = data.slice(0, 5);
   return (
     <>
       {title}
@@ -61,7 +67,7 @@ export default function ImportJobHistory() {
         lineWidth={2}
         style={{ marginTop: "1rem" }}
       >
-        {data.map((job: JobDescription, index: number) => (
+        {jobs.map((job: JobDescription, index: number) => (
           <Timeline.Item
             key={index}
             active={true}
@@ -122,3 +128,7 @@ function getHumanReadableDate(input: string) {
   const date = new Date(input);
   return date.toLocaleString();
 }
+
+type ApiResponseItem = {
+  addedAt: number;
+} & Record<string, any>;
