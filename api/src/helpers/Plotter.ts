@@ -1,4 +1,4 @@
-import { isNumeric } from "./TypeChecker";
+import { isNumeric } from "@/utils/TypeChecker";
 
 export function computeScatterPlot(
   dataset: Datum[],

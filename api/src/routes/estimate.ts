@@ -1,6 +1,6 @@
 import { Router } from "express";
-import ApiResponseFactory from "../modules/arch/api/ApiResponseFactory";
-import MonteCarloEstimateAnalyzer from "../modules/task_analysis/MonteCarloEstimateAnalyzer";
+import ApiResponseFactory from "@/modules/api/ApiResponseFactory";
+import MonteCarloEstimateAnalyzer from "@/modules/estimate_analysis/MonteCarloEstimateAnalyzer";
 
 export default (app: Router) => {
   const router = Router();

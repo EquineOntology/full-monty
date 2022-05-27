@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
-import express, { Request, Response } from "express";
 import { Server } from "http";
+import express, { Request, Response } from "express";
 import loaders from "./loaders";
-import { close as closeDbConnection } from "./modules/arch/database/MongoConnector";
+import Datastore from "@/datastore";
 
 async function startServer() {
   dotenv.config();
@@ -28,10 +28,16 @@ async function startServer() {
 
   process.on("SIGTERM", async () => {
     console.info("SIGTERM received");
-    const closedWithoutError = await closeDbConnection();
-    server.close(() => {
-      process.exit(closedWithoutError ? 0 : 1);
-    });
+    try {
+      Datastore.closeConnection();
+      server.close(() => {
+        process.exit(0);
+      });
+    } catch (e) {
+      server.close(() => {
+        process.exit(1);
+      });
+    }
   });
 }
 

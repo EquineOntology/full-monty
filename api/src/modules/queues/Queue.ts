@@ -1,7 +1,6 @@
 import Job from "./Job";
+import Datastore from "@/datastore";
 import createJob from "./JobFactory";
-import { JobStatus } from "./types";
-import { get as getFromDb } from "../database/MongoConnector";
 
 export default class Queue {
   priority: number;
@@ -21,9 +20,9 @@ export default class Queue {
     return this.#jobs.length;
   }
 
-  add(job: Job) {
+  async add(job: Job) {
     job.priority = this.priority;
-    job.store();
+    await job.save();
   }
 
   work() {
@@ -40,22 +39,18 @@ export default class Queue {
   }
 
   async load() {
-    const filter: {
-      "attributes.status": JobStatus;
-      "attributes.priority": number;
-    } = {
-      "attributes.status": "pending",
-      "attributes.priority": this.priority,
-    };
-
-    const sort = ["addedAt", "asc"];
-    const results = await getFromDb("jobs", filter, { sort: sort });
+    const results = await Datastore.get("jobs", {
+      sort: [{ column: "createdAt", order: "asc" as "asc" }],
+      filter: {
+        status: ["pending", "started"],
+        priority: this.priority,
+      },
+    });
 
     const jobs = [];
     results.forEach((jobData) => {
-      const { id, options, attributes } = jobData;
-      const job = createJob(attributes.name, options, attributes);
-      job.id = id;
+      const { name, data } = jobData;
+      const job = createJob(name, data, jobData);
       this.#jobs.push(job);
     });
 

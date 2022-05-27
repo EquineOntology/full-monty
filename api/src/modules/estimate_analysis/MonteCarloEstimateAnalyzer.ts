@@ -1,8 +1,7 @@
-import { get as getFromDb } from "../arch/database/MongoConnector";
-import InsufficientDataError from "../arch/api/InsufficientDataError";
-import { median, variance, mean } from "../../libs/Statistics";
-import { Document } from "mongodb";
-import { computeHistogram, computeScatterPlot } from "../../libs/Plotter";
+import Datastore from "@/datastore";
+import { median, variance, mean } from "@/helpers/Statistics";
+import InsufficientDataError from "@/modules/api/InsufficientDataError";
+import { computeHistogram, computeScatterPlot } from "@/helpers/Plotter";
 
 export default class MonteCarloEstimateAnalyzer {
   #TOTAL_RUNS: number = 1_000_000;
@@ -80,7 +79,10 @@ export default class MonteCarloEstimateAnalyzer {
     return deltas;
   }
 
-  #extractDurations(tasks: Document[], originalEstimate: number): number[] {
+  #extractDurations(
+    tasks: Record<string, any>[],
+    originalEstimate: number
+  ): number[] {
     return tasks.map((task) => {
       if (task.estimate === originalEstimate) return task.duration;
       return Math.round(task.ratio * originalEstimate);
@@ -91,14 +93,17 @@ export default class MonteCarloEstimateAnalyzer {
     estimatedSeconds: number,
     project?: string,
     category?: string
-  ): Promise<Document[]> {
+  ): Promise<Record<string, any>[]> {
     const [lowerBound, upperBound] =
       this.#calculateBoundsOfEstimate(estimatedSeconds);
 
-    const filters: { estimate: object; project?: string; category?: string } = {
-      estimate: { $gte: lowerBound, $lte: upperBound },
+    const filters: {
+      estimate: { between: [number, number] };
+      project?: string;
+      category?: string;
+    } = {
+      estimate: { between: [lowerBound, upperBound] },
     };
-
     if (project) {
       filters.project = project;
     }
@@ -106,8 +111,10 @@ export default class MonteCarloEstimateAnalyzer {
       filters.category = category;
     }
 
-    const fieldFilter = { duration: true, estimate: true, ratio: true };
-    const tasks = await getFromDb("marvin_tasks", filters, { fieldFilter });
+    const tasks = await Datastore.get("tasks", {
+      filter: filters,
+      returnFields: ["duration", "estimate", "ratio"],
+    });
 
     if (tasks.length === 0) {
       throw new InsufficientDataError();
