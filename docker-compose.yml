@@ -31,8 +31,6 @@ services:
     container_name: full-monty-api
     entrypoint: ["npm", "run", "${START_SCRIPT}"]
     env_file: api/.env
-    depends_on:
-      - full-monty-mongo
     expose:
       - ${NODE_PORT}:${NODE_PORT}
     networks:
@@ -44,24 +42,9 @@ services:
       - type: bind
         source: api/src
         target: /var/www/html/src
-
-  full-monty-mongo:
-    container_name: full-monty-mongo
-    env_file: api/.env
-    image: mongo:5.0-focal
-    networks:
-      - full_monty_nw
-    restart: always
-
-  full-monty-mongo-express:
-    container_name: full-monty-mongo-express
-    env_file: api/.env
-    image: mongo-express:0.54
-    networks:
-      - full_monty_nw
-    ports:
-      - 8081:8081
-    restart: always
+      - type: bind
+        source: api/database.sqlite
+        target: /var/www/html/database.sqlite
 
 networks:
   full_monty_nw:
