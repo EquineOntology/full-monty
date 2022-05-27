@@ -1,28 +1,20 @@
-import { get as getFromDb } from "../database/MongoConnector";
+import Datastore from "@/datastore";
 import { JobStatus } from "./types";
 
 export async function index() {
-  const sort = ["addedAt", "desc"];
-  const resultLimit = 10;
-  const desiredFields = {
-    "attributes.name": true,
-    "attributes.status": true,
-    "attributes.addedAt": true,
-    "attributes.completedAt": true,
-  };
-  const list = await getFromDb("jobs", undefined, {
-    sort: sort,
-    limit: resultLimit,
-    fieldFilter: desiredFields,
+  const list = await Datastore.get("jobs", {
+    sort: [{ column: "createdAt", order: "desc" as "desc" }],
+    limit: 10,
+    returnFields: ["name", "status", "createdAt", "completedAt"],
   });
 
   const jobs: JobDataForClient[] = [];
-  list.forEach((job) => {
+  list.forEach((jobData) => {
     jobs.push({
-      name: getFriendlyJobName(job.attributes.name),
-      status: job.attributes.status,
-      addedAt: job.attributes.addedAt,
-      completedAt: job.attributes.completedAt,
+      name: getFriendlyJobName(jobData.name),
+      status: jobData.status,
+      addedAt: jobData.createdAt,
+      completedAt: jobData.completedAt,
     });
   });
 
@@ -31,9 +23,9 @@ export async function index() {
 
 function getFriendlyJobName(jobName: string) {
   switch (jobName) {
-    case "MigrateMarvinCsvToMongo":
+    case "ImportTasksFromMarvin":
       return "Marvin CSV import";
-    case "TestJob":
+    case "TestCronJob":
       return "Test";
     default:
       throw new Error(`Friendly job name of "${jobName}" not defined`);

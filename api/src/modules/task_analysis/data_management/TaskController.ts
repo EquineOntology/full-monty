@@ -1,10 +1,10 @@
-import { clearCollection as clearFromDb } from "../../arch/database/MongoConnector";
+import Task from "@/models/Task";
 
 export async function clear() {
-  const deletionSuccessful = await clearFromDb("marvin_tasks");
-
-  if (!deletionSuccessful) {
-    throw new Error("Collection marvin_tasks could not be emptied.");
+  try {
+    await Task.clear();
+  } catch (e) {
+    throw new Error("Could not delete all tasks.");
   }
 
   return true;

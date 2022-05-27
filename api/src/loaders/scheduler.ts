@@ -3,12 +3,12 @@ import factory from "../modules/arch/queues/JobFactory";
 import Queue from "../modules/arch/queues/Queue";
 
 const _jobs: JobSpecification[] = [
-  // { name: "TestJob", schedule: "* * * * *" },
+  // { name: "TestCronJob", schedule: "* * * * *" },
 ];
 
 const _scheduledJobs: Record<string, ScheduledTask> = {};
 
-export default (queues: Record<number, Queue>) => {
+export default async (queues: Record<number, Queue>) => {
   _jobs.forEach((jobConfig) => {
     if (!cron.validate(jobConfig.schedule)) {
       throw new Error(`[job:${jobConfig.name}] Invalid schedule`);
@@ -39,5 +39,5 @@ export function stop(jobName: string) {
 type JobSpecification = {
   name: string;
   schedule: string;
-  params: object;
+  params?: object;
 };

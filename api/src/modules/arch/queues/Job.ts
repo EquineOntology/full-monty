@@ -1,36 +1,43 @@
-import uuid from "uuid-mongodb";
+import Model from "@/models/Model";
+import Datastore from "@/datastore";
 import { ConsoleLevel, JobInterface, JobStatus } from "./types";
-import { update as storeInDb } from "../database/MongoConnector";
 
-export default abstract class Job implements JobInterface {
-  abstract name: string;
-  abstract priority: number;
-  abstract addedAt: Date;
+export default abstract class Job extends Model implements JobInterface {
+  public abstract name: string;
+  public abstract priority: number;
 
-  id: string;
-  collection = "jobs";
+  table = "jobs";
   status: JobStatus = "pending";
+  data: Record<string, any> | null = null;
   startedAt: Date | null = null;
   completedAt: Date | null = null;
 
-  constructor() {
-    this.id = uuid.v4().toString();
+  constructor(data?: Record<string, any>) {
+    super();
+    if (data) {
+      this.data = data;
+    }
   }
-
-  abstract dump(): {
-    id: string;
-    attributes: object;
-    options?: object;
-  };
 
   abstract handle(): void;
 
-  onEnd() {
-    this.#end();
+  getAttributes(): Record<string, any> {
+    return {
+      ...super.getAttributes(),
+      name: this.name,
+      data: this.data,
+      status: this.status,
+      startedAt: this.startedAt,
+      completedAt: this.completedAt,
+    };
   }
 
-  onFail(error: Error) {
-    this.#fail(error);
+  end() {
+    this.#onEnd();
+  }
+
+  fail(error: Error) {
+    this.#onFail(error);
   }
 
   report(message: string, level: ConsoleLevel = "info"): void {
@@ -38,24 +45,21 @@ export default abstract class Job implements JobInterface {
   }
 
   run(): void {
-    this.#start();
+    this.#onStart();
     this.handle();
   }
 
-  async store() {
-    await storeInDb(this.collection, this.dump());
-  }
-
-  #end() {
+  #onEnd() {
     this.completedAt = new Date();
     this.status = "completed";
-    this.store();
+    this.save();
     this.report(`Completed at ${this.completedAt}`);
   }
 
-  #fail(error: Error) {
+  #onFail(error: Error) {
     this.status = "failed";
-    this.store();
+    this.completedAt = new Date();
+    this.save();
 
     console.group(`[job:${this.name}] failed`);
     this.report(error.message, "error");
@@ -65,9 +69,14 @@ export default abstract class Job implements JobInterface {
     console.groupEnd();
   }
 
-  #start(): void {
+  async #onStart() {
     this.startedAt = new Date();
     this.status = "started";
+    await this.save();
     this.report(`Starting at ${this.startedAt}`);
+  }
+
+  static async clear() {
+    await Datastore.clear("jobs");
   }
 }

@@ -1,31 +1,41 @@
-import {
-  get as getFromDb,
-  update as saveInDb,
-} from "../../arch/database/MongoConnector";
+import Datastore from "@/datastore";
+import Setting from "@/models/Setting";
 import { ImportSettings } from "./types";
 
-export async function index() {
-  const desiredFields = {
-    exclusionList: true,
-    useEstimateWhenDurationMissing: true,
-  };
-  const list = await getFromDb(
-    "settings",
-    { name: "import" },
-    {
-      limit: 1,
-      fieldFilter: desiredFields,
-    }
-  );
+export async function index(): Promise<ImportSettings> {
+  const list = await Datastore.get("settings", {
+    filter: { id: "import" },
+    returnFields: ["data"],
+  });
 
-  return list[0];
+  const defaults = {
+    exclusionList: [],
+    useEstimateWhenDurationMissing: false,
+  };
+
+  if (list.length === 0 || !list[0].data) {
+    return defaults;
+  }
+
+  let settings = list[0].data;
+  if (typeof settings === "string") {
+    settings = JSON.parse(settings);
+  }
+
+  return {
+    exclusionList: settings?.exclusionList ?? defaults.exclusionList,
+    useEstimateWhenDurationMissing:
+      settings?.useEstimateWhenDurationMissing ??
+      defaults.useEstimateWhenDurationMissing,
+  };
 }
 
 export async function store(settings: ImportSettings) {
-  const result = await saveInDb(
-    "settings",
-    { name: "import", ...settings },
-    true
-  );
-  return result.acknowledged;
+  const setting = new Setting("import", settings);
+  try {
+    await setting.save();
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
