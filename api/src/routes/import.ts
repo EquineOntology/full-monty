@@ -1,12 +1,12 @@
 import multer from "multer";
 import { Router } from "express";
-import ApiResponseFactory from "../modules/arch/api/ApiResponseFactory";
-import ImportTasksFromMarvin from "../models/jobs/ImportTasksFromMarvin";
-import { index as getJobList } from "../modules/arch/queues/JobController";
 import {
   index as getSettings,
   store as saveSettings,
-} from "../modules/task_analysis/import/ImportSettingsController";
+} from "@/controllers/ImportSettingsController";
+import ApiResponseFactory from "@/modules/api/ApiResponseFactory";
+import { index as getJobList } from "@/controllers/JobController";
+import ImportTasksFromMarvin from "@/modules/queues/jobs/ImportTasksFromMarvin";
 
 export default (app: Router) => {
   const router = Router();

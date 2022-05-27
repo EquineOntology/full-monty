@@ -1,6 +1,5 @@
 import Datastore from "@/datastore";
 import Setting from "@/models/Setting";
-import { ImportSettings } from "./types";
 
 export async function index(): Promise<ImportSettings> {
   const list = await Datastore.get("settings", {
@@ -39,3 +38,8 @@ export async function store(settings: ImportSettings) {
     return false;
   }
 }
+
+type ImportSettings = {
+  exclusionList: string[];
+  useEstimateWhenDurationMissing: boolean;
+};

@@ -9,9 +9,11 @@
     "lib": ["es2021"],
     "module": "commonjs",
     "paths": {
-      "@/datastore": ["src/modules/arch/database/Datastore"],
+      "@/controllers/*": ["src/controllers/*"],
+      "@/datastore": ["src/modules/storage/Datastore"],
       "@/helpers/*": ["src/helpers/*"],
       "@/models/*": ["src/models/*"],
+      "@/modules/*": ["src/modules/*"],
       "@/root/*": ["*"],
       "@/utils/*": ["src/utils/*"]
     },

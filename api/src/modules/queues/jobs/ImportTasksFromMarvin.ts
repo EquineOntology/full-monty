@@ -1,8 +1,8 @@
 import fs from "fs";
 import Task from "@/models/Task";
+import Job from "@/modules/queues/Job";
 import CsvParser from "@/utils/CsvParser";
-import Job from "../../modules/arch/queues/Job";
-import { index as getSettings } from "../../modules/task_analysis/import/ImportSettingsController";
+import { index as getSettings } from "@/controllers/ImportSettingsController";
 
 type Options = {
   file: string | null;

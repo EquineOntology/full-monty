@@ -1,5 +1,5 @@
 import Datastore from "@/datastore";
-import { JobStatus } from "./types";
+import { JobStatus } from "@/modules/queues/types";
 
 export async function index() {
   const list = await Datastore.get("jobs", {

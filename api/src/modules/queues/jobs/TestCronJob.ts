@@ -1,4 +1,4 @@
-import Job from "../../modules/arch/queues/Job";
+import Job from "@/modules/queues/Job";
 
 export default class TestCronJob extends Job {
   name = "TestCronJob";

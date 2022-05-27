@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import { JobStatus } from "../modules/arch/queues/types";
+import { JobStatus } from "@/modules/queues/types";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("jobs", function (table) {
