@@ -1,1 +1,1 @@
-NodeJS + Express + MongoDB API backend for full-monty
+NodeJS + Express + SQLite API backend for full-monty
