@@ -8,6 +8,7 @@
 
 # API
 /api/build/
+/api/database*.sqlite
 
 # Website
 /website/.next/
