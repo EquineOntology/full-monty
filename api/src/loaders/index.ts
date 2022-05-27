@@ -1,13 +1,9 @@
 import { Application } from "express";
-import expressLoader from "./express";
-import mongoLoader from "./mongo";
-import schedulerLoader from "./scheduler";
 import queueLoader from "./queues";
+import expressLoader from "./express";
+import schedulerLoader from "./scheduler";
 
 export default async ({ expressApp }: { expressApp: Application }) => {
-  await mongoLoader();
-  console.info("MongoDB Initialized");
-
   const queues = queueLoader();
   console.info("Job queues initialized");
 

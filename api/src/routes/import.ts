@@ -1,12 +1,12 @@
-import { Router } from "express";
 import multer from "multer";
-import { index as getJobList } from "../modules/arch/queues/JobController";
-import ApiResponseFactory from "../modules/arch/api/ApiResponseFactory";
-import MigrateMarvinCsvToMongo from "../modules/task_analysis/import/MigrateMarvinCsvToMongo";
+import { Router } from "express";
 import {
   index as getSettings,
   store as saveSettings,
-} from "../modules/task_analysis/import/ImportSettingsController";
+} from "@/controllers/ImportSettingsController";
+import ApiResponseFactory from "@/modules/api/ApiResponseFactory";
+import { index as getJobList } from "@/controllers/JobController";
+import ImportTasksFromMarvin from "@/modules/queues/jobs/ImportTasksFromMarvin";
 
 export default (app: Router) => {
   const router = Router();
@@ -17,7 +17,7 @@ export default (app: Router) => {
     let jobs;
     try {
       jobs = await getJobList();
-    } catch (error: any) {
+    } catch (error) {
       const responseData = ApiResponseFactory.error(
         "Could not retrieve list of jobs"
       );
@@ -38,13 +38,10 @@ export default (app: Router) => {
       return res.json(responseData).status(400);
     }
 
-    const job = new MigrateMarvinCsvToMongo({ file: req.file.path });
-
-    job.priority = 1;
-
+    const job = new ImportTasksFromMarvin({ file: req.file.path });
     try {
-      await job.store();
-    } catch (error: any) {
+      await job.save();
+    } catch (error) {
       const responseData = ApiResponseFactory.error(
         "There was an error dispatching the import job"
       );
@@ -61,7 +58,8 @@ export default (app: Router) => {
     let settings;
     try {
       settings = await getSettings();
-    } catch (error: any) {
+    } catch (error) {
+      console.error(error);
       const responseData = ApiResponseFactory.error(
         "Could not retrieve settings"
       );
@@ -93,7 +91,7 @@ export default (app: Router) => {
         exclusionList: req.body.exclusionList.split(","),
         useEstimateWhenDurationMissing: req.body.useEstimateWhenDurationMissing,
       });
-    } catch (error: any) {
+    } catch (error) {
       const responseData = ApiResponseFactory.error(
         "There was an error saving settings"
       );

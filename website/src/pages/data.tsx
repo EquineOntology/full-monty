@@ -1,11 +1,11 @@
+import useSWR from "swr";
 import { useState } from "react";
 import type { NextPage } from "next";
-import useSWR from "swr";
 import { Button, Center, Container } from "@mantine/core";
-import AppPage from "@/modules/layout/AppPage";
-import MarvinCsvUploader from "@/modules/task_analysis/import/MarvinFileUploader";
-import JobHistory from "@/modules/task_analysis/import/JobHistory";
-import SettingsPanel from "@/modules/task_analysis/import/SettingsPanel";
+import PageLayout from "@/components/PageLayout";
+import ImportJobHistory from "@/components/ImportJobHistory";
+import MarvinFileUploader from "@/components/MarvinFileUploader";
+import ImportSettingsPanel from "@/components/ImportSettingsPanel";
 
 const Data: NextPage = () => {
   const [opened, setOpened] = useState(false);
@@ -15,9 +15,9 @@ const Data: NextPage = () => {
   );
 
   return (
-    <AppPage pageTitle="Manage data.">
+    <PageLayout pageTitle="Manage data.">
       <Container>
-        <MarvinCsvUploader />
+        <MarvinFileUploader />
         <Center mt="xl">
           <Button
             onClick={() => setOpened(true)}
@@ -35,11 +35,15 @@ const Data: NextPage = () => {
             border: "1px solid #f1f1f1",
           }}
         />
-        <JobHistory />
+        <ImportJobHistory />
 
-        <SettingsPanel opened={opened} setOpened={setOpened} settings={data} />
+        <ImportSettingsPanel
+          opened={opened}
+          setOpened={setOpened}
+          settings={data}
+        />
       </Container>
-    </AppPage>
+    </PageLayout>
   );
 };
 

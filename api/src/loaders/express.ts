@@ -1,5 +1,5 @@
-import compression from "compression";
 import cors from "cors";
+import compression from "compression";
 import express, { Application } from "express";
 import routes from "../routes";
 
