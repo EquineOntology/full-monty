@@ -4,7 +4,7 @@ include api/.env
 include website/.env.local
 export
 
-START_SCRIPT ?= "start"
+START_SCRIPT ?= start
 
 # "cache off" flag
 ifeq ($(cache), false)
