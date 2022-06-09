@@ -1,7 +1,7 @@
-import { Drawer, Stack } from "@mantine/core";
-import { Dispatch, SetStateAction } from "react";
 import Histogram from "@/components/Charts/Histogram";
 import ScatterPlot from "@/components/Charts/ScatterPlot";
+import { Drawer, Stack } from "@mantine/core";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   opened: boolean;

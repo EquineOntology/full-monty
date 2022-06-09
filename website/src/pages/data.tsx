@@ -1,11 +1,12 @@
-import useSWR from "swr";
-import { useState } from "react";
-import type { NextPage } from "next";
-import { Button, Center, Container } from "@mantine/core";
-import PageLayout from "@/components/PageLayout";
+import { ApiResponse } from "@/components/Api";
 import ImportJobHistory from "@/components/ImportJobHistory";
-import MarvinFileUploader from "@/components/MarvinFileUploader";
 import ImportSettingsPanel from "@/components/ImportSettingsPanel";
+import MarvinFileUploader from "@/components/MarvinFileUploader";
+import PageLayout from "@/components/PageLayout";
+import { Alert, Button, Center, Container, Text } from "@mantine/core";
+import type { NextPage } from "next";
+import { useState } from "react";
+import useSWR from "swr";
 
 const Data: NextPage = () => {
   const [opened, setOpened] = useState(false);
@@ -14,9 +15,24 @@ const Data: NextPage = () => {
     fetcher
   );
 
-  return (
-    <PageLayout pageTitle="Manage data.">
-      <Container>
+  let contents;
+  if (error) {
+    contents = (
+      <Center>
+        <Alert title="Boo :(" color="red" mt={10}>
+          {error ? error.toString() : "Could not retrieve settings"}
+        </Alert>
+      </Center>
+    );
+  } else if (data === undefined) {
+    contents = (
+      <Center>
+        <Text>Loading</Text>
+      </Center>
+    );
+  } else {
+    contents = (
+      <>
         <MarvinFileUploader />
         <Center mt="xl">
           <Button
@@ -42,14 +58,33 @@ const Data: NextPage = () => {
           setOpened={setOpened}
           settings={data}
         />
-      </Container>
+      </>
+    );
+  }
+
+  return (
+    <PageLayout pageTitle="Manage data.">
+      <Container>{contents}</Container>
     </PageLayout>
   );
 };
 
-const fetcher = (url: string) =>
-  fetch(url)
-    .then((res) => res.json())
-    .then((res) => res.data);
+const fetcher = async (url: string) => {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: process.env.NEXT_PUBLIC_API_KEY,
+    },
+  });
+  const contents: ApiResponse = await response.json();
+  if (contents.status === "fail" || contents.status === "error") {
+    if (contents.data?.message === undefined) {
+      throw new Error("Incomplete response from API");
+    }
+
+    throw new Error(contents.data.message);
+  }
+
+  return contents.data;
+};
 
 export default Data;

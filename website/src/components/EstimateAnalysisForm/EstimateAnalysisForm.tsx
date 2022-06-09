@@ -6,9 +6,9 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { MdCheckCircleOutline } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import { BsDashCircle, BsPlusCircle } from "react-icons/bs";
+import { MdCheckCircleOutline } from "react-icons/md";
 
 type Props = {
   setAnalysisData: Function;
@@ -39,7 +39,10 @@ export default function EstimateAnalysisForm({ setAnalysisData }: Props) {
   function handleSubmit(values: FormValues) {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/estimate`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: process.env.NEXT_PUBLIC_API_KEY,
+      },
       body: JSON.stringify(values),
     })
       .then(function (response) {

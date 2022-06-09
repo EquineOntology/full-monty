@@ -12,6 +12,7 @@
       "@/controllers/*": ["src/controllers/*"],
       "@/datastore": ["src/modules/storage/Datastore"],
       "@/helpers/*": ["src/helpers/*"],
+      "@/middleware/*": ["src/middleware/*"],
       "@/models/*": ["src/models/*"],
       "@/modules/*": ["src/modules/*"],
       "@/root/*": ["*"],

@@ -1,7 +1,7 @@
 import Datastore from "@/datastore";
-import { median, variance, mean } from "@/helpers/Statistics";
-import InsufficientDataError from "@/modules/api/InsufficientDataError";
 import { computeHistogram, computeScatterPlot } from "@/helpers/Plotter";
+import { mean, median, variance } from "@/helpers/Statistics";
+import InsufficientDataError from "@/modules/api/InsufficientDataError";
 
 export default class MonteCarloEstimateAnalyzer {
   #TOTAL_RUNS: number = 1_000_000;
