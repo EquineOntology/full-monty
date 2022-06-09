@@ -8,7 +8,6 @@ export default async ({ app }: { app: Application }) => {
   app.use(compression());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-
   app.use("/api", routes());
 
   return app;

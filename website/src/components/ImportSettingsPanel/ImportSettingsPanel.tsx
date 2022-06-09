@@ -61,7 +61,10 @@ function DeleteTasks() {
       setState(ButtonState.Waiting);
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_API_KEY,
+        },
       })
         .then(function (response) {
           if (!response.ok) {

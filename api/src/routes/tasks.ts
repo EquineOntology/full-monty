@@ -1,4 +1,5 @@
 import { clear as clearTasks } from "@/controllers/TaskController";
+import CheckApiKey from "@/middleware/CheckApiKey";
 import ApiResponseFactory from "@/modules/api/ApiResponseFactory";
 import { Router } from "express";
 import importRoutes from "./import";
@@ -9,7 +10,7 @@ export default (app: Router) => {
   app.use("/tasks", router);
   importRoutes(router);
 
-  router.delete("", async (req, res) => {
+  router.delete("", CheckApiKey, async (req, res) => {
     try {
       await clearTasks();
     } catch (error: any) {

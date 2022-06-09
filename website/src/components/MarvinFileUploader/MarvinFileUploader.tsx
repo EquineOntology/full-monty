@@ -23,6 +23,9 @@ export default function MarvinFileUploader() {
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/import/marvin`, {
       method: "POST",
+      headers: {
+        Authorization: process.env.NEXT_PUBLIC_API_KEY,
+      },
       body: formData,
     })
       .then(function (response) {

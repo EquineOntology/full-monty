@@ -25,7 +25,10 @@ export default function ImportSettingsForm({ settings }: Props) {
   function handleSubmit(values: FormValues) {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/import/settings`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: process.env.NEXT_PUBLIC_API_KEY,
+      },
       body: JSON.stringify(values),
     })
       .then(function (response) {

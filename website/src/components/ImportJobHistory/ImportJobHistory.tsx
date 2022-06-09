@@ -7,6 +7,7 @@ import {
 } from "react-icons/md";
 import { RiErrorWarningLine } from "react-icons/ri";
 import useSWR from "swr";
+import { ApiResponse } from "../Api";
 import { JobDescription, JobStatus, JobStatusColor } from "./types";
 
 export default function ImportJobHistory() {
@@ -25,8 +26,7 @@ export default function ImportJobHistory() {
       <div>
         {title}
         <Alert title="Boo :(" color="red" mt={10}>
-          There was an error loading your data. Please try again in a couple of
-          minutes
+          {error.toString()}
         </Alert>
       </div>
     );
@@ -93,10 +93,23 @@ export default function ImportJobHistory() {
   );
 }
 
-const fetcher = (url: string) =>
-  fetch(url)
-    .then((res) => res.json())
-    .then((res) => res.data);
+const fetcher = async (url: string) => {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: process.env.NEXT_PUBLIC_API_KEY,
+    },
+  });
+  const contents: ApiResponse = await response.json();
+  if (contents.status === "fail" || contents.status === "error") {
+    if (contents.data?.message === undefined) {
+      throw new Error("Incomplete response from API");
+    }
+
+    throw new Error(contents.data.message);
+  }
+
+  return contents.data;
+};
 
 function getBulletColor(status: JobStatus): JobStatusColor {
   switch (status) {

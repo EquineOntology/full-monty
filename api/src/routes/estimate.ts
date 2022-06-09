@@ -1,3 +1,4 @@
+import CheckApiKey from "@/middleware/CheckApiKey";
 import ApiResponseFactory from "@/modules/api/ApiResponseFactory";
 import MonteCarloEstimateAnalyzer from "@/modules/estimate_analysis/MonteCarloEstimateAnalyzer";
 import { Router } from "express";
@@ -7,7 +8,7 @@ export default (app: Router) => {
 
   app.use("/estimate", router);
 
-  router.post("", async (req, res) => {
+  router.post("", CheckApiKey, async (req, res) => {
     if (!req.body.estimate) {
       const responseData = ApiResponseFactory.fail({
         message: "An estimate must be provided",
