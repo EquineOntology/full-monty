@@ -1,5 +1,10 @@
 import {
-  Box, Center, Header as MantineHeader, Image, Navbar, Title
+  Box,
+  Center,
+  Header as MantineHeader,
+  Image,
+  Navbar,
+  Title,
 } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { NextLink } from "@mantine/next";
@@ -38,7 +43,7 @@ export default function Header({ title }: Props) {
               sx={{ display: "flex", cursor: hovered ? "pointer" : "auto" }}
             >
               <Image
-                src="/brand.png"
+                src="/full-monty-brand.png"
                 alt="Brand"
                 height="50px"
                 width="auto"
