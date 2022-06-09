@@ -1,7 +1,7 @@
-import dynamic from "next/dynamic";
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { ApexOptions } from "apexcharts";
+import dynamic from "next/dynamic";
 import { BarChartSeries, BarDescription } from "./types";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 type Props = {
   data: BarDescription[];

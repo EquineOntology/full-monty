@@ -1,7 +1,7 @@
-import Head from "next/head";
-import { AppShell } from "@mantine/core";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { AppShell } from "@mantine/core";
+import Head from "next/head";
 
 type Props = {
   children?: React.ReactNode;

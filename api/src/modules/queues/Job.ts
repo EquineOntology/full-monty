@@ -1,5 +1,5 @@
-import Model from "@/models/Model";
 import Datastore from "@/datastore";
+import Model from "@/models/Model";
 import { ConsoleLevel, JobInterface, JobStatus } from "./types";
 
 export default abstract class Job extends Model implements JobInterface {

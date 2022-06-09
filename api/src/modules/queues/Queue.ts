@@ -1,5 +1,5 @@
-import Job from "./Job";
 import Datastore from "@/datastore";
+import Job from "./Job";
 import createJob from "./JobFactory";
 
 export default class Queue {

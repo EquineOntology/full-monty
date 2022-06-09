@@ -1,7 +1,7 @@
-import { useForm } from "@mantine/form";
 import { Box, Button, Switch, TextInput } from "@mantine/core";
-import { MdAddCircleOutline, MdCheckCircleOutline } from "react-icons/md";
+import { useForm } from "@mantine/form";
 import { showNotification, updateNotification } from "@mantine/notifications";
+import { MdAddCircleOutline, MdCheckCircleOutline } from "react-icons/md";
 import { ImportSettings } from "./types";
 
 type Props = {
@@ -25,7 +25,10 @@ export default function ImportSettingsForm({ settings }: Props) {
   function handleSubmit(values: FormValues) {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/import/settings`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: process.env.NEXT_PUBLIC_API_KEY,
+      },
       body: JSON.stringify(values),
     })
       .then(function (response) {

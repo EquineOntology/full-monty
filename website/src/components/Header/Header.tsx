@@ -1,13 +1,8 @@
 import {
-  Box,
-  Image,
-  Title,
-  Center,
-  Navbar,
-  Header as MantineHeader,
+  Box, Center, Header as MantineHeader, Image, Navbar, Title
 } from "@mantine/core";
-import { NextLink } from "@mantine/next";
 import { useHover } from "@mantine/hooks";
+import { NextLink } from "@mantine/next";
 import PageLinks from "./PageLinks";
 
 type Props = {
