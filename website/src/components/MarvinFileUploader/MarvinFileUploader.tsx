@@ -1,18 +1,18 @@
 import {
-  MdCheckCircleOutline,
-  MdOutlineErrorOutline,
-  MdOutlineCloudUpload,
-} from "react-icons/md";
-import {
   Group,
+  MantineTheme,
   Text,
   Title,
   useMantineTheme,
-  MantineTheme,
 } from "@mantine/core";
-import { IconBaseProps } from "react-icons";
-import { Dropzone, MIME_TYPES, DropzoneStatus } from "@mantine/dropzone";
+import { Dropzone, DropzoneStatus, MIME_TYPES } from "@mantine/dropzone";
 import { showNotification, updateNotification } from "@mantine/notifications";
+import { IconBaseProps } from "react-icons";
+import {
+  MdCheckCircleOutline,
+  MdOutlineCloudUpload,
+  MdOutlineErrorOutline,
+} from "react-icons/md";
 
 export default function MarvinFileUploader() {
   const theme = useMantineTheme();

@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
-import { Server } from "http";
-import express, { Request, Response } from "express";
-import loaders from "./loaders";
 import Datastore from "@/datastore";
+import dotenv from "dotenv";
+import express, { Request, Response } from "express";
+import { Server } from "http";
+import loaders from "./loaders";
 
 async function startServer() {
   dotenv.config();

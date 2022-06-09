@@ -1,4 +1,4 @@
-import { Badge, Title, Text, Center } from "@mantine/core";
+import { Badge, Center, Text, Title } from "@mantine/core";
 
 export default function SuccessRate({ rate }: { rate: number }) {
   if (rate < 0.2) {

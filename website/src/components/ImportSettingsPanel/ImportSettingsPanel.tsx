@@ -1,15 +1,15 @@
+import { Box, Button, Drawer, Text } from "@mantine/core";
+import { useHover } from "@mantine/hooks";
+import { showNotification } from "@mantine/notifications";
+import { Dispatch, SetStateAction, useState } from "react";
+import { HiFire } from "react-icons/hi";
 import {
   MdCheckCircleOutline,
   MdOutlineErrorOutline,
   MdOutlineWarningAmber,
 } from "react-icons/md";
-import { HiFire } from "react-icons/hi";
-import { useHover } from "@mantine/hooks";
-import { showNotification } from "@mantine/notifications";
-import { Box, Button, Drawer, Text } from "@mantine/core";
-import { Dispatch, SetStateAction, useState } from "react";
-import { ImportSettings } from "./types";
 import ImportSettingsForm from "./ImportSettingsForm";
+import { ImportSettings } from "./types";
 
 type Props = {
   opened: boolean;

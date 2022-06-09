@@ -1,12 +1,12 @@
+import TimelineSkeleton from "@/components/TimelineSkeleton";
+import { Alert, Text, Timeline, Title } from "@mantine/core";
 import {
   MdCheckCircleOutline,
   MdOutlinePending,
   MdOutlineRefresh,
 } from "react-icons/md";
-import useSWR from "swr";
 import { RiErrorWarningLine } from "react-icons/ri";
-import TimelineSkeleton from "@/components/TimelineSkeleton";
-import { Alert, Text, Timeline, Title } from "@mantine/core";
+import useSWR from "swr";
 import { JobDescription, JobStatus, JobStatusColor } from "./types";
 
 export default function ImportJobHistory() {

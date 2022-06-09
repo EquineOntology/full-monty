@@ -1,5 +1,5 @@
-import Model from "./Model";
 import Datastore from "@/datastore";
+import Model from "./Model";
 
 export default class Setting extends Model {
   table = "settings";

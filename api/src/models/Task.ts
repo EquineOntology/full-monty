@@ -1,5 +1,5 @@
-import Model from "./Model";
 import Datastore from "@/datastore";
+import Model from "./Model";
 
 export default class Task extends Model {
   table = "tasks";

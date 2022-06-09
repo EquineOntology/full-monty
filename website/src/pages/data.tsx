@@ -1,11 +1,11 @@
-import useSWR from "swr";
-import { useState } from "react";
-import type { NextPage } from "next";
-import { Button, Center, Container } from "@mantine/core";
-import PageLayout from "@/components/PageLayout";
 import ImportJobHistory from "@/components/ImportJobHistory";
-import MarvinFileUploader from "@/components/MarvinFileUploader";
 import ImportSettingsPanel from "@/components/ImportSettingsPanel";
+import MarvinFileUploader from "@/components/MarvinFileUploader";
+import PageLayout from "@/components/PageLayout";
+import { Button, Center, Container } from "@mantine/core";
+import type { NextPage } from "next";
+import { useState } from "react";
+import useSWR from "swr";
 
 const Data: NextPage = () => {
   const [opened, setOpened] = useState(false);

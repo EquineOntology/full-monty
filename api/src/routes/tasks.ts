@@ -1,7 +1,7 @@
+import { clear as clearTasks } from "@/controllers/TaskController";
+import ApiResponseFactory from "@/modules/api/ApiResponseFactory";
 import { Router } from "express";
 import importRoutes from "./import";
-import ApiResponseFactory from "@/modules/api/ApiResponseFactory";
-import { clear as clearTasks } from "@/controllers/TaskController";
 
 export default (app: Router) => {
   const router = Router();

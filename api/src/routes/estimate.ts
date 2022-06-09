@@ -1,6 +1,6 @@
-import { Router } from "express";
 import ApiResponseFactory from "@/modules/api/ApiResponseFactory";
 import MonteCarloEstimateAnalyzer from "@/modules/estimate_analysis/MonteCarloEstimateAnalyzer";
+import { Router } from "express";
 
 export default (app: Router) => {
   const router = Router();

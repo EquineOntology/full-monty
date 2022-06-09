@@ -1,7 +1,7 @@
-import { useForm } from "@mantine/form";
 import { Box, Button, Switch, TextInput } from "@mantine/core";
-import { MdAddCircleOutline, MdCheckCircleOutline } from "react-icons/md";
+import { useForm } from "@mantine/form";
 import { showNotification, updateNotification } from "@mantine/notifications";
+import { MdAddCircleOutline, MdCheckCircleOutline } from "react-icons/md";
 import { ImportSettings } from "./types";
 
 type Props = {

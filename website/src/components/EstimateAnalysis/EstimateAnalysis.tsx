@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { GrBarChart } from "react-icons/gr";
-import { BsExclamationLg, BsQuestionLg } from "react-icons/bs";
 import { Box, Button, Center, Container, Group, Text } from "@mantine/core";
+import { useState } from "react";
+import { BsExclamationLg, BsQuestionLg } from "react-icons/bs";
+import { GrBarChart } from "react-icons/gr";
+import AverageAndMedianExplainer from "./AverageAndMedianExplainer";
 import Charts from "./Charts";
 import SampleSize from "./SampleSize";
-import SuccessRate from "./SuccessRate";
-import AverageAndMedianExplainer from "./AverageAndMedianExplainer";
 import StandardDeviationExplainer from "./StandardDeviationExplainer";
+import SuccessRate from "./SuccessRate";
 
 type Props =
   | {

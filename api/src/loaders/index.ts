@@ -1,6 +1,6 @@
 import { Application } from "express";
-import queueLoader from "./queues";
 import expressLoader from "./express";
+import queueLoader from "./queues";
 import schedulerLoader from "./scheduler";
 
 export default async ({ expressApp }: { expressApp: Application }) => {

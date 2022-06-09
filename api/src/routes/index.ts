@@ -1,7 +1,7 @@
 import { Router } from "express";
-import taskRoutes from "./tasks";
-import statusRoutes from "./status";
 import estimateRoutes from "./estimate";
+import statusRoutes from "./status";
+import taskRoutes from "./tasks";
 
 export default () => {
   const app = Router();

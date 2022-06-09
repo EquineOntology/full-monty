@@ -1,8 +1,8 @@
-import knex, { Knex } from "knex";
 import Model from "@/models/Model";
 import config from "@/root/knexfile";
-import { GetOptions } from "./types";
 import { isObject, isPrimitive } from "@/utils/TypeChecker";
+import knex, { Knex } from "knex";
+import { GetOptions } from "./types";
 
 export default class SqliteConnector {
   #db: Knex;

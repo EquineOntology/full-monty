@@ -1,6 +1,6 @@
-import cron, { ScheduledTask } from "node-cron";
-import Queue from "@/modules/queues/Queue";
 import factory from "@/modules/queues/JobFactory";
+import Queue from "@/modules/queues/Queue";
+import cron, { ScheduledTask } from "node-cron";
 
 const _jobs: JobSpecification[] = [
   // { name: "TestCronJob", schedule: "* * * * *" },

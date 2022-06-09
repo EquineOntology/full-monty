@@ -6,9 +6,9 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { MdCheckCircleOutline } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import { BsDashCircle, BsPlusCircle } from "react-icons/bs";
+import { MdCheckCircleOutline } from "react-icons/md";
 
 type Props = {
   setAnalysisData: Function;
