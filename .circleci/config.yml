@@ -1,0 +1,26 @@
+version: 2.1
+
+jobs:
+  deploy:
+    machine:
+      image: ubuntu-2204:2022.04.1
+    resource_class: medium
+    steps:
+      - run:
+          name: Git pull
+          command: ssh $SSH_USER@$SSH_HOST 'cd ~/full-monty && git fetch && git checkout -f main'
+      - run:
+          name: Deploy
+          command: ssh $SSH_USER@$SSH_HOST 'cd ~/full-monty && make deploy'
+      - run:
+          name: Stop frontend CT
+          command: ssh $SSH_USER@$SSH_HOST 'docker stop full-monty-website'
+
+workflows:
+  pull_and_deploy:
+    jobs:
+      - deploy:
+          filters:
+           branches:
+             only:
+               - main
