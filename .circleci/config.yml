@@ -8,10 +8,10 @@ jobs:
     steps:
       - run:
           name: Git pull
-          command: ssh $SSH_USER@$SSH_HOST 'cd ~/full-monty && git fetch && git checkout -f main'
+          command: ssh $SSH_USER@$SSH_HOST 'cd ~/full-monty && git fetch && git checkout -f main && git pull'
       - run:
           name: Deploy
-          command: ssh $SSH_USER@$SSH_HOST 'cd ~/full-monty && make deploy'
+          command: ssh $SSH_USER@$SSH_HOST 'cd ~/full-monty && make build && make deploy'
       - run:
           name: Stop frontend CT
           command: ssh $SSH_USER@$SSH_HOST 'docker stop full-monty-website'
@@ -21,6 +21,6 @@ workflows:
     jobs:
       - deploy:
           filters:
-           branches:
-             only:
-               - main
+            branches:
+              only:
+                - main

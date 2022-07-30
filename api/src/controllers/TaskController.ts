@@ -39,6 +39,7 @@ export async function clear() {
 
 async function getProjectRecursive(projectId: string) {
   if (!process.env.MARVIN_FULL_ACCESS_TOKEN) {
+    console.error("Missing MARVIN_FULL_ACCESS_TOKEN");
     throw new Error("Missing MARVIN_FULL_ACCESS_TOKEN");
   }
 
@@ -64,6 +65,7 @@ async function getProjectRecursive(projectId: string) {
       return `${parentName}/${res.data.title}`;
     })
     .catch((error) => {
+      console.error(error);
       throw new Error(error.message);
     });
 }

@@ -5,6 +5,7 @@ declare global {
       readonly MARVIN_FULL_ACCESS_TOKEN: string;
       readonly NODE_ENV: "development" | "production" | "test";
       readonly NODE_PORT: number;
+      readonly SENTRY_SDN: string;
     }
   }
 }

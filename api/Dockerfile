@@ -12,6 +12,8 @@ RUN npm install
 #####################
 FROM node:16-alpine as runner
 
+RUN apk update && apk add sqlite
+
 WORKDIR /var/www/html
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
