@@ -1,9 +1,10 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      API_KEY: string;
-      NODE_ENV: "development" | "production" | "test";
-      NODE_PORT: number;
+      readonly API_KEY: string;
+      readonly MARVIN_FULL_ACCESS_TOKEN: string;
+      readonly NODE_ENV: "development" | "production" | "test";
+      readonly NODE_PORT: number;
     }
   }
 }

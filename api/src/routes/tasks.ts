@@ -29,29 +29,18 @@ export default (app: Router) => {
     return res.json(responseData).status(200);
   });
 
-  router.post("", CheckApiKey, async (req, res) => {
-    if (
-      !req.body.id ||
-      !req.body.title ||
-      !req.body.done ||
-      !req.body.category
-    ) {
-      const responseData = ApiResponseFactory.fail({
-        message: `"id", "title", "done", "category" must be provided`,
-      });
-      return res.json(responseData).status(400);
-    }
-
+  router.post("/marvin", CheckApiKey, async (req, res) => {
     let result;
-    const { id, title, done, category, duration, time_estimate } = req.body;
+    const { _id, title, done, duration, parentId, timeEstimate } = req.body;
+
     try {
       result = await createTask(
-        id,
+        _id,
         title,
-        done,
-        category,
-        duration,
-        time_estimate
+        "Y", // Amazing Marvin currently returns the wrong value for "done", so for the time being we hardcode "Y" (CF 30.07.22).
+        parentId,
+        duration / 1000,
+        timeEstimate / 1000
       );
     } catch (error: any) {
       return res.json(ApiResponseFactory.error(error.message)).status(500);
