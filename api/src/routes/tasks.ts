@@ -39,8 +39,8 @@ export default (app: Router) => {
         title,
         "Y", // Amazing Marvin currently returns the wrong value for "done", so for the time being we hardcode "Y" (CF 30.07.22).
         parentId,
-        duration / 1000,
-        timeEstimate / 1000
+        Math.round(duration / 1000),
+        Math.round(timeEstimate / 1000)
       );
     } catch (error: any) {
       return res.json(ApiResponseFactory.error(error.message)).status(500);

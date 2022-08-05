@@ -15,18 +15,21 @@ export default function AverageAndMedianExplainer({
   return (
     <Box>
       <Text mt="lg" ml={30}>
+        The median is {medianDuration} {pluralize("minute", medianDuration)},
+        meaning that exactly{" "}
+        <b>
+          half the tasks took {medianDuration}{" "}
+          {pluralize("minute", medianDuration)} or less
+        </b>
+        .
+      </Text>
+      <Text mt="lg" ml={60}>
         The mean duration (i.e. weighted average) of a task estimated at{" "}
         {estimate} {pluralize("minute", estimate)} is{" "}
         <b>
           {Math.round(meanDuration)} {pluralize("minute", meanDuration)}
         </b>
         .
-      </Text>
-      <Text mt="lg" ml={60}>
-        The median is {medianDuration} {pluralize("minute", medianDuration)},
-        meaning that exactly half of the tasks took {medianDuration}{" "}
-        {pluralize("minute", medianDuration)} or less, and the other half took
-        more.
       </Text>
     </Box>
   );
