@@ -83,7 +83,10 @@ export default class MonteCarloEstimateAnalyzer {
     tasks: Record<string, any>[],
     originalEstimate: number
   ): number[] {
-    return tasks.map((task) => {
+    const tasksWithDuration = tasks.filter((task) => task.duration !== null);
+    return tasksWithDuration.map((task) => {
+      if (!task.duration) return;
+      console.log(task.duration);
       if (task.estimate === originalEstimate) return task.duration;
       return Math.round(task.ratio * originalEstimate);
     });
