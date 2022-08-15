@@ -1,7 +1,7 @@
 #####################
 # Dependencies
 #####################
-FROM node:16-alpine as dependencies
+FROM node:18-alpine as dependencies
 
 WORKDIR /app
 COPY package*.json .
@@ -10,7 +10,7 @@ RUN npm install
 #####################
 # Run
 #####################
-FROM node:16-alpine as runner
+FROM node:18-alpine as runner
 
 RUN apk update && apk add sqlite
 

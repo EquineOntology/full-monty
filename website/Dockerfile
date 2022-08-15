@@ -1,7 +1,7 @@
 #####################
 # Dependencies
 #####################
-FROM node:16-alpine AS dependencies
+FROM node:18-alpine AS dependencies
 # Required because of node-alpine, see https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -12,7 +12,7 @@ RUN npm install
 #####################
 # Build
 #####################
-FROM node:16-alpine AS builder
+FROM node:18-alpine AS builder
 WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
@@ -22,7 +22,7 @@ RUN npm run build
 #####################
 # Run
 #####################
-FROM node:16-alpine AS runner
+FROM node:18-alpine AS runner
 WORKDIR /var/www/html
 ARG NODE_ENV=production
 ARG NEXTJS_PORT=3000
