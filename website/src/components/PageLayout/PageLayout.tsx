@@ -19,8 +19,6 @@ export default function PageLayout({ pageTitle, children }: Props) {
         footer={<Footer />}
         sx={{
           minHeight: "calc(100vh - 50px)",
-          paddingTop: 100,
-          paddingBottom: 60,
         }}
       >
         {children}

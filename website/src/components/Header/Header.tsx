@@ -22,7 +22,8 @@ export default function Header({ title }: Props) {
       sx={{
         border: "none",
         backgroundColor: "transparent",
-        height: "auto",
+        top: 0,
+        height: "var(--mantine-header-height)",
       }}
     >
       <MantineHeader
