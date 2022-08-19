@@ -5,7 +5,7 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
-import { Dropzone, DropzoneStatus, MIME_TYPES } from "@mantine/dropzone";
+import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconBaseProps } from "react-icons";
 import {
@@ -68,42 +68,64 @@ export default function MarvinFileUploader() {
         accept={[MIME_TYPES.csv]}
         sx={{ marginTop: "1rem" }}
       >
-        {(status) => (
-          <Group
-            position="center"
-            spacing="xl"
-            style={{ minHeight: 220, pointerEvents: "none" }}
-          >
+        <Group
+          position="center"
+          spacing="xl"
+          style={{ minHeight: 220, pointerEvents: "none" }}
+        >
+          <Dropzone.Accept>
             <FileUploadIcon
-              status={status}
+              status="accepted"
               style={{
                 width: 80,
                 height: 80,
-                color: getIconColor(status, theme),
+                color: getIconColor("accepted", theme),
               }}
             />
-            <div>
-              <Text size="xl" inline>
-                Drag a CSV exported from Amazing Marvin here
-              </Text>
-            </div>
-          </Group>
-        )}
+          </Dropzone.Accept>
+          <Dropzone.Reject>
+            <FileUploadIcon
+              status="rejected"
+              style={{
+                width: 80,
+                height: 80,
+                color: getIconColor("rejected", theme),
+              }}
+            />
+          </Dropzone.Reject>
+          <Dropzone.Idle>
+            <FileUploadIcon
+              status="idle"
+              style={{
+                width: 80,
+                height: 80,
+                color: getIconColor("idle", theme),
+              }}
+            />
+          </Dropzone.Idle>
+
+          <div>
+            <Text size="xl" inline>
+              Drag a CSV exported from Amazing Marvin here
+            </Text>
+          </div>
+        </Group>
       </Dropzone>
     </>
   );
 }
 
-type FileUploadIconProps = {
+type DropzoneStatus = "accepted" | "rejected" | "idle";
+
+type FileUploadProps = {
   status: DropzoneStatus;
 } & IconBaseProps;
-
-function FileUploadIcon(props: FileUploadIconProps) {
-  if (props.status.accepted) {
+function FileUploadIcon(props: FileUploadProps) {
+  if (props.status == "accepted") {
     return <MdCheckCircleOutline {...props} />;
   }
 
-  if (props.status.rejected) {
+  if (props.status === "rejected") {
     return <MdOutlineErrorOutline {...props} />;
   }
 
@@ -111,11 +133,13 @@ function FileUploadIcon(props: FileUploadIconProps) {
 }
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
-  return status.accepted
-    ? theme.colors[theme.primaryColor][6]
-    : status.rejected
-    ? theme.colors.red[6]
-    : theme.colorScheme === "dark"
-    ? theme.colors.dark[0]
-    : theme.black;
+  if (status === "accepted") {
+    return theme.colors[theme.primaryColor][6];
+  }
+
+  if (status === "rejected") {
+    theme.colors.red[6];
+  }
+
+  return theme.black;
 }
