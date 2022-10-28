@@ -54,6 +54,9 @@ export default class Queue {
       this.#jobs.push(job);
     });
 
-    console.info(`Queue #${this.priority} loaded ${this.size()} jobs from DB`);
+    const queueSize = this.size();
+    if (queueSize > 0) {
+      console.info(`Queue #${this.priority} loaded ${queueSize} jobs from DB`);
+    }
   }
 }
